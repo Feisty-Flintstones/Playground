@@ -16,27 +16,27 @@ import {
   PixelRatio,
   TouchableHighlight
 } from "react-native";
-
+import apiKEY from './my_API_KEY'
 import { ViroVRSceneNavigator, ViroARSceneNavigator } from "react-viro";
 
 /*
  TODO: Insert your API key below
  */
-var sharedProps = {
-  apiKey: "650CD6B7-D58C-4C91-92C9-66FC0383D1BE"
-};
+let sharedProps = apiKEY
 
 // Sets the default scene you want for AR and VR
-var InitialARScene = require("./js/client/MainScreenAR");
-var InitialVRScene = require("./js/client/HelloWorldScene");
 
-var UNSET = "UNSET";
-var VR_NAVIGATOR_TYPE = "VR";
-var AR_NAVIGATOR_TYPE = "AR";
+let InitialARScene = require("./js/client/MainScreenAR");
+let InitialVRScene = require("./js/client/HelloWorldScene");
+
+
+let UNSET = "UNSET";
+let VR_NAVIGATOR_TYPE = "VR";
+let AR_NAVIGATOR_TYPE = "AR";
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
-var defaultNavigatorType = UNSET;
+let defaultNavigatorType = UNSET;
 
 export default class ViroSample extends Component {
   constructor() {
@@ -71,24 +71,12 @@ export default class ViroSample extends Component {
     return (
       <View style={localStyles.outer}>
         <View style={localStyles.inner}>
-          <Text style={localStyles.titleText}>
-            Choose your desired experience:
-          </Text>
-
           <TouchableHighlight
             style={localStyles.buttons}
             onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE)}
             underlayColor={"#68a0ff"}
           >
             <Text style={localStyles.buttonText}>AR</Text>
-          </TouchableHighlight>
-
-          <TouchableHighlight
-            style={localStyles.buttons}
-            onPress={this._getExperienceButtonOnPress(VR_NAVIGATOR_TYPE)}
-            underlayColor={"#68a0ff"}
-          >
-            <Text style={localStyles.buttonText}>VR</Text>
           </TouchableHighlight>
         </View>
       </View>
@@ -134,7 +122,7 @@ export default class ViroSample extends Component {
   }
 }
 
-var localStyles = StyleSheet.create({
+let localStyles = StyleSheet.create({
   viroContainer: {
     flex: 1,
     backgroundColor: "black"

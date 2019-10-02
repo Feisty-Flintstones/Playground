@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import { StyleSheet } from "react-native";
 import {
   ViroARScene,
@@ -13,20 +14,30 @@ import {
   ViroImage,
   ViroAnimations
 } from "react-viro";
+import { getUserPosition } from "./store";
 // var createReactClass = require("create-react-class");
-export default class HelloWorldSceneAR extends Component {
+class MainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
       text: "Initializing AR...",
       xpos: 0,
       ypos: 0,
-      zpos: -1
+      zpos: 0
     };
   }
-
+  componentDidMount() {
+    // getUserPosition();
+    // let x = this.state.position[0];
+    // let y = this.state.position[1];
+    // let z = this.state.position[2];
+    // this.setState({
+    //   xpos: this.state.position[0],
+    //   ypos: this.state.position[1],
+    //   zpos: this.state.position[2]
+    // });
+  }
   render() {
-    console.log(this.state.xpos);
     return (
       <ViroARScene
         onTrackingUpdated={() => {
@@ -38,7 +49,7 @@ export default class HelloWorldSceneAR extends Component {
           scale={[0.1, 0.1, 0.1]}
           height={1}
           width={4}
-          position={[this.state.xpos, this.state.ypos, this.state.zpos]}
+          position={[0, 0, -1]}
           style={styles.helloWorldTextStyle}
         />
 
@@ -57,18 +68,17 @@ export default class HelloWorldSceneAR extends Component {
           position={[0, -0.5, -2]}
           scale={[0.2, 0.2, 0.2]}
           onDrag={(position, source) => {
-            this.setState({
-              xpos: position[0],
-              ypos: position[1],
-              zpos: position[2]
-            });
+            // this.setState({
+            //   xpos: position[0],
+            //   ypos: position[1],
+            //   zpos: position[2]
+            // });
           }}
         />
       </ViroARScene>
     );
   }
 }
-
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: "Arial",
@@ -79,4 +89,16 @@ var styles = StyleSheet.create({
   }
 });
 
-module.exports = HelloWorldSceneAR;
+const mapStateToProps = state => ({
+  position: state.position
+});
+
+const mapDispatchToProps = dispatch => ({
+  getUserPosition: () => dispatch()
+});
+// const MainScreenAR = connect(
+//   null,
+//   null
+// )(DisconnectedMainScreenAR);
+
+module.exports = MainScreenAR;

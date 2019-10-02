@@ -27,7 +27,7 @@ var sharedProps = {
 };
 
 // Sets the default scene you want for AR and VR
-var InitialARScene = require("./js/client/HelloWorldSceneAR");
+var InitialARScene = require("./js/client/MainScreenAR");
 var InitialVRScene = require("./js/client/HelloWorldScene");
 
 var UNSET = "UNSET";

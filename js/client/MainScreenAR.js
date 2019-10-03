@@ -13,7 +13,9 @@ import {
   ViroARPlaneSelector,
   ViroNode,
   ViroImage,
-  ViroAnimations
+  ViroAnimations,
+  ViroARTrackingTargets,
+  ViroARImageMarker
 } from "react-viro";
 import { setUserPosition } from "./store/index.js";
 
@@ -25,6 +27,7 @@ class DisconnectedMainScreenAR extends Component {
       text: "Initializing AR..."
     };
   }
+
   componentDidMount() {
     // this.props.getUserPos();
     // console.log(this.props.position);

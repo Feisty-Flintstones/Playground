@@ -3,9 +3,10 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import userReducer from "./userReducer";
+import objReducer from "./objReducer";
 
 const reducer = combineReducers({
-  userReducer
+  userReducer, objReducer
 });
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(userReducer, middleware);

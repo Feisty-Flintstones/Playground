@@ -12,7 +12,9 @@ import {
   ViroARPlaneSelector,
   ViroNode,
   ViroImage,
-  ViroAnimations
+  ViroAnimations,
+  ViroARTrackingTargets,
+  ViroARImageMarker
 } from "react-viro";
 import { getUserPosition } from "./store";
 // var createReactClass = require("create-react-class");
@@ -26,55 +28,30 @@ class MainScreenAR extends Component {
       zpos: 0
     };
   }
-  componentDidMount() {
-    // getUserPosition();
-    // let x = this.state.position[0];
-    // let y = this.state.position[1];
-    // let z = this.state.position[2];
-    // this.setState({
-    //   xpos: this.state.position[0],
-    //   ypos: this.state.position[1],
-    //   zpos: this.state.position[2]
-    // });
-  }
+
   render() {
+    ViroARTrackingTargets.createTargets({
+      "calibrate" : {
+        source: require('./res/Calibrate.jpg'),
+        orientation: "Up",
+        physicalWidth: 0.6
+      }
+    })
     return (
-      <ViroARScene
-        onTrackingUpdated={() => {
-          this.setState({ text: "Hello World!" });
-        }}
-      >
-        <ViroText
-          text={this.state.text}
-          scale={[0.1, 0.1, 0.1]}
-          height={1}
-          width={4}
-          position={[0, 0, -1]}
-          style={styles.helloWorldTextStyle}
-        />
-
-        <ViroAmbientLight color="#aaaaaa" />
-        <ViroSpotLight
-          innerAngle={5}
-          outerAngle={90}
-          direction={[0, -1, -0.2]}
-          position={[0, 3, 1]}
-          color="#ffffff"
-          castsShadow={true}
-        />
-
-        <ViroImage
-          source={require("./res/grid_bg.jpg")}
-          position={[0, -0.5, -2]}
-          scale={[0.2, 0.2, 0.2]}
-          onDrag={(position, source) => {
-            // this.setState({
-            //   xpos: position[0],
-            //   ypos: position[1],
-            //   zpos: position[2]
-            // });
-          }}
-        />
+      <ViroARScene>
+        <ViroARImageMarker target={"calibrate"} >
+          <ViroText text="Puzzle Loading..." position={[0, 0.25, 0]} />
+          <ViroText text="You found me :)" position={[.5, 1, 5]} />
+          {/* <ViroAmbientLight color="#aaaaaa" />
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, 3, 1]}
+              color="#ffffff"
+              castsShadow={true}
+            /> */}
+        </ViroARImageMarker>
       </ViroARScene>
     );
   }

@@ -3,11 +3,15 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import userReducer from "./userReducer";
+
 import boardReducer from "./boardReducer";
+
+import objReducer from "./objReducer";
+
 const reducer = combineReducers({
-  userReducer,
-  boardReducer
+  userReducer, objReducer, boardReducer
 });
+
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));
 const store = createStore(reducer, middleware);
 // const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));

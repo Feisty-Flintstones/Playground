@@ -29,6 +29,7 @@ class DisconnectedMainScreenAR extends Component {
       calibrated: true
     };
   }
+
   componentDidMount() {
     // this.props.getUserPos();
     // console.log(this.props.position);

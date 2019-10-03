@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect, Provider } from "react-redux";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 // import store from "./store/index";
 import {
   ViroARScene,
@@ -13,16 +13,20 @@ import {
   ViroARPlaneSelector,
   ViroNode,
   ViroImage,
+  ViroARImageMarker,
+  ViroARTrackingTargets,
   ViroAnimations
 } from "react-viro";
 import { setUserPosition } from "./store/index.js";
+import Calibrate from "./calibrate.js";
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: "Initializing AR..."
+      text: "Initializing AR...",
+      calibrated: true
     };
   }
   componentDidMount() {
@@ -37,44 +41,60 @@ class DisconnectedMainScreenAR extends Component {
     // });
   }
   render() {
-    // let x = this.props.position[0];
+    ViroARTrackingTargets.createTargets({
+      calibrate: {
+        source: require("./res/tottem.jpg"),
+        orientation: "Up",
+        physicalWidth: 0.1
+      }
+    });
     return (
       <ViroARScene
         onTrackingUpdated={() => {
           this.setState({ text: "Hello World!" });
         }}
       >
-        <ViroText
-          text={this.state.text}
-          scale={[0.2, 0.2, 0.2]}
-          height={1}
-          width={4}
-          position={[
-            this.props.position[0],
-            this.props.position[1],
-            this.props.position[2]
-          ]}
-          style={styles.helloWorldTextStyle}
-        />
-
-        <ViroAmbientLight color="#aaaaaa" />
-        <ViroSpotLight
-          innerAngle={5}
-          outerAngle={90}
-          direction={[0, -1, -0.2]}
-          position={[0, 3, 1]}
-          color="#ffffff"
-          castsShadow={true}
-        />
-
-        <ViroImage
-          source={require("./res/grid_bg.jpg")}
-          position={[0, -0.5, -1]}
-          scale={[0.2, 0.2, 0.2]}
-          onDrag={(position, source) => {
-            this.props.setUserPos(position);
-          }}
-        />
+        {this.props.calibration ? (
+          <View>
+            {console.log(this.props.position)}
+            <ViroText
+              text={this.state.text}
+              scale={[0.2, 0.2, 0.2]}
+              height={1}
+              width={4}
+              position={[
+                this.props.position[0],
+                this.props.position[1],
+                this.props.position[2]
+              ]}
+              style={styles.helloWorldTextStyle}
+            />
+            <ViroAmbientLight color="#aaaaaa" />
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, 3, 1]}
+              color="#ffffff"
+              castsShadow={true}
+            />
+            <Viro3DObject
+              source={require("./res/animated_objects/emoji_smile/emoji_smile.vrx")}
+              type="VRX"
+              position={[
+                this.props.position[0],
+                this.props.position[1],
+                this.props.position[2]
+              ]}
+              scale={[0.2, 0.2, 0.2]}
+              onDrag={(position, source) => {
+                this.props.setUserPos(position);
+              }}
+            />
+          </View>
+        ) : (
+          <Calibrate />
+        )}
       </ViroARScene>
     );
   }
@@ -90,7 +110,8 @@ var styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  position: state.position
+  position: state.userReducer.position,
+  calibration: state.boardReducer.calibration
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -3,12 +3,13 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import userReducer from "./userReducer";
-
+import boardReducer from "./boardReducer";
 const reducer = combineReducers({
-  userReducer
+  userReducer,
+  boardReducer
 });
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));
-const store = createStore(userReducer, middleware);
+const store = createStore(reducer, middleware);
 // const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));
 
 export default store;

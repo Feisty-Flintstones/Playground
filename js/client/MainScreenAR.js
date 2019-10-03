@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect, Provider } from "react-redux";
 import { StyleSheet } from "react-native";
+// import store from "./store/index";
 import {
   ViroARScene,
   ViroText,
@@ -14,30 +15,29 @@ import {
   ViroImage,
   ViroAnimations
 } from "react-viro";
-import { getUserPosition } from "./store";
+import { setUserPosition } from "./store/index.js";
+
 // var createReactClass = require("create-react-class");
-class MainScreenAR extends Component {
+class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: "Initializing AR...",
-      xpos: 0,
-      ypos: 0,
-      zpos: 0
+      text: "Initializing AR..."
     };
   }
   componentDidMount() {
-    // getUserPosition();
-    // let x = this.state.position[0];
+    // this.props.getUserPos();
+    // console.log(this.props.position);
     // let y = this.state.position[1];
     // let z = this.state.position[2];
     // this.setState({
-    //   xpos: this.state.position[0],
-    //   ypos: this.state.position[1],
-    //   zpos: this.state.position[2]
+    //   xpos: this.props.position[0],
+    //   ypos: this.props.position[1],
+    //   zpos: this.props.position[2]
     // });
   }
   render() {
+    // let x = this.props.position[0];
     return (
       <ViroARScene
         onTrackingUpdated={() => {
@@ -46,10 +46,14 @@ class MainScreenAR extends Component {
       >
         <ViroText
           text={this.state.text}
-          scale={[0.1, 0.1, 0.1]}
+          scale={[0.2, 0.2, 0.2]}
           height={1}
           width={4}
-          position={[0, 0, -1]}
+          position={[
+            this.props.position[0],
+            this.props.position[1],
+            this.props.position[2]
+          ]}
           style={styles.helloWorldTextStyle}
         />
 
@@ -65,14 +69,10 @@ class MainScreenAR extends Component {
 
         <ViroImage
           source={require("./res/grid_bg.jpg")}
-          position={[0, -0.5, -2]}
+          position={[0, -0.5, -1]}
           scale={[0.2, 0.2, 0.2]}
           onDrag={(position, source) => {
-            // this.setState({
-            //   xpos: position[0],
-            //   ypos: position[1],
-            //   zpos: position[2]
-            // });
+            this.props.setUserPos(position);
           }}
         />
       </ViroARScene>
@@ -94,11 +94,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUserPosition: () => dispatch()
+  setUserPos: position => dispatch(setUserPosition(position))
 });
-// const MainScreenAR = connect(
-//   null,
-//   null
-// )(DisconnectedMainScreenAR);
+const MainScreenAR = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DisconnectedMainScreenAR);
 
-module.exports = MainScreenAR;
+export default MainScreenAR;

@@ -8,6 +8,8 @@
  */
 
 import React, { Component } from "react";
+import store from "./js/client/store";
+import { Provider } from "react-redux";
 import {
   AppRegistry,
   Text,
@@ -16,19 +18,18 @@ import {
   PixelRatio,
   TouchableHighlight
 } from "react-native";
-import apiKEY from './my_API_KEY'
+import apiKEY from "./my_API_KEY";
 import { ViroVRSceneNavigator, ViroARSceneNavigator } from "react-viro";
-
+import InitialARScene from "./js/client/MainScreenAR";
 /*
  TODO: Insert your API key below
  */
-let sharedProps = apiKEY
+let sharedProps = apiKEY;
 
 // Sets the default scene you want for AR and VR
 
-let InitialARScene = require("./js/client/MainScreenAR");
+// let InitialARScene = require("./js/client/MainScreenAR");
 let InitialVRScene = require("./js/client/HelloWorldScene");
-
 
 let UNSET = "UNSET";
 let VR_NAVIGATOR_TYPE = "VR";
@@ -38,7 +39,7 @@ let AR_NAVIGATOR_TYPE = "AR";
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
 let defaultNavigatorType = UNSET;
 
-export default class ViroSample extends Component {
+class App extends Component {
   constructor() {
     super();
 
@@ -63,7 +64,7 @@ export default class ViroSample extends Component {
     // } else if (this.state.navigatorType == VR_NAVIGATOR_TYPE) {
     //   return this._getVRNavigator();
     // } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-    return this._getARNavigator();
+    return <Provider store={store}>{this._getARNavigator()}</Provider>;
   }
 
   // Presents the user with a choice of an AR or VR experience
@@ -89,6 +90,7 @@ export default class ViroSample extends Component {
       <ViroARSceneNavigator
         {...this.state.sharedProps}
         initialScene={{ scene: InitialARScene }}
+        onExitViro={this._exitViro}
       />
     );
   }
@@ -177,4 +179,4 @@ let localStyles = StyleSheet.create({
   }
 });
 
-module.exports = ViroSample;
+export default App;

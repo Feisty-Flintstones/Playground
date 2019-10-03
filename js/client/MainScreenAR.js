@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
+import { connect, Provider } from "react-redux";
 import { StyleSheet } from "react-native";
+// import store from "./store/index";
 import {
   ViroARScene,
   ViroText,
@@ -16,42 +17,67 @@ import {
   ViroARTrackingTargets,
   ViroARImageMarker
 } from "react-viro";
-import { getUserPosition } from "./store";
+import { setUserPosition } from "./store/index.js";
+
 // var createReactClass = require("create-react-class");
-class MainScreenAR extends Component {
+class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: "Initializing AR...",
-      xpos: 0,
-      ypos: 0,
-      zpos: 0
+      text: "Initializing AR..."
     };
   }
 
+  componentDidMount() {
+    // this.props.getUserPos();
+    // console.log(this.props.position);
+    // let y = this.state.position[1];
+    // let z = this.state.position[2];
+    // this.setState({
+    //   xpos: this.props.position[0],
+    //   ypos: this.props.position[1],
+    //   zpos: this.props.position[2]
+    // });
+  }
   render() {
-    ViroARTrackingTargets.createTargets({
-      "calibrate" : {
-        source: require('./res/Calibrate.jpg'),
-        orientation: "Up",
-        physicalWidth: 0.6
-      }
-    })
+    // let x = this.props.position[0];
     return (
-      <ViroARScene>
-        <ViroARImageMarker target={"calibrate"} >
-          <ViroText text="Puzzle Loading..." position={[0, 0.25, 0]} />
-          <ViroText text="You found me :)" position={[.5, 1, 5]} />
-          {/* <ViroAmbientLight color="#aaaaaa" />
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={90}
-              direction={[0, -1, -0.2]}
-              position={[0, 3, 1]}
-              color="#ffffff"
-              castsShadow={true}
-            /> */}
-        </ViroARImageMarker>
+      <ViroARScene
+        onTrackingUpdated={() => {
+          this.setState({ text: "Hello World!" });
+        }}
+      >
+        <ViroText
+          text={this.state.text}
+          scale={[0.2, 0.2, 0.2]}
+          height={1}
+          width={4}
+          position={[
+            this.props.position[0],
+            this.props.position[1],
+            this.props.position[2]
+          ]}
+          style={styles.helloWorldTextStyle}
+        />
+
+        <ViroAmbientLight color="#aaaaaa" />
+        <ViroSpotLight
+          innerAngle={5}
+          outerAngle={90}
+          direction={[0, -1, -0.2]}
+          position={[0, 3, 1]}
+          color="#ffffff"
+          castsShadow={true}
+        />
+
+        <ViroImage
+          source={require("./res/grid_bg.jpg")}
+          position={[0, -0.5, -1]}
+          scale={[0.2, 0.2, 0.2]}
+          onDrag={(position, source) => {
+            this.props.setUserPos(position);
+          }}
+        />
       </ViroARScene>
     );
   }
@@ -71,11 +97,11 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getUserPosition: () => dispatch()
+  setUserPos: position => dispatch(setUserPosition(position))
 });
-// const MainScreenAR = connect(
-//   null,
-//   null
-// )(DisconnectedMainScreenAR);
+const MainScreenAR = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DisconnectedMainScreenAR);
 
-module.exports = MainScreenAR;
+export default MainScreenAR;

@@ -4,7 +4,7 @@ import axios from "axios";
 /**
  * ACTION TYPES
  */
-const GET_USER_POSITION = "GET_USER_POSITION";
+const SET_USER_POSITION = "SET_USER_POSITION";
 
 /**
  * INITIAL STATE
@@ -16,9 +16,9 @@ const defaultUser = {
 /**
  * ACTION CREATORS
  */
-export const getUserPosition = userPosArr => ({
-  type: GET_USER_POSITION,
-  userPosArr
+export const setUserPosition = position => ({
+  type: SET_USER_POSITION,
+  position
 });
 
 /**
@@ -30,8 +30,8 @@ export const getUserPosition = userPosArr => ({
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case GET_USER_POSITION:
-      return action.userPosArr;
+    case SET_USER_POSITION:
+      return { ...state, position: action.position };
     default:
       return state;
   }

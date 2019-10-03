@@ -1,5 +1,4 @@
 import axios from "axios";
-import console = require("console");
 // import history from "../history";
 
 /**
@@ -11,13 +10,15 @@ const CREATE_OBJECTIVE = "CREATE_OBJECTIVE";
 /**
  * INITIAL STATE
  */
-const objectives = [];
-const newObjective = {}
+const initialState = {
+    objectives: [],
+    newObjective: {}
+}
 
 /**
  * ACTION CREATORS
  */
-export const getAllObjectives = () => ({
+export const getAllObjectives = (objectives) => ({
   type: GET_ALL_OBJECTIVES,
   objectives
 });
@@ -52,7 +53,7 @@ export const createObjectiveThunk = (newObjective) => dispatch => {
 /**
  * REDUCER
  */
-export default function(state = defaultUser, action) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ALL_OBJECTIVES:
       return {...state, objectives: action.objectives}

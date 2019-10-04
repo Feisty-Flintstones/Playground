@@ -16,12 +16,14 @@ import {
   View,
   StyleSheet,
   PixelRatio,
+
   TouchableHighlight,
   ImageBackground
 } from 'react-native';
 import apiKEY from './my_API_KEY';
 import { ViroVRSceneNavigator, ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
+
 /*
  TODO: Insert your API key below
  */

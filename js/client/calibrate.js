@@ -43,8 +43,8 @@ class DisconnectedCalibrate extends Component {
           position={[0, 0, 0]}
           scale={[0.05, 0.05, 0.05]}
           rotation={[90, 0, 0]}
-          onClick={() => {
-            this.props.setUserPos([0, 0.2, 2]);
+          onClick={(position, source) => {
+            this.props.setUserPos(position);
             this.props.setCalibration(true);
           }}
         />

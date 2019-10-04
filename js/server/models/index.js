@@ -1,19 +1,19 @@
-const Objectives = require('./objectives')
-const Objects = require('./objects')
-const Maps = require('./maps')
-const MapObjectives = require('./mapObjectives')
+const Objective = require('./objective')
+const Item = require('./item')
+const Board = require('./board')
+const BoardObjective = require('./boardObjective')
 
 //ASSOCIATIONS
-Objectives.belongsToMany(Maps, {
-    through: MapObjectives
+Objective.belongsToMany(Board, {
+    through: BoardObjective
 })
-Maps.belongsToMany(Objectives, {
-    through: MapObjectives
+Board.belongsToMany(Objective, {
+    through: BoardObjective
 })
 
 module.exports = {
-    Objectives,
-    Objects,
-    Maps,
-    MapObjectives
+    Objective,
+    Item,
+    Board,
+    BoardObjective
 }

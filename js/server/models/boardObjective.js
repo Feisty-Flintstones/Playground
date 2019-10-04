@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const MapObjectives = db.define('mapObjectives', {
+const BoardObjective = db.define('boardObjective', {
     coordinates: {
         type: Sequelize.ARRAY(Sequelize.INTEGER), //we will avoid floats by calling "1.5" to be "15" in the database
         allowNull: false,
@@ -18,4 +18,4 @@ const MapObjectives = db.define('mapObjectives', {
     },
 })
 
-module.exports = MapObjectives
+module.exports = BoardObjective

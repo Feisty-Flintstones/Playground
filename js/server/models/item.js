@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Objectives = db.define('objectives', {
+const Item = db.define('item', {
     name: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -18,14 +18,12 @@ const Objectives = db.define('objectives', {
     }
 })
 
-Objectives.parseData = function(body) { //possibly useful to change Viroreact stuff into db stuff
+Item.parseData = function(body) { //possibly useful to change Viroreact stuff into db stuff
     const dbinstances = {
         name: body.name,
-        type: body.type,
-        coordinates: body.coordinates,
         imageUrl: body.imageUrl
     }
     return dbinstances
 }
 
-module.exports = Objectives
+module.exports = Item

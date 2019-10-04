@@ -1,8 +1,8 @@
 const router = require('express').Router()
 
-router.use('/objectives', require('./objectives'))
-
-router.use('/maps', require('./maps'))
+router.use('/objective', require('./objective'))
+router.use('/item', require('./item'))
+router.use('/board', require('./board'))
 
 router.use((req, res, next) => {
   const error = new Error('Not Found')

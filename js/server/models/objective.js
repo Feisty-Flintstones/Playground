@@ -1,23 +1,9 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const Objectives = db.define('objectives', {
+const Objective = db.define('objective', {
     name: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    type: {
-        type: Sequelize.ENUM('Click', 'Drag'),
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    coordinates: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
         allowNull: false,
         validate: {
             notEmpty: true
@@ -32,7 +18,7 @@ const Objectives = db.define('objectives', {
     }
 })
 
-Objectives.parseData = function(body) { //possibly useful to change Viroreact stuff into db stuff
+Objective.parseData = function(body) { //possibly useful to change Viroreact stuff into db stuff
     const dbinstances = {
         name: body.name,
         type: body.type,
@@ -42,4 +28,4 @@ Objectives.parseData = function(body) { //possibly useful to change Viroreact st
     return dbinstances
 }
 
-module.exports = Objectives
+module.exports = Objective

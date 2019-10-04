@@ -1,17 +1,19 @@
 const router = require('express').Router()
-const {Objectives} = require('../models')
+const {Objective} = require('../models')
 
+//Get all
 router.get('/', async (req, res, next) => {
     try {
-        res.json(await Objectives.findAll())
+        res.json(await Objective.findAll())
     } catch (error) {
         next(error)
     }
 })
 
+//Get one objective
 router.get('/:id', async (req, res, next) => {
     try {
-        res.json(await Objectives.findOne({
+        res.json(await Objective.findOne({
             where: {
                 id: req.body.id
             }

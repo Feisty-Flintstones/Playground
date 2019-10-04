@@ -18,7 +18,7 @@ import {
   PixelRatio,
   TouchableHighlight
 } from "react-native";
-import apiKEY from "./my_API_KEY";
+import apiKEY from "./my_API_KEY"
 import { ViroVRSceneNavigator, ViroARSceneNavigator } from "react-viro";
 import InitialARScene from "./js/client/MainScreenAR";
 /*

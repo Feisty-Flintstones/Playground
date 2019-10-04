@@ -19,7 +19,7 @@ import {
 } from "react-viro";
 import { setUserPosition } from "./store/index.js";
 import Calibrate from "./calibrate.js";
-
+import Smiley from './smiley'
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
@@ -57,7 +57,25 @@ class DisconnectedMainScreenAR extends Component {
       >
         {this.props.calibration ? (
           <View>
-            {console.log(this.props.position)}
+            <ViroAmbientLight color="#aaaaaa" />
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, 3, 1]}
+              color="#ffffff"
+              castsShadow={true}
+            />
+            {this.props.boardPieces.map(piece => {
+              if (piece.view === true) {
+                switch (piece.name) {
+                  case ('Smiley'):
+                    return <Smiley key = {piece.id} id={piece.id}/>
+                  default: return null
+                }
+              }
+            })}
+            {/* {console.log(this.props.position)}
             <ViroText
               text={this.state.text}
               scale={[0.2, 0.2, 0.2]}
@@ -78,22 +96,10 @@ class DisconnectedMainScreenAR extends Component {
               position={[0, 3, 1]}
               color="#ffffff"
               castsShadow={true}
-            />
-            <Viro3DObject
-              source={require("./res/animated_objects/emoji_smile/emoji_smile.vrx")}
-              type="VRX"
-              position={[
-                this.props.position[0],
-                this.props.position[1],
-                this.props.position[2]
-              ]}
-              scale={[0.2, 0.2, 0.2]}
-              onDrag={(position, source) => {
-                this.props.setUserPos(position);
-              }}
-            />
+            /> */}
           </View>
         ) : (
+          
           <Calibrate />
         )}
       </ViroARScene>
@@ -112,7 +118,8 @@ var styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   position: state.userReducer.position,
-  calibration: state.boardReducer.calibration
+  calibration: state.boardReducer.calibration,
+  boardPieces: state.boardReducer.boardPieces
 });
 
 const mapDispatchToProps = dispatch => ({

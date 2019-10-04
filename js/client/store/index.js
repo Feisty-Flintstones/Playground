@@ -4,12 +4,12 @@ import thunkMiddleware from "redux-thunk";
 import { composeWithDevTools } from "redux-devtools-extension";
 import userReducer from "./userReducer";
 
-import boardReducer from "./boardReducer";
+import mapReducer from "./mapReducer";
 
 import objReducer from "./objReducer";
 
 const reducer = combineReducers({
-  userReducer, objReducer, boardReducer
+  userReducer, objReducer, mapReducer
 });
 
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));

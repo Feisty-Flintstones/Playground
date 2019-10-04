@@ -9,20 +9,6 @@ const Objectives = db.define('objectives', {
             notEmpty: true
         }
     },
-    type: {
-        type: Sequelize.ENUM('Click', 'Drag'),
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
-    coordinates: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-        allowNull: false,
-        validate: {
-            notEmpty: true
-        }
-    },
     imageUrl: {
         type: Sequelize.STRING,
         allowNull: false,

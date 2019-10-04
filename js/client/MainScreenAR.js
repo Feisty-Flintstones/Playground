@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect, Provider } from "react-redux";
-import { StyleSheet, View } from "react-native";
+import React, { Component } from 'react';
+import { connect, Provider } from 'react-redux';
+import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
@@ -16,16 +16,16 @@ import {
   ViroARImageMarker,
   ViroARTrackingTargets,
   ViroAnimations
-} from "react-viro";
-import { setUserPosition } from "./store/index.js";
-import Calibrate from "./calibrate.js";
+} from 'react-viro';
+import { setUserPosition } from './store/index.js';
+import Calibrate from './calibrate.js';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: "Initializing AR...",
+      text: 'Initializing AR...',
       calibrated: true
     };
   }
@@ -44,15 +44,15 @@ class DisconnectedMainScreenAR extends Component {
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        source: require("./res/tottem.jpg"),
-        orientation: "Up",
+        source: require('./res/tottem.jpg'),
+        orientation: 'Up',
         physicalWidth: 0.1
       }
     });
     return (
       <ViroARScene
         onTrackingUpdated={() => {
-          this.setState({ text: "Hello World!" });
+          this.setState({ text: 'Hello World!' });
         }}
       >
         {this.props.calibration ? (
@@ -80,7 +80,7 @@ class DisconnectedMainScreenAR extends Component {
               castsShadow={true}
             />
             <Viro3DObject
-              source={require("./res/animated_objects/emoji_smile/emoji_smile.vrx")}
+              source={require('./res/animated_objects/emoji_smile/emoji_smile.vrx')}
               type="VRX"
               position={[
                 this.props.position[0],
@@ -102,11 +102,11 @@ class DisconnectedMainScreenAR extends Component {
 }
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 50,
-    color: "#ffffff",
-    textAlignVertical: "center",
-    textAlign: "center"
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    textAlign: 'center'
   }
 });
 

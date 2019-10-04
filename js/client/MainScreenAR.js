@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect, Provider } from "react-redux";
-import { StyleSheet, View } from "react-native";
+import React, { Component } from 'react';
+import { connect, Provider } from 'react-redux';
+import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
@@ -20,12 +20,13 @@ import {
 import { setUserPosition } from "./store/index.js";
 import Calibrate from "./calibrate.js";
 import Smiley from './smiley'
+
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: "Initializing AR...",
+      text: 'Initializing AR...',
       calibrated: true
     };
   }
@@ -44,15 +45,15 @@ class DisconnectedMainScreenAR extends Component {
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        source: require("./res/tottem.jpg"),
-        orientation: "Up",
+        source: require('./res/tottem.jpg'),
+        orientation: 'Up',
         physicalWidth: 0.1
       }
     });
     return (
       <ViroARScene
         onTrackingUpdated={() => {
-          this.setState({ text: "Hello World!" });
+          this.setState({ text: 'Hello World!' });
         }}
       >
         {this.props.calibration ? (
@@ -97,6 +98,7 @@ class DisconnectedMainScreenAR extends Component {
               color="#ffffff"
               castsShadow={true}
             /> */}
+
           </View>
         ) : (
           
@@ -108,11 +110,11 @@ class DisconnectedMainScreenAR extends Component {
 }
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 50,
-    color: "#ffffff",
-    textAlignVertical: "center",
-    textAlign: "center"
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    textAlign: 'center'
   }
 });
 

@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { StyleSheet } from "react-native";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { StyleSheet } from 'react-native';
 import {
   ViroARScene,
   ViroText,
@@ -13,29 +13,31 @@ import {
   ViroNode,
   ViroImage,
   ViroARImageMarker,
-  ViroARTrackingTargets
-} from "react-viro";
-import { setUserPosition } from "./store/index.js";
-import { setCalibration } from "./store/boardReducer";
-import { thisExpression } from "@babel/types";
+  ViroARTrackingTargets,
+  ViroOrbitCamera
+} from 'react-viro';
+import { setUserPosition } from './store/index.js';
+import { setCalibration } from './store/boardReducer';
+import { thisExpression } from '@babel/types';
 
 class DisconnectedCalibrate extends Component {
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        source: require("./res/tottem.jpg"),
-        orientation: "Up",
+        source: require('./res/tottem.jpg'),
+        orientation: 'Up',
         physicalWidth: 0.1
       }
     });
     return (
       <ViroARImageMarker target="calibrate">
         <ViroAmbientLight color="#FFFFFF" />
+
         <Viro3DObject
-          source={require("./res/animated_objects/object_star_anim/object_star_anim.vrx")}
+          source={require('./res/animated_objects/object_star_anim/object_star_anim.vrx')}
           resources={[
-            require("./res/animated_objects/object_star_anim/object_star_diffuse.png"),
-            require("./res/animated_objects/object_star_anim/object_star_specular.png")
+            require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
+            require('./res/animated_objects/object_star_anim/object_star_specular.png')
           ]}
           type="VRX"
           position={[0, 0, 0]}
@@ -52,11 +54,11 @@ class DisconnectedCalibrate extends Component {
 }
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
-    fontFamily: "Arial",
+    fontFamily: 'Arial',
     fontSize: 50,
-    color: "#ffffff",
-    textAlignVertical: "center",
-    textAlign: "center"
+    color: '#ffffff',
+    textAlignVertical: 'center',
+    textAlign: 'center'
   }
 });
 

@@ -7,20 +7,23 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-import React, { Component } from "react";
-import store from "./js/client/store";
-import { Provider } from "react-redux";
+import React, { Component } from 'react';
+import store from './js/client/store';
+import { Provider } from 'react-redux';
 import {
   AppRegistry,
   Text,
   View,
   StyleSheet,
   PixelRatio,
-  TouchableHighlight
-} from "react-native";
-import apiKEY from "./my_API_KEY"
-import { ViroVRSceneNavigator, ViroARSceneNavigator } from "react-viro";
-import InitialARScene from "./js/client/MainScreenAR";
+
+  TouchableHighlight,
+  ImageBackground
+} from 'react-native';
+import apiKEY from './my_API_KEY';
+import { ViroVRSceneNavigator, ViroARSceneNavigator } from 'react-viro';
+import InitialARScene from './js/client/MainScreenAR';
+
 /*
  TODO: Insert your API key below
  */
@@ -28,12 +31,12 @@ let sharedProps = apiKEY;
 
 // Sets the default scene you want for AR and VR
 
-// let InitialARScene = require("./js/client/MainScreenAR");
-let InitialVRScene = require("./js/client/HelloWorldScene");
+// let InitialARScene = require('./js/client/MainScreenAR');
+let InitialVRScene = require('./js/client/HelloWorldScene');
 
-let UNSET = "UNSET";
-let VR_NAVIGATOR_TYPE = "VR";
-let AR_NAVIGATOR_TYPE = "AR";
+let UNSET = 'UNSET';
+let VR_NAVIGATOR_TYPE = 'VR';
+let AR_NAVIGATOR_TYPE = 'AR';
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
@@ -64,9 +67,45 @@ class App extends Component {
     // } else if (this.state.navigatorType == VR_NAVIGATOR_TYPE) {
     //   return this._getVRNavigator();
     // } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-    return <Provider store={store}>{this._getARNavigator()}</Provider>;
+
+    //****This IF statement declares which VIEW to display**** */
+    if (this.state.navigatorType == UNSET) {
+      return this.homeScreen();
+    } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
+      return this.renderGameAR();
+    }
   }
 
+  //Renders the home screen
+  homeScreen = () => {
+    return (
+      <ImageBackground
+        source={require('./assets/white-wallpaper.jpg')}
+        style={localStyles.container}
+      >
+        <View style={localStyles.overlayContainer}>
+          <View style={localStyles.top}>
+            <TouchableHighlight
+              onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
+            >
+              <Text style={localStyles.header}>P L A Y</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </ImageBackground>
+    );
+  };
+  //Renders the game in AR mode
+  renderGameAR = () => {
+    return <Provider store={store}>{this._getARNavigator()}</Provider>;
+  };
+
+  //sets the navigatorType on state. Pass the scene as an argument
+  selectScreen = navigatorType => {
+    this.setState({
+      navigatorType: navigatorType
+    });
+  };
   // Presents the user with a choice of an AR or VR experience
   _getExperienceSelector() {
     return (
@@ -75,7 +114,7 @@ class App extends Component {
           <TouchableHighlight
             style={localStyles.buttons}
             onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE)}
-            underlayColor={"#68a0ff"}
+            underlayColor={'#68a0ff'}
           >
             <Text style={localStyles.buttonText}>AR</Text>
           </TouchableHighlight>
@@ -127,30 +166,30 @@ class App extends Component {
 let localStyles = StyleSheet.create({
   viroContainer: {
     flex: 1,
-    backgroundColor: "black"
+    backgroundColor: 'black'
   },
   outer: {
     flex: 1,
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "black"
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: 'black'
   },
   inner: {
     flex: 1,
-    flexDirection: "column",
-    alignItems: "center",
-    backgroundColor: "black"
+    flexDirection: 'column',
+    alignItems: 'center',
+    backgroundColor: 'black'
   },
   titleText: {
     paddingTop: 30,
     paddingBottom: 20,
-    color: "#fff",
-    textAlign: "center",
+    color: '#fff',
+    textAlign: 'center',
     fontSize: 25
   },
   buttonText: {
-    color: "#fff",
-    textAlign: "center",
+    color: '#fff',
+    textAlign: 'center',
     fontSize: 20
   },
   buttons: {
@@ -160,10 +199,10 @@ let localStyles = StyleSheet.create({
     paddingBottom: 20,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: "#68a0cf",
+    backgroundColor: '#68a0cf',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#fff"
+    borderColor: '#fff'
   },
   exitButton: {
     height: 50,
@@ -172,10 +211,34 @@ let localStyles = StyleSheet.create({
     paddingBottom: 10,
     marginTop: 10,
     marginBottom: 10,
-    backgroundColor: "#68a0cf",
+    backgroundColor: '#68a0cf',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#fff"
+    borderColor: '#fff'
+  },
+  container: {
+    flex: 1,
+    width: '100%',
+    height: '100%'
+  },
+  overlayContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(52,52,52, .4)'
+  },
+  top: {
+    height: '50%',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  header: {
+    color: '#fff',
+    fontSize: 28,
+    borderColor: '#fff',
+    borderWidth: 2,
+    padding: 20,
+    paddingLeft: 40,
+    paddingRight: 40,
+    backgroundColor: 'rgba(255,255,255, .1)'
   }
 });
 

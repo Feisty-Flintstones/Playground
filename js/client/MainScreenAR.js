@@ -68,7 +68,7 @@ class DisconnectedMainScreenAR extends Component {
               castsShadow={true}
             />
             {this.props.boardPieces.map(piece => {
-              if (piece.view === true) {
+              if (piece.view === true) { // might be better to change 'view' to a better description
                 switch (piece.name) {
                   case 'Smiley':
                     return (

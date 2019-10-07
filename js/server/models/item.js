@@ -17,7 +17,7 @@ const Item = db.define('item', {
         }
     },
     resources: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING, // no validation here? or maybe a default?
     },
     is3D: {
         type: Sequelize.BOOLEAN,

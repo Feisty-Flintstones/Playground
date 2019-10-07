@@ -19,6 +19,7 @@ const Board = db.define('board', {
 })
 
 //after a User creates a board in the SandBox, this function saves the created board in the database
+// Not sure this would work the way it currently is. Look at how you're handling the boardObjectives
 Board.prototype.saveBoard = async function(objsInBoard) {
     let boardObjectives = []
     for(let idx = 0; idx < objsInBoard.length; idx++) {

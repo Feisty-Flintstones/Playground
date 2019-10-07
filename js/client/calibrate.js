@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet } from 'react-native';
-import {
+import { // remove unused modules
   ViroARScene,
   ViroText,
   ViroMaterials,
@@ -52,6 +52,7 @@ class DisconnectedCalibrate extends Component {
     );
   }
 }
+// why use var? convert them to const or let
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: 'Arial',

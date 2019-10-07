@@ -40,7 +40,7 @@ class DisconnectedInventory extends Component {
             {
               style: styles.slots
             },
-            [
+            [ // look into mapping through this instead of hard coding
               {
                 children: <Text>{this.props.inv[0].name}</Text>,
                 onPress: () => {

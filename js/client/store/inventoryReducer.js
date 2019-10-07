@@ -13,7 +13,7 @@ const DELETE_INVENTORY = 'DELETE_INVENTORY';
  * INITIAL STATE
  */
 const initialState = {
-  inv: [
+  inv: [ // initialize name as an empty string instead of 'null'
     { name: 'null', id: -1 },
     { name: 'null', id: -1 },
     { name: 'null', id: -1 }
@@ -56,7 +56,7 @@ function finder(arr) {
 export default function(state = initialState, action) {
   switch (action.type) {
     case ADD_INVENTORY:
-      let newarr = state.inv;
+      let newarr = state.inv; // refactor this. Don't think you should need a for loop to do this
       newarr[finder(state.inv)] = { name: action.name, id: action.id };
       return {
         ...state,

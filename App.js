@@ -31,7 +31,7 @@ import Inventory from './js/client/Inventory';
 
 // Sets the default scene you want for AR and VR
 
-// let InitialARScene = require('./js/client/MainScreenAR');
+// let InitialARScene = require('./js/client/MainScreenAR'); // remove unused code
 let InitialVRScene = require('./js/client/HelloWorldScene');
 
 let UNSET = 'UNSET';
@@ -113,7 +113,7 @@ class App extends Component {
     });
   };
   // Presents the user with a choice of an AR or VR experience
-  _getExperienceSelector() {
+  _getExperienceSelector() { // remove unused code
     return (
       <View style={localStyles.outer}>
         <View style={localStyles.inner}>
@@ -172,6 +172,7 @@ class App extends Component {
   }
 }
 
+// great to abstract styles from your components like this
 let localStyles = StyleSheet.create({
   viroContainer: {
     flex: 1,

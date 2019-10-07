@@ -3,7 +3,7 @@ const {Board} = require('../models')
 
 //Get all
 router.get('/', async (req, res, next) => {
-    try {
+    try { // keep await outside of res.json. might end up sending back an error instead of catching it
         res.json(await Board.findAll())
     } catch (error) {
         next(error)

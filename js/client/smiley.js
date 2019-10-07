@@ -19,7 +19,7 @@ class Smiley extends React.Component {
         <Viro3DObject
           source={require('./res/animated_objects/emoji_smile/emoji_smile.vrx')}
           type='VRX'
-          position={[
+          position={[ // might be worth mapping here instead of hard coding
             this.props.position[0],
             this.props.position[1],
             this.props.position[2]

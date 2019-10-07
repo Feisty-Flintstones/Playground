@@ -16,10 +16,10 @@ import {
   ViroARImageMarker,
   ViroARTrackingTargets,
   ViroAnimations
-} from "react-viro";
-import { setUserPosition } from "./store/index.js";
-import Calibrate from "./calibrate.js";
-import Smiley from './smiley'
+} from 'react-viro';
+import { setUserPosition } from './store/index.js';
+import Calibrate from './calibrate.js';
+import Smiley from './smiley';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -58,21 +58,24 @@ class DisconnectedMainScreenAR extends Component {
       >
         {this.props.calibration ? (
           <View>
-            <ViroAmbientLight color="#aaaaaa" />
+            <ViroAmbientLight color='#aaaaaa' />
             <ViroSpotLight
               innerAngle={5}
               outerAngle={90}
               direction={[0, -1, -0.2]}
               position={[0, 3, 1]}
-              color="#ffffff"
+              color='#ffffff'
               castsShadow={true}
             />
             {this.props.boardPieces.map(piece => {
               if (piece.view === true) {
                 switch (piece.name) {
-                  case ('Smiley'):
-                    return <Smiley key = {piece.id} id={piece.id}/>
-                  default: return null
+                  case 'Smiley':
+                    return (
+                      <Smiley key={piece.id} id={piece.id} name={piece.name} />
+                    );
+                  default:
+                    return null;
                 }
               }
             })}
@@ -98,10 +101,8 @@ class DisconnectedMainScreenAR extends Component {
               color="#ffffff"
               castsShadow={true}
             /> */}
-
           </View>
         ) : (
-          
           <Calibrate />
         )}
       </ViroARScene>

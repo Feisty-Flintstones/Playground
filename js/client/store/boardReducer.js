@@ -1,31 +1,39 @@
-import axios from "axios";
+import axios from 'axios';
 
-const SET_CALIBRATION = "SET_CALIBRATION";
+const SET_CALIBRATION = 'SET_CALIBRATION';
 
 /**
  * INITIAL STATE
  */
 const initialBoard = {
   calibration: false,
-  boardPieces: [{
-    id: 0,
-    name: 'Smiley',
-    position: [0,0,-1],
-    view: true
-  }]
+  boardPieces: [
+    {
+      id: 0,
+      name: 'Smiley',
+      position: [0, 0, -1],
+      view: true
+    }
+  ]
 };
 
 /**
  * ACTION CREATORS
  */
 const FALSIFY_VIEW = 'FALSIFY_VIEW';
-export const removedView = (id) => {
+const UNFALSIFY_VIEW = 'UNFALSIFY_VIEW';
+export const removedView = id => {
   return {
     type: FALSIFY_VIEW,
     id
-  }
-}
-
+  };
+};
+export const addView = id => {
+  return {
+    type: UNFALSIFY_VIEW,
+    id
+  };
+};
 
 const MOVE_BOARD_PIECE = 'MOVE_BOARD_PIECE';
 export const moveBoardPiece = (id, position) => {
@@ -33,9 +41,8 @@ export const moveBoardPiece = (id, position) => {
     type: MOVE_BOARD_PIECE,
     id,
     position
-
-  }
-}
+  };
+};
 export const setCalibration = calibration => ({
   type: SET_CALIBRATION,
   calibration
@@ -52,23 +59,43 @@ export default function(state = initialBoard, action) {
   switch (action.type) {
     case SET_CALIBRATION:
       return { ...state, calibration: action.calibration };
-    case MOVE_BOARD_PIECE: 
-    return {...state, boardPieces: [...state.boardPieces.map(element => {
-      if (element.id === action.id) {
-        element.position = action.position
-      }
-      return element
-    })]}
-    case FALSIFY_VIEW: 
-    return {...state, boardPieces: [...state.boardPieces.map(element => {
-      if (element.id === action.id) {
-        element.view = false
-      }
-      return element
-    })]}
+    case MOVE_BOARD_PIECE:
+      return {
+        ...state,
+        boardPieces: [
+          ...state.boardPieces.map(element => {
+            if (element.id === action.id) {
+              element.position = action.position;
+            }
+            return element;
+          })
+        ]
+      };
+    case FALSIFY_VIEW:
+      return {
+        ...state,
+        boardPieces: [
+          ...state.boardPieces.map(element => {
+            if (element.id === action.id) {
+              element.view = false;
+            }
+            return element;
+          })
+        ]
+      };
+    case UNFALSIFY_VIEW:
+      return {
+        ...state,
+        boardPieces: [
+          ...state.boardPieces.map(element => {
+            if (element.id === action.id) {
+              element.view = true;
+            }
+            return element;
+          })
+        ]
+      };
     default:
       return state;
   }
 }
-
-

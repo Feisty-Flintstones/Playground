@@ -1,18 +1,18 @@
-const Objective = require('./objective')
+const db = require('../')
 const Item = require('./item')
 const Board = require('./board')
 const BoardObjective = require('./boardObjective')
 
 //ASSOCIATIONS
-Objective.belongsToMany(Board, {
+Item.belongsToMany(Board, {
     through: BoardObjective
 })
-Board.belongsToMany(Objective, {
+Board.belongsToMany(Item, {
     through: BoardObjective
 })
 
 module.exports = {
-    Objective,
+    db,
     Item,
     Board,
     BoardObjective

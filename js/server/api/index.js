@@ -1,6 +1,6 @@
 const router = require('express').Router()
 
-router.use('/objective', require('./objective'))
+// router.use('/objective', require('./objective'))
 router.use('/item', require('./item'))
 router.use('/board', require('./board'))
 

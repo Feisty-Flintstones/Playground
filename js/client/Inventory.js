@@ -4,8 +4,8 @@ import React, { Component } from 'react';
 import XBar from 'react-native-x-bar';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { deleteInventory, getInventory } from './store/inventoryReducer.js';
-import { addView } from './store/boardReducer.js';
+import { removeFromInventory } from './store/inventoryReducer.js';
+import { addToBoard } from './store/boardReducer.js';
 
 const styles = StyleSheet.create({
   bar: {
@@ -31,49 +31,24 @@ const styles = StyleSheet.create({
 });
 
 class DisconnectedInventory extends Component {
-  componentDidMount() {
-    this.props.getInventory();
-  }
-
   render() {
     return (
       <View>
-        {/* {this.props.getInventory()} */}
         <XBar
           slots={[
             {
               style: styles.slots
             },
-            [
-              {
-                children: <Text>{this.props.inv[0].name}</Text>,
+            this.props.inv.map(item => {
+              return {
+                children: <Text>{item.name}</Text>,
                 onPress: () => {
-                  Alert.alert(this.props.inv[0].id + '');
-                  this.props.addView(this.props.inv[0].id);
-                  this.props.deleteInventory(this.props.inv[0].id);
+                  this.props.addToBoard(item.id);
+                  this.props.removeFromInventory(item.id);
                 }
-              },
-              {
-                children: <Text>{this.props.inv[1].name}</Text>,
-                onPress: () => {
-                  Alert.alert(this.props.inv[1].id + '');
-                  this.props.addView(this.props.inv[1].id);
-                  this.props.deleteInventory(this.props.inv[1].id);
-                }
-              },
-              {
-                children: <Text>{this.props.inv[2].name}</Text>,
-                onPress: () => {
-                  Alert.alert(this.props.inv[2].id + '');
-                  this.props.addView(this.props.inv[2].id);
-                  this.props.deleteInventory(this.props.inv[2].id);
-                }
-              }
-            ]
+              };
+            })
           ]}
-          onPress={() => {
-            this.props.getInventory();
-          }}
           activeOpacity={0.5}
           style={{
             height: 50,
@@ -92,9 +67,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  deleteInventory: id => dispatch(deleteInventory(id)),
-  addView: id => dispatch(addView(id)),
-  getInventory: () => dispatch(getInventory())
+  removeFromInventory: id => dispatch(removeFromInventory(id)),
+  addToBoard: id => dispatch(addToBoard(id))
 });
 const Inventory = connect(
   mapStateToProps,

@@ -11,168 +11,25 @@ import React, { Component } from 'react';
 import store from './js/client/store';
 import { Provider } from 'react-redux';
 import {
-  AppRegistry,
   Text,
   View,
   StyleSheet,
-  PixelRatio,
   TouchableHighlight,
   ImageBackground
 } from 'react-native';
 import sharedProps from './my_API_KEY';
-import { ViroVRSceneNavigator, ViroARSceneNavigator } from 'react-viro';
+import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
-import XBar from 'react-native-x-bar';
 import Inventory from './js/client/Inventory';
-/*
- TODO: Insert your API key below
- */
-// let sharedProps = apiKEY;
-
-// Sets the default scene you want for AR and VR
-
-// let InitialARScene = require('./js/client/MainScreenAR');
-let InitialVRScene = require('./js/client/HelloWorldScene');
 
 let UNSET = 'UNSET';
-let VR_NAVIGATOR_TYPE = 'VR';
 let AR_NAVIGATOR_TYPE = 'AR';
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
 let defaultNavigatorType = UNSET;
 
-class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
-      navigatorType: defaultNavigatorType,
-      sharedProps: sharedProps
-    };
-    this._getExperienceSelector = this._getExperienceSelector.bind(this);
-    this._getARNavigator = this._getARNavigator.bind(this);
-    this._getVRNavigator = this._getVRNavigator.bind(this);
-    this._getInventorySlot = this._getInventorySlot.bind(this);
-    this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(
-      this
-    );
-    this._exitViro = this._exitViro.bind(this);
-    
-  }
-
-  // Replace this function with the contents of _getVRNavigator() or _getARNavigator()
-  // if you are building a specific type of experience.
-  render() {
-    // if (this.state.navigatorType == UNSET) {
-    //   return this._getExperienceSelector();
-    // } else if (this.state.navigatorType == VR_NAVIGATOR_TYPE) {
-    //   return this._getVRNavigator();
-    // } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
-
-    //****This IF statement declares which VIEW to display**** */
-    if (this.state.navigatorType === UNSET) {
-      return this.homeScreen();
-    } else if (this.state.navigatorType === AR_NAVIGATOR_TYPE) {
-      return this.renderGameAR();
-    }
-  }
-
-  //Renders the home screen
-  homeScreen = () => {
-    return (
-      <ImageBackground
-        source={require('./assets/white-wallpaper.jpg')}
-        style={localStyles.container}
-      >
-        <View style={localStyles.overlayContainer}>
-          <View style={localStyles.top} activeOpacity={0.5}>
-            <TouchableHighlight
-              onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
-            >
-              <Text style={localStyles.header}>P L A Y</Text>
-            </TouchableHighlight>
-          </View>
-        </View>
-      </ImageBackground>
-    );
-  };
-  //Renders the game in AR mode
-  renderGameAR = () => {
-    return (
-      <Provider store={store}>
-        {this._getInventorySlot()}
-        {this._getARNavigator()}
-      </Provider>
-    );
-  };
-
-  //sets the navigatorType on state. Pass the scene as an argument
-  selectScreen = navigatorType => {
-    this.setState({
-      navigatorType: navigatorType
-    });
-  };
-  // Presents the user with a choice of an AR or VR experience
-  _getExperienceSelector() {
-    return (
-      <View style={localStyles.outer}>
-        <View style={localStyles.inner}>
-          <TouchableHighlight
-            style={localStyles.buttons}
-            onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE)}
-            underlayColor={'#68a0ff'}
-            activeOpacity={0.5}
-          >
-            <Text style={localStyles.buttonText}>AR</Text>
-          </TouchableHighlight>
-        </View>
-      </View>
-    );
-  }
-
-  // Returns the ViroARSceneNavigator which will start the AR experience
-  _getARNavigator() {
-    return (
-      <ViroARSceneNavigator
-        {...this.state.sharedProps}
-        initialScene={{ scene: InitialARScene }}
-        onExitViro={this._exitViro}
-      />
-    );
-  }
-
-  // Returns the ViroSceneNavigator which will start the VR experience
-  _getVRNavigator() {
-    return (
-      <ViroVRSceneNavigator
-        {...this.state.sharedProps}
-        initialScene={{ scene: InitialVRScene }}
-        onExitViro={this._exitViro}
-      />
-    );
-  }
-  _getInventorySlot() {
-    return <Inventory />;
-  }
-  // This function returns an anonymous/lambda function to be used
-  // by the experience selector buttons
-  _getExperienceButtonOnPress(navigatorType) {
-    return () => {
-      this.setState({
-        navigatorType: navigatorType
-      });
-    };
-  }
-
-  // This function "exits" Viro by setting the navigatorType to UNSET.
-  _exitViro() {
-    this.setState({
-      navigatorType: UNSET
-    });
-  }
-}
-
+//Styles
 let localStyles = StyleSheet.create({
   viroContainer: {
     flex: 1,
@@ -251,5 +108,83 @@ let localStyles = StyleSheet.create({
     backgroundColor: 'rgba(255,255,255, .1)'
   }
 });
+
+class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      navigatorType: defaultNavigatorType,
+      sharedProps: sharedProps
+    };
+    this._getARNavigator = this._getARNavigator.bind(this);
+    this._getInventorySlot = this._getInventorySlot.bind(this);
+    this._exitViro = this._exitViro.bind(this);
+  }
+
+  render() {
+    //****This IF statement declares which VIEW to display**** */
+    if (this.state.navigatorType === UNSET) {
+      return this.homeScreen();
+    } else if (this.state.navigatorType === AR_NAVIGATOR_TYPE) {
+      return this.renderGameAR();
+    }
+  }
+
+  //Renders the home screen
+  homeScreen = () => {
+    return (
+      <ImageBackground
+        source={require('./assets/white-wallpaper.jpg')}
+        style={localStyles.container}
+      >
+        <View style={localStyles.overlayContainer}>
+          <View style={localStyles.top} activeOpacity={0.5}>
+            <TouchableHighlight
+              onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
+            >
+              <Text style={localStyles.header}>P L A Y</Text>
+            </TouchableHighlight>
+          </View>
+        </View>
+      </ImageBackground>
+    );
+  };
+  //Renders the game in AR mode
+  renderGameAR = () => {
+    return (
+      <Provider store={store}>
+        {this._getInventorySlot()}
+        {this._getARNavigator()}
+      </Provider>
+    );
+  };
+  //Sets the navigatorType on state. Pass the scene as an argument
+  selectScreen = navigatorType => {
+    this.setState({
+      navigatorType: navigatorType
+    });
+  };
+  // Returns the ViroARSceneNavigator which will start the AR experience
+  _getARNavigator() {
+    return (
+      <ViroARSceneNavigator
+        {...this.state.sharedProps}
+        initialScene={{ scene: InitialARScene }}
+        onExitViro={this._exitViro}
+      />
+    );
+  }
+  //Inventory React Native Component
+  _getInventorySlot() {
+    return <Inventory />;
+  }
+  // This function "exits" Viro by setting the navigatorType to UNSET.
+  _exitViro() {
+    this.setState({
+      navigatorType: UNSET
+    });
+  }
+}
 
 export default App;

@@ -55,6 +55,8 @@ function finder(arr) {
  */
 export default function(state = initialState, action) {
   switch (action.type) {
+    case GET_INVENTORY:
+      return state;
     case ADD_INVENTORY:
       let newarr = state.inv;
       newarr[finder(state.inv)] = { name: action.name, id: action.id };

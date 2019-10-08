@@ -85,7 +85,7 @@ class App extends Component {
         style={localStyles.container}
       >
         <View style={localStyles.overlayContainer}>
-          <View style={localStyles.top}>
+          <View style={localStyles.top} activeOpacity={0.5}>
             <TouchableHighlight
               onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
             >

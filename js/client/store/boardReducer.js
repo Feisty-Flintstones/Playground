@@ -11,7 +11,7 @@ const initialBoard = {
     {
       id: 0,
       name: 'Smiley',
-      position: [0, 0, -1],
+      position: [-2, 0, 2],
       view: true
     }
   ]

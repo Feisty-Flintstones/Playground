@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import XBar from 'react-native-x-bar';
 import { StyleSheet, Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import { deleteInventory } from './store/inventoryReducer.js';
+import { deleteInventory, getInventory } from './store/inventoryReducer.js';
 import { addView } from './store/boardReducer.js';
 
 const styles = StyleSheet.create({
@@ -31,10 +31,14 @@ const styles = StyleSheet.create({
 });
 
 class DisconnectedInventory extends Component {
-  componentDidMount() {}
+  componentDidMount() {
+    this.props.getInventory();
+  }
+
   render() {
     return (
       <View>
+        {/* {this.props.getInventory()} */}
         <XBar
           slots={[
             {
@@ -67,7 +71,9 @@ class DisconnectedInventory extends Component {
               }
             ]
           ]}
-          onPress={() => {}}
+          onPress={() => {
+            this.props.getInventory();
+          }}
           activeOpacity={0.5}
           style={{
             height: 50,
@@ -87,7 +93,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   deleteInventory: id => dispatch(deleteInventory(id)),
-  addView: id => dispatch(addView(id))
+  addView: id => dispatch(addView(id)),
+  getInventory: () => dispatch(getInventory())
 });
 const Inventory = connect(
   mapStateToProps,

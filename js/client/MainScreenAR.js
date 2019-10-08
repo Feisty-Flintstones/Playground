@@ -74,13 +74,13 @@ class DisconnectedMainScreenAR extends Component {
       >
         {/* {this.props.calibration ? ( */}
           <View>
-            <ViroAmbientLight color="#aaaaaa" />
+            <ViroAmbientLight color='#aaaaaa' />
             <ViroSpotLight
               innerAngle={5}
               outerAngle={90}
               direction={[0, -1, -0.2]}
               position={[0, 3, 1]}
-              color="#ffffff"
+              color='#ffffff'
               castsShadow={true}
             />
             {this.props.boardPieces.map(piece => {
@@ -120,8 +120,6 @@ class DisconnectedMainScreenAR extends Component {
               castsShadow={true}
             /> */}
           </View>
-        {/* ) : (
-          // <Calibrate /> // */}
       </ViroARScene>
     );
   }

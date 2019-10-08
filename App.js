@@ -16,18 +16,18 @@ import {
   View,
   StyleSheet,
   PixelRatio,
-
   TouchableHighlight,
   ImageBackground
 } from 'react-native';
-import apiKEY from './my_API_KEY';
+import sharedProps from './my_API_KEY';
 import { ViroVRSceneNavigator, ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
-
+import XBar from 'react-native-x-bar';
+import Inventory from './js/client/Inventory';
 /*
  TODO: Insert your API key below
  */
-let sharedProps = apiKEY;
+// let sharedProps = apiKEY;
 
 // Sets the default scene you want for AR and VR
 
@@ -53,6 +53,7 @@ class App extends Component {
     this._getExperienceSelector = this._getExperienceSelector.bind(this);
     this._getARNavigator = this._getARNavigator.bind(this);
     this._getVRNavigator = this._getVRNavigator.bind(this);
+    this._getInventorySlot = this._getInventorySlot.bind(this);
     this._getExperienceButtonOnPress = this._getExperienceButtonOnPress.bind(
       this
     );
@@ -70,9 +71,9 @@ class App extends Component {
     // } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
 
     //****This IF statement declares which VIEW to display**** */
-    if (this.state.navigatorType == UNSET) {
+    if (this.state.navigatorType === UNSET) {
       return this.homeScreen();
-    } else if (this.state.navigatorType == AR_NAVIGATOR_TYPE) {
+    } else if (this.state.navigatorType === AR_NAVIGATOR_TYPE) {
       return this.renderGameAR();
     }
   }
@@ -85,7 +86,7 @@ class App extends Component {
         style={localStyles.container}
       >
         <View style={localStyles.overlayContainer}>
-          <View style={localStyles.top}>
+          <View style={localStyles.top} activeOpacity={0.5}>
             <TouchableHighlight
               onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
             >
@@ -98,7 +99,12 @@ class App extends Component {
   };
   //Renders the game in AR mode
   renderGameAR = () => {
-    return <Provider store={store}>{this._getARNavigator()}</Provider>;
+    return (
+      <Provider store={store}>
+        {this._getInventorySlot()}
+        {this._getARNavigator()}
+      </Provider>
+    );
   };
 
   //sets the navigatorType on state. Pass the scene as an argument
@@ -116,6 +122,7 @@ class App extends Component {
             style={localStyles.buttons}
             onPress={this._getExperienceButtonOnPress(AR_NAVIGATOR_TYPE)}
             underlayColor={'#68a0ff'}
+            activeOpacity={0.5}
           >
             <Text style={localStyles.buttonText}>AR</Text>
           </TouchableHighlight>
@@ -145,7 +152,9 @@ class App extends Component {
       />
     );
   }
-
+  _getInventorySlot() {
+    return <Inventory />;
+  }
   // This function returns an anonymous/lambda function to be used
   // by the experience selector buttons
   _getExperienceButtonOnPress(navigatorType) {

@@ -5,25 +5,26 @@ import { connect } from 'react-redux';
 import { setUserPosition } from './store/index.js';
 import { removedView } from './store/boardReducer';
 import { addInventory, getInventory } from './store/inventoryReducer.js';
-class Smiley extends React.Component {
+class Heart extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      isClicked: false
+    };
+  }
 
-    constructor() {
-        super();
-
-    }
-  
   render() {
     return (
       <View>
         <Viro3DObject
-          source={require('./res/animated_objects/emoji_smile/emoji_smile.vrx')}
-          type='VRX'
-          position={[
-            this.props.position[0],
-            this.props.position[1],
-            this.props.position[2]
+          //   anchorId={foundAnchor.anchorId}
+          source={require('./res/animated_objects/emoji_heart_anim/emoji_heart_anim.vrx')}
+          resources={[
+            require('./res/animated_objects/emoji_heart_anim/emoji_heart_specular.png'),
+            require('./res/animated_objects/emoji_heart_anim/emoji_heart.png')
           ]}
-          anchorId={1}
+          type='VRX'
+          position={[0, 0, 4]}
           highAccuracyEvents={true}
           scale={[0.2, 0.2, 0.2]}
           onDrag={(position, source) => {
@@ -53,4 +54,4 @@ const mapDispatchToProps = dispatch => ({
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Smiley);
+)(Heart);

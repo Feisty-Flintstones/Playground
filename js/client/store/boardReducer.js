@@ -12,13 +12,16 @@ const initialBoard = {
     name: 'Smiley',
     position: [0,0,-1],
     view: true
-  }]
-};
-
-/**
- * ACTION CREATORS
- */
+  },
+  {id:1,
+  name: 'Testing',
+  position: [-1.5,0,0],
+  view: true
+}
+]}
+  
 const FALSIFY_VIEW = 'FALSIFY_VIEW';
+
 export const removedView = (id) => {
   return {
     type: FALSIFY_VIEW,

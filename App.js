@@ -58,6 +58,7 @@ class App extends Component {
       this
     );
     this._exitViro = this._exitViro.bind(this);
+    
   }
 
   // Replace this function with the contents of _getVRNavigator() or _getARNavigator()

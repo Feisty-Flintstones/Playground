@@ -7,22 +7,23 @@ const SET_CALIBRATION = 'SET_CALIBRATION';
  */
 const initialBoard = {
   calibration: false,
-  boardPieces: [
-    {
-      id: 0,
-      name: 'Smiley',
-      position: [-2, 0, 2],
-      view: true
-    }
-  ]
-};
 
-/**
- * ACTION CREATORS
- */
+  boardPieces: [{
+    id: 0,
+    name: 'Smiley',
+    position: [0,0,-1],
+    view: true
+  },
+  {id:1,
+  name: 'Testing',
+  position: [-1.5,0,0],
+  view: true
+}
+]}
+  
 const FALSIFY_VIEW = 'FALSIFY_VIEW';
-const UNFALSIFY_VIEW = 'UNFALSIFY_VIEW';
-export const removedView = id => {
+
+export const removedView = (id) => {
   return {
     type: FALSIFY_VIEW,
     id

@@ -6,13 +6,12 @@ import { setUserPosition } from './store/index.js';
 import { removedView } from './store/boardReducer';
 import { addInventory, getInventory } from './store/inventoryReducer.js';
 class Smiley extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      isClicked: false
-    };
-  }
 
+    constructor() {
+        super();
+
+    }
+  
   render() {
     return (
       <View>

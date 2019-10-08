@@ -8,30 +8,34 @@ const SET_CALIBRATION = 'SET_CALIBRATION';
 const initialBoard = {
   calibration: false,
 
-  boardPieces: [{
-    id: 0,
-    name: 'Smiley',
-    position: [0,0,-1],
-    view: true
-  },
-  {id:1,
-  name: 'Testing',
-  position: [-1.5,0,0],
-  view: true
-}
-]}
-  
-const FALSIFY_VIEW = 'FALSIFY_VIEW';
+  boardPieces: [
+    {
+      id: 0,
+      name: 'Smiley',
+      position: [0, 0, -1],
+      collected: false
+    },
+    {
+      id: 1,
+      name: 'Poop',
+      position: [-1.5, 0, 0],
+      collected: false
+    }
+  ]
+};
 
-export const removedView = (id) => {
+const ADD_TO_BOARD = 'ADD_TO_BOARD';
+const REMOVE_FROM_BOARD = 'REMOVE_FROM_BOARD';
+
+export const addToBoard = id => {
   return {
-    type: FALSIFY_VIEW,
+    type: ADD_TO_BOARD,
     id
   };
 };
-export const addView = id => {
+export const removeFromBoard = id => {
   return {
-    type: UNFALSIFY_VIEW,
+    type: REMOVE_FROM_BOARD,
     id
   };
 };
@@ -72,25 +76,25 @@ export default function(state = initialBoard, action) {
           })
         ]
       };
-    case FALSIFY_VIEW:
+    case REMOVE_FROM_BOARD:
       return {
         ...state,
         boardPieces: [
           ...state.boardPieces.map(element => {
             if (element.id === action.id) {
-              element.view = false;
+              element.collected = true;
             }
             return element;
           })
         ]
       };
-    case UNFALSIFY_VIEW:
+    case ADD_TO_BOARD:
       return {
         ...state,
         boardPieces: [
           ...state.boardPieces.map(element => {
             if (element.id === action.id) {
-              element.view = true;
+              element.collected = false;
             }
             return element;
           })

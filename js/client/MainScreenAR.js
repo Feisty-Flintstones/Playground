@@ -1,26 +1,18 @@
 import React, { Component } from 'react';
-import { connect, Provider } from 'react-redux';
-import { StyleSheet, View, Alert} from 'react-native';
+import { connect } from 'react-redux';
+import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
-import {ViroSphere,
+import {
   ViroARScene,
-  ViroText,
-  ViroMaterials,
-  ViroBox,
   Viro3DObject,
   ViroAmbientLight,
   ViroSpotLight,
-  ViroARPlaneSelector,
-  ViroNode,
-  ViroImage,
   ViroARImageMarker,
-  ViroARTrackingTargets,
-  ViroAnimations
-} from "react-viro";
-import { setUserPosition } from "./store/index.js";
-import Calibrate from "./calibrate.js";
-import Smiley from './smiley'
-import Testing from './second'
+  ViroARTrackingTargets
+} from 'react-viro';
+import { setUserPosition } from './store/index.js';
+import Smiley from './components/smiley';
+import Poop from './components/poop';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -29,21 +21,26 @@ class DisconnectedMainScreenAR extends Component {
     this.state = {
       text: 'Initializing AR...',
       calibrated: true,
-      updateDistance: false
+      updateDistance: false,
+      update: false
     };
     this.separation = Infinity;
-    this.distanceBetween = this.distanceBetween.bind(this)
+    this.distanceBetween = this.distanceBetween.bind(this);
   }
   componentDidMount() {
-    this.interval = setInterval(() => this.setState({ updateDistance: !this.state.updateDistance}), 1000);
+    let stateDist = !this.state.updateDistance;
+    this.interval = setInterval(
+      () => this.setState({ updateDistance: stateDist }),
+      1000
+    );
   }
   componentWillUnmount() {
     clearInterval(this.interval);
   }
   distance(position1, position2) {
     let sumSquares = 0;
-    for (let i = 0; i<=2; i++) {
-      sumSquares+=Math.abs((position1[i]-position2[i])**2)
+    for (let i = 0; i <= 2; i++) {
+      sumSquares += Math.abs((position1[i] - position2[i]) ** 2);
     }
     return Math.sqrt(sumSquares);
   }
@@ -52,7 +49,7 @@ class DisconnectedMainScreenAR extends Component {
     let position2 = component.position;
     if (this.arSceneRef) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
-      this.separation = this.distance(position.position, position2)
+      this.separation = this.distance(position.position, position2);
     }
   }
   render() {
@@ -65,16 +62,29 @@ class DisconnectedMainScreenAR extends Component {
     });
     return (
       <ViroARScene
-      ref = {(component) => {
-        this.arSceneRef = component
-      }}
-        onTrackingUpdated={() => {
-          this.setState({ text: 'Hello World!' });
+        ref={component => {
+          this.arSceneRef = component;
         }}
       >
-        {/* {this.props.calibration ? ( */}
+        <ViroARImageMarker target='calibrate' pauseUpdates={this.state.update}>
           <View>
             <ViroAmbientLight color='#aaaaaa' />
+            <Viro3DObject
+              source={require('./res/animated_objects/object_star_anim/object_star_anim.vrx')}
+              resources={[
+                require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
+                require('./res/animated_objects/object_star_anim/object_star_specular.png')
+              ]}
+              type='VRX'
+              position={[0, 0, 0]}
+              scale={[0.05, 0.05, 0.05]}
+              rotation={[90, 0, 0]}
+              onClick={() => {
+                this.setState({
+                  update: true
+                });
+              }}
+            />
             <ViroSpotLight
               innerAngle={5}
               outerAngle={90}
@@ -84,42 +94,32 @@ class DisconnectedMainScreenAR extends Component {
               castsShadow={true}
             />
             {this.props.boardPieces.map(piece => {
-              if (piece.view === true) {
-                this.distanceBetween(piece)
-                if (this.separation < 2) {
+              if (piece.collected === false) {
+                this.distanceBetween(piece);
                 switch (piece.name) {
-                  case ('Smiley'):
-                    return <Smiley key = {piece.id} id={piece.id}/>
-                  case ('Testing'):
-                    return <Testing key = {piece.id} id = {piece.id}/>
-                  default: return null
+                  case 'Smiley':
+                    return (
+                      <Smiley
+                        key={piece.id}
+                        item={piece}
+                        visible={this.separation <= 2}
+                      />
+                    );
+                  case 'Poop':
+                    return (
+                      <Poop
+                        key={piece.id}
+                        item={piece}
+                        visible={this.separation <= 2}
+                      />
+                    );
+                  default:
+                    return null;
                 }
               }
-              }
             })}
-            {/* {console.log(this.props.position)}
-            <ViroText
-              text={this.state.text}
-              scale={[0.2, 0.2, 0.2]}
-              height={1}
-              width={4}
-              position={[
-                this.props.position[0],
-                this.props.position[1],
-                this.props.position[2]
-              ]}
-              style={styles.helloWorldTextStyle}
-            />
-            <ViroAmbientLight color="#aaaaaa" />
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={90}
-              direction={[0, -1, -0.2]}
-              position={[0, 3, 1]}
-              color="#ffffff"
-              castsShadow={true}
-            /> */}
           </View>
+        </ViroARImageMarker>
       </ViroARScene>
     );
   }
@@ -135,17 +135,11 @@ var styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  position: state.userReducer.position,
-  calibration: state.boardReducer.calibration,
   boardPieces: state.boardReducer.boardPieces
-});
-
-const mapDispatchToProps = dispatch => ({
-  setUserPos: position => dispatch(setUserPosition(position))
 });
 const MainScreenAR = connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(DisconnectedMainScreenAR);
 
 export default MainScreenAR;

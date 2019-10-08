@@ -7,9 +7,7 @@ import {removedView} from './store/boardReducer'
 class Smiley extends React.Component {
     constructor() {
         super();
-        this.state = {
-            isClicked: false
-        }
+
     }
 
     render() {

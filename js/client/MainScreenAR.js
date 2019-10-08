@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect, Provider } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Alert} from 'react-native';
 // import store from "./store/index";
-import {
+import {ViroSphere,
   ViroARScene,
   ViroText,
   ViroMaterials,
@@ -20,27 +20,36 @@ import {
 import { setUserPosition } from "./store/index.js";
 import Calibrate from "./calibrate.js";
 import Smiley from './smiley'
-
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
       text: 'Initializing AR...',
-      calibrated: true
+      calibrated: true,
+      updateDistance: false
     };
+    this.separation = Infinity;
+    this.distanceBetween = this.distanceBetween.bind(this)
+  }
+  distance(position1, position2) {
+    let sumSquares = 0;
+    for (let i = 0; i<=2; i++) {
+      sumSquares+=Math.abs((position1[i]-position2[i])**2)
+    }
+    return Math.sqrt(sumSquares);
   }
 
-  componentDidMount() {
-    // this.props.getUserPos();
-    // console.log(this.props.position);
-    // let y = this.state.position[1];
-    // let z = this.state.position[2];
-    // this.setState({
-    //   xpos: this.props.position[0],
-    //   ypos: this.props.position[1],
-    //   zpos: this.props.position[2]
-    // });
+  async distanceBetween(component) {
+    let position2 = component.position;
+    if (this.arSceneRef) {
+      let sumSquares = 0
+      const position = await this.arSceneRef.getCameraOrientationAsync();
+      this.separation = this.distance(position.position, position2)
+      this.setState({
+        updateDistance: true
+      })
+    }
   }
   render() {
     ViroARTrackingTargets.createTargets({
@@ -52,11 +61,14 @@ class DisconnectedMainScreenAR extends Component {
     });
     return (
       <ViroARScene
+      ref = {(component) => {
+        this.arSceneRef = component
+      }}
         onTrackingUpdated={() => {
           this.setState({ text: 'Hello World!' });
         }}
       >
-        {this.props.calibration ? (
+        {/* {this.props.calibration ? ( */}
           <View>
             <ViroAmbientLight color="#aaaaaa" />
             <ViroSpotLight
@@ -68,12 +80,17 @@ class DisconnectedMainScreenAR extends Component {
               castsShadow={true}
             />
             {this.props.boardPieces.map(piece => {
+              
               if (piece.view === true) {
+                this.distanceBetween(piece)
+                console.log(this.separation)
+                if (this.separation < 2) {
                 switch (piece.name) {
                   case ('Smiley'):
                     return <Smiley key = {piece.id} id={piece.id}/>
                   default: return null
                 }
+              }
               }
             })}
             {/* {console.log(this.props.position)}
@@ -98,12 +115,9 @@ class DisconnectedMainScreenAR extends Component {
               color="#ffffff"
               castsShadow={true}
             /> */}
-
           </View>
-        ) : (
-          
-          <Calibrate />
-        )}
+        {/* ) : (
+          // <Calibrate /> // */}
       </ViroARScene>
     );
   }

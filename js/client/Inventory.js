@@ -2,7 +2,7 @@
 
 import React, { Component } from 'react';
 import XBar from 'react-native-x-bar';
-import { StyleSheet, Text, View, Alert } from 'react-native';
+import { StyleSheet, Text, View, Alert, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromInventory } from './store/inventoryReducer.js';
 import { addToBoard } from './store/boardReducer.js';
@@ -41,7 +41,20 @@ class DisconnectedInventory extends Component {
             },
             this.props.inv.map(item => {
               return {
-                children: <Text>{item.name}</Text>,
+                children:
+                  item.name === 'Smiley' ? (
+                    <Image
+                      source={require('./res/inventory_icons/pixel_smiley.png')}
+                      style={{ height: 50, width: 50 }}
+                    />
+                  ) : item.name === 'Poop' ? (
+                    <Image
+                      source={require('./res/inventory_icons/pixel_turd.png')}
+                      style={{ height: 50, width: 50 }}
+                    />
+                  ) : (
+                    <View />
+                  ),
                 onPress: () => {
                   this.props.addToBoard(item.id);
                   this.props.removeFromInventory(item.id);

@@ -6,7 +6,14 @@ const SET_CALIBRATION = 'SET_CALIBRATION';
  * INITIAL STATE
  */
 const initialBoard = {
-  boardPieces: [],
+  boardPieces: [
+    {
+      name: 'Smiley',
+      position: [0,0,-1],
+      collected: false,
+      view: true
+    }
+  ],
   calibration: false
 };
 
@@ -53,7 +60,7 @@ export const setCalibration = calibration => ({
  * THUNK 
  */
 export const loadBoard = boardId => {
-  return (dispatch) => {
+  return async (dispatch) => {
     const board = await axios.get('/api/board/', boardId);
     dispatch(gotLoadedBoard(board));
   }
@@ -64,6 +71,8 @@ export const loadBoard = boardId => {
  */
 export default function(state = initialBoard, action) {
   switch (action.type) {
+    case LOAD_BOARD:
+      return {...state, boardPieces: action.board.objectives}
     case SET_CALIBRATION:
       return { ...state, calibration: action.calibration };
     case MOVE_BOARD_PIECE:

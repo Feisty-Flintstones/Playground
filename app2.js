@@ -1,12 +1,3 @@
-/**
- * Copyright (c) 2017-present, Viro, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- */
-
 import React, { Component } from 'react';
 import store from './js/client/store';
 import { Provider, connect } from 'react-redux';
@@ -22,11 +13,10 @@ import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
-import MapOne from './js/client/MapOne'
+
 let UNSET = 'UNSET';
 let AR_NAVIGATOR_TYPE = 'AR';
 let LOAD = 'LOAD';
-let MAP_ONE = 'MAP_ONE'
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
@@ -148,9 +138,6 @@ class App extends Component {
     } else if (this.state.navigatorType === AR_NAVIGATOR_TYPE) {
       return this.renderGameAR();
     }
-    else if (this.state.navigatorType === MAP_ONE) {
-      return this.renderMapOne();
-    }
   }
 
   //Renders the home screen
@@ -211,7 +198,7 @@ class App extends Component {
           </View>
           <View style={localStyles.menu1} activeOpacity={0.5}>
             <TouchableHighlight onPress={() => {
-              this._pushMapOneScene();
+              this.selectScreen(AR_NAVIGATOR_TYPE)
             }
             }>
               <Text style={localStyles.header}>
@@ -251,21 +238,14 @@ class App extends Component {
   };
   
   //Renders the game in AR mode
-  // renderMapOne() => {
-  //   return (
-  //     <Provider store = {store}>
-  //       {this._getInventorySlot()}
-  //       {this._getMapOne()}
-  //     </Provider>
-  //   )
-  // }
   renderGameAR = () => {
     
           return (
-            <Provider store={store}>
+            <View>
               {this._getInventorySlot()}
               {this._getARNavigator()}
-            </Provider>
+              </View>
+            
           );
     };
   //Sets the navigatorType on state. Pass the scene as an argument
@@ -284,19 +264,7 @@ class App extends Component {
       />
     );
   }
-  _pushMapOneScene() {
-    this.props.sceneNavigator.push({scene: MapOne})
-  }
-  // _getMapOne() {
-  //   return (
-  //     <ViroARSceneNavigator
-  //       {...this.state.sharedProps}
-  //       initialScene={{ scene: mapOne }}
-  //       onExitViro={this._exitViro}
-  //     />
-  //   );
-  // }
-  // //Inventory React Native Component
+  //Inventory React Native Component
   _getInventorySlot() {
     return <Inventory />;
   }
@@ -307,6 +275,3 @@ class App extends Component {
     });
   }
 }
-
-
-export default (App);

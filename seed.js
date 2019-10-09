@@ -63,7 +63,7 @@ async function seed() {
         }),
         BoardObjective.create({
             xpos: -20,
-            ypos: 10,
+            ypos: 15,
             zpos: 0,
             type: 'onClick',
             isCollected: false,

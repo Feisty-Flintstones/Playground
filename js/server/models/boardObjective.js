@@ -31,7 +31,7 @@ const BoardObjective = db.define('boardObjective', {
             notEmpty: true
         }
     },
-    isCollected: {
+    collected: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
     }

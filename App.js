@@ -15,7 +15,8 @@ import {
   View,
   StyleSheet,
   TouchableHighlight,
-  ImageBackground
+  ImageBackground,
+  Image
 } from 'react-native';
 import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
@@ -24,6 +25,7 @@ import Inventory from './js/client/Inventory';
 
 let UNSET = 'UNSET';
 let AR_NAVIGATOR_TYPE = 'AR';
+let LOAD = 'LOAD';
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
@@ -92,6 +94,10 @@ let localStyles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'rgba(52,52,52, .4)'
   },
+  overlayContainer1: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, .85)'
+  },
   top: {
     height: '50%',
     alignItems: 'center',
@@ -105,7 +111,17 @@ let localStyles = StyleSheet.create({
     padding: 20,
     paddingLeft: 40,
     paddingRight: 40,
-    backgroundColor: 'rgba(255,255,255, .1)'
+    backgroundColor: 'rgba(255,255,255, .1)',
+    marginVertical: 8
+  },
+  menu: {
+    width: '60%'
+  },
+  menu1: {
+    alignItems: 'center'
+  },
+  selections: {
+    alignItems: 'center'
   }
 });
 
@@ -126,6 +142,8 @@ class App extends Component {
     //****This IF statement declares which VIEW to display**** */
     if (this.state.navigatorType === UNSET) {
       return this.homeScreen();
+    } else if (this.state.navigatorType === LOAD) {
+      return this.loadScreen();
     } else if (this.state.navigatorType === AR_NAVIGATOR_TYPE) {
       return this.renderGameAR();
     }
@@ -140,10 +158,84 @@ class App extends Component {
       >
         <View style={localStyles.overlayContainer}>
           <View style={localStyles.top} activeOpacity={0.5}>
-            <TouchableHighlight
-              onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
-            >
-              <Text style={localStyles.header}>P L A Y</Text>
+            {/* <Text style={localStyles.header}>L O G O here</Text> */}
+            <Image
+              source={require('./js/client/res/Main.png')}
+              style={localStyles.container}
+            />
+          </View>
+          <View style={localStyles.selections}>
+            <View style={localStyles.menu} activeOpacity={0.5}>
+              <TouchableHighlight
+                onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
+              >
+                <Text style={localStyles.header}>P L A Y</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={localStyles.menu} activeOpacity={0.5}>
+              <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+                <Text style={localStyles.header}>L O A D</Text>
+              </TouchableHighlight>
+            </View>
+            <View style={localStyles.menu} activeOpacity={0.5}>
+              <TouchableHighlight
+                onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
+              >
+                <Text style={localStyles.header}>T U T O R I A L</Text>
+              </TouchableHighlight>
+            </View>
+          </View>
+        </View>
+      </ImageBackground>
+    );
+  };
+  //Renders the load screen
+  //currently holds dummy data.
+  loadScreen = () => {
+    return (
+      <ImageBackground
+        source={require('./assets/white-wallpaper.jpg')}
+        style={localStyles.container}
+      >
+        <View style={localStyles.overlayContainer1}>
+          <View style={localStyles.top} activeOpacity={0.5}>
+            {/* <Text style={localStyles.header}>L O G O here</Text> */}
+            <Image
+              source={require('./js/client/res/Main.png')}
+              style={localStyles.container}
+            />
+          </View>
+          <View style={localStyles.menu1} activeOpacity={0.5}>
+            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+              <Text style={localStyles.header}>
+                M A P #1
+                <Image
+                  source={require('./js/client/res/inventory_icons/pixel_smiley.png')}
+                  style={{ width: 50, height: 50 }}
+                />
+              </Text>
+            </TouchableHighlight>
+          </View>
+          <View style={localStyles.menu1} activeOpacity={0.5}>
+            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+              <Text style={localStyles.header}>
+                M A P #2
+                <Image
+                  source={require('./js/client/res/inventory_icons/pixel_heart.png')}
+                  style={{ width: 50, height: 50 }}
+                />
+              </Text>
+            </TouchableHighlight>
+          </View>
+          <View style={localStyles.menu1} activeOpacity={0.5}>
+            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+              <Text style={localStyles.header}>
+                M A P #3
+                <Image
+                  source={require('./js/client/res/inventory_icons/pixel_turd.png')}
+                  style={{ width: 50, height: 50 }}
+                />
+              </Text>
             </TouchableHighlight>
           </View>
         </View>

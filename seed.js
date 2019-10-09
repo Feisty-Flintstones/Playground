@@ -1,4 +1,4 @@
-const {db, Board, BoardObjective, Item} = require('./js/server/models')
+const {db, Board, Item, BoardObjective} = require('./js/server/models')
 
 async function seed() {
     await db.sync({force: true})
@@ -13,7 +13,7 @@ async function seed() {
 
     const items = await Promise.all([
         Item.create({
-            name: 'star',
+            name: 'Star',
             source: `require('./res/animated_objects/object_star_anim/object_star_anim.vrx')`,
             resources: `[
                 require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
@@ -22,20 +22,59 @@ async function seed() {
             is3D: true
         }),
         Item.create({
-            name: 'smiley',
+            name: 'Smiley',
             source: `require("./res/animated_objects/emoji_smile/emoji_smile.vrx")`,
+            is3D: true
+        }),
+        Item.create({
+            name: 'Heart',
+            source: `require('../res/animated_objects/emoji_heart_anim/emoji_heart_anim.vrx')`,
+            resources: `[
+                require('../res/animated_objects/emoji_heart_anim/emoji_heart_specular.png'),
+                require('../res/animated_objects/emoji_heart_anim/emoji_heart.png')
+            ]`,
+            is3D: true
+        }),
+        Item.create({
+            name: 'Poop',
+            source: `require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')`,
             is3D: true
         })
     ])
 
-    // const objectives = await Promise.all([
-    //     BoardObjectives.create({
-
-    //     })
-    // ])
+    const objectives = await Promise.all([
+        BoardObjective.create({
+            xpos: 0,
+            ypos: 0,
+            zpos: -10,
+            type: 'onClick',
+            isCollected: false,
+            itemId: 2,
+            boardId: 1
+        }),
+        BoardObjective.create({
+            xpos: -20,
+            ypos: 10,
+            zpos: 0,
+            type: 'onClick',
+            isCollected: false,
+            itemId: 4,
+            boardId: 1
+        }),
+        BoardObjective.create({
+            xpos: -20,
+            ypos: 10,
+            zpos: 0,
+            type: 'onClick',
+            isCollected: false,
+            itemId: 3,
+            boardId: 1
+        })
+    ])
 
     console.log(`seeded ${boards.length} boards`)
     console.log(`seeded ${items.length} items`)
+    console.log(`seeded ${objectives.length} objectives`)
     console.log(`seeding success!`)
 }
 

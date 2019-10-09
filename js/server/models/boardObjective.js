@@ -58,4 +58,5 @@ BoardObjective.loadBoard = async function(board) {
     }
 }
 
+
 module.exports = BoardObjective

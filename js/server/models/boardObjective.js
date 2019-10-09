@@ -46,10 +46,10 @@ BoardObjective.loadBoard = async function(board) {
             }
         })
 
-        for (let i = 0; i < objectivesInBoard.length; i++){ //id, name, source, resources
+        for (let i = 0; i < objectivesInBoard.length; i++) { //id, name, source, resources
             const item = await Item.findByPk(objectivesInBoard[i].itemId)
-            let instance = {...item, ...objectivesInBoard[i]}
-            playgroundBoard.objectives.push(instance.dataValues)
+            let instance = {name: item.name, source: item.source, resources: item.resources, ...objectivesInBoard[i].dataValues}
+            playgroundBoard.objectives.push(instance)
         }
         return playgroundBoard
     }

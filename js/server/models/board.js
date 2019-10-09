@@ -1,5 +1,7 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
+const {Item} = require('./index')
+const BoardObjective = require('./boardObjective')
 
 const Board = db.define('board', {
     name: {
@@ -18,19 +20,27 @@ const Board = db.define('board', {
     }
 })
 
-//after a User creates a board in the SandBox, this function saves the created board in the database
-Board.prototype.saveBoard = async function(objsInBoard) {
-    let boardObjectives = []
-    for(let idx = 0; idx < objsInBoard.length; idx++) {
-        const objective = {
-            mapId: this.id,
-            objectiveId: objsInBoard[i].id,
-            coordinates: objsInBoard[i].coordinates,
-            type: objsInBoard[i].type
-        }
-        boardObjectives.push(await boardObjectives.create(objective))
-    }
-    return boardObjectives
-}
+//this function loads a created board from the database
+// Board.prototype.loadBoard = async function() {
+//     try {
+//     let playgroundBoard = {name: this.dataValues.name, totem: this.dataValues.totem, objectives: []}
+//     const thisId = this.dataValues.id
+//     const objectivesInBoard = await BoardObjective.findAll({ //coords, type, itemId
+//         where: {
+//             boardId: thisId
+//         }
+//     })
+//     for (let i = 0; i < objectivesInBoard.length; i++){ //id, name, source, resources
+//         const item = await Item.findByPk(objectivesInBoard[i].itemId)
+//         let instance = {...item, ...objectivesInBoard[i]}
+//         console.log("INSTANCE:", instance)
+//         playgroundBoard.objectives.push(instance)
+//     }
+//     console.log("PLAYGROUNDBOARD", playgroundBoard)
+//     return playgroundBoard
+//     } catch (error) {
+//         console.log(`ERROR: ${error}`)
+//     }
+// }
 
 module.exports = Board

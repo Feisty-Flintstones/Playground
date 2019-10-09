@@ -28,7 +28,6 @@ const Item = db.define('item', {
 Item.parseData = function(body) { //possibly useful to change Viroreact stuff into db stuff
     const dbinstances = {
         name: body.name,
-        imageUrl: body.imageUrl,
         source: body.source,
         resources: body.resources,
         is3D: body.is3D

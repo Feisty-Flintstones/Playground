@@ -11,7 +11,7 @@ class Smiley extends React.Component {
         <Viro3DObject
           source={require('../res/animated_objects/emoji_smile/emoji_smile.vrx')}
           type='VRX'
-          position={this.props.position}
+          position={this.props.position.forEach(position => position/10)}
           anchorId={1}
           highAccuracyEvents={true}
           scale={[0.2, 0.2, 0.2]}

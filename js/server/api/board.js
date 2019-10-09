@@ -1,10 +1,12 @@
 const router = require('express').Router()
 const {Board} = require('../models')
+const BoardObjective = require('../models/boardObjective')
 
 //Get all
 router.get('/', async (req, res, next) => {
     try {
-        res.json(await Board.findAll())
+        const boards = await Board.findAll()
+        res.json(boards)
     } catch (error) {
         next(error)
     }
@@ -13,11 +15,10 @@ router.get('/', async (req, res, next) => {
 //Load a board from the database
 router.get('/:id', async (req, res, next) => {
     try {
-        res.json(await Board.findOne({
-            where: {
-                id: req.body.id
-            }
-        }))
+        let board = await Board.findByPk(req.params.id);
+        const data = await BoardObjective.loadBoard(board);
+        console.log(data)
+        res.send(data)
     } catch (error) {
         next(error)
     }
@@ -35,3 +36,5 @@ router.post('/:id', async (req, res ,next) => {
         next(error)
     }
 })
+
+module.exports = router

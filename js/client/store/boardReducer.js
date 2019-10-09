@@ -6,23 +6,12 @@ const SET_CALIBRATION = 'SET_CALIBRATION';
  * INITIAL STATE
  */
 const initialBoard = {
-  calibration: false,
-
-  boardPieces: [
-    {
-      id: 0,
-      name: 'Smiley',
-      position: [0, 0, -1],
-      collected: false
-    },
-    {
-      id: 1,
-      name: 'Poop',
-      position: [-1.5, 0, 0],
-      collected: false
-    }
-  ]
+  boardPieces: [],
+  calibration: false
 };
+
+const LOAD_BOARD = 'LOAD_BOARD';
+
 
 const ADD_TO_BOARD = 'ADD_TO_BOARD';
 const REMOVE_FROM_BOARD = 'REMOVE_FROM_BOARD';
@@ -39,6 +28,13 @@ export const removeFromBoard = id => {
     id
   };
 };
+export const gotLoadedBoard = board => {
+  return {
+    type: LOAD_BOARD,
+    board
+  }
+}
+
 
 const MOVE_BOARD_PIECE = 'MOVE_BOARD_PIECE';
 export const moveBoardPiece = (id, position) => {
@@ -54,8 +50,14 @@ export const setCalibration = calibration => ({
 });
 
 /**
- * THUNK CREATORS
+ * THUNK 
  */
+export const loadBoard = boardId => {
+  return (dispatch) => {
+    const board = await axios.get('/api/board/', boardId);
+    dispatch(gotLoadedBoard(board));
+  }
+}
 
 /**
  * REDUCER

@@ -108,12 +108,16 @@ class DisconnectedInventory extends Component {
                         backgroundColor: 'gray',
                         borderWidth: 1,
                         borderColor: '#ddd',
-                        width: '100%'
+                        width: '100%',
+                        padding: 15
                       }}
                     >
                       <Text>CALIBRATE</Text>
                     </View>
                   ),
+                  style: {
+                    width: '50%'
+                  },
 
                   onPress: () => console.log('you dare challenge me?'),
                   activeOpacity: 0.5
@@ -125,18 +129,23 @@ class DisconnectedInventory extends Component {
                         backgroundColor: 'gray',
                         borderWidth: 1,
                         borderColor: '#ddd',
-                        width: '50%'
+                        width: '100%',
+                        padding: 15
                       }}
                     >
                       <Text>EXIT</Text>
                     </View>
                   ),
+                  style: {
+                    width: '50%'
+                  },
 
                   onPress: () => console.log('you dare challenge me?'),
                   activeOpacity: 0.5
                 }
               ]}
               layout="absolute center"
+              groups={[0, 1]}
             />
           )}
         </View>

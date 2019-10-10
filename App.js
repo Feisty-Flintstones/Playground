@@ -23,6 +23,7 @@ import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import MapOne from './js/client/MapOne'
+import MainScreenAR from './js/client/MainScreenAR';
 let UNSET = 'UNSET';
 let AR_NAVIGATOR_TYPE = 'AR';
 let LOAD = 'LOAD';
@@ -211,7 +212,7 @@ class App extends Component {
           </View>
           <View style={localStyles.menu1} activeOpacity={0.5}>
             <TouchableHighlight onPress={() => {
-              this._pushMapOneScene();
+              this.selectScreen(MAP_ONE)
             }
             }>
               <Text style={localStyles.header}>
@@ -249,16 +250,31 @@ class App extends Component {
       </ImageBackground>
     );
   };
-  
-  //Renders the game in AR mode
-  // renderMapOne() => {
+  // _getMapOne() {
   //   return (
   //     <Provider store = {store}>
   //       {this._getInventorySlot()}
-  //       {this._getMapOne()}
   //     </Provider>
   //   )
   // }
+  //Renders the game in AR mode
+  renderMapOne() {
+    return (
+      <Provider store = {store}>
+        {this._getInventorySlot()}
+        {this._getMapOne()}
+      </Provider>
+    )
+  }
+  _getMapOne() {
+    return (
+      <ViroARSceneNavigator 
+      {...this.state.sharedProps}
+      initialScene = {{scene: MapOne}}
+      onExitViro = {this._exitViro} 
+      />
+    )
+  }
   renderGameAR = () => {
     
           return (
@@ -287,15 +303,6 @@ class App extends Component {
   _pushMapOneScene() {
     this.props.sceneNavigator.push({scene: MapOne})
   }
-  // _getMapOne() {
-  //   return (
-  //     <ViroARSceneNavigator
-  //       {...this.state.sharedProps}
-  //       initialScene={{ scene: mapOne }}
-  //       onExitViro={this._exitViro}
-  //     />
-  //   );
-  // }
   // //Inventory React Native Component
   _getInventorySlot() {
     return <Inventory />;

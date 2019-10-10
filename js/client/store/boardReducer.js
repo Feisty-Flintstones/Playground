@@ -1,18 +1,11 @@
 import axios from 'axios';
 
 const SET_CALIBRATION = 'SET_CALIBRATION';
-
 /**
  * INITIAL STATE
  */
 const initialBoard = {
   boardPieces: [
-    {
-      name: 'Smiley',
-      position: [0,0,-1],
-      collected: false,
-      view: true
-    }
   ],
   calibration: false
 };
@@ -60,9 +53,15 @@ export const setCalibration = calibration => ({
  * THUNK 
  */
 export const loadBoard = boardId => {
+ 
   return async (dispatch) => {
-    const board = await axios.get('/api/board/', boardId);
+    try {
+      const board = await axios.get(`/api/board/${boardId}`);
     dispatch(gotLoadedBoard(board));
+    }
+    catch(error) {
+      console.error(error);
+    }
   }
 }
 

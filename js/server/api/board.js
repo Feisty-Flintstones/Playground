@@ -15,9 +15,10 @@ router.get('/', async (req, res, next) => {
 //Load a board from the database
 router.get('/:id', async (req, res, next) => {
     try {
-        let board = await Board.findByPk(req.params.id);
+        const board = await Board.findByPk(req.params.id);
+        console.log(board)
         const data = await BoardObjective.loadBoard(board);
-        console.log(data)
+        console.log(data);
         res.send(data)
     } catch (error) {
         next(error)

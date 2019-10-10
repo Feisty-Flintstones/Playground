@@ -22,7 +22,6 @@ import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
-import Tutorial from './js/client/Tutorial'
 
 let UNSET = 'UNSET';
 let BOARD = 'AR';

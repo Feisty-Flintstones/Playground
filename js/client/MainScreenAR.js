@@ -13,6 +13,7 @@ import {
 import { setUserPosition } from './store/index.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
+import Coin from './components/coin';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -93,6 +94,7 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
+            <Coin position={[0, 0, 2]} />
             {this.props.boardPieces.map(piece => {
               if (piece.collected === false) {
                 this.distanceBetween(piece);

@@ -22,6 +22,7 @@ import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
+import CoinCounter from './js/client/CoinCounter';
 
 let UNSET = 'UNSET';
 let AR_NAVIGATOR_TYPE = 'AR';
@@ -248,6 +249,7 @@ class App extends Component {
       <Provider store={store}>
         {this._getInventorySlot()}
         {this._getARNavigator()}
+        {this._getCoinCounter()}
       </Provider>
     );
   };
@@ -270,6 +272,10 @@ class App extends Component {
   //Inventory React Native Component
   _getInventorySlot() {
     return <Inventory />;
+  }
+  //Coin Counter React Native Component
+  _getCoinCounter() {
+    return <CoinCounter />;
   }
   // This function "exits" Viro by setting the navigatorType to UNSET.
   _exitViro() {

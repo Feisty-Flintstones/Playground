@@ -9,12 +9,14 @@ import React from 'react';
 const GET_INVENTORY = 'GET_INVENTORY';
 const ADD_TO_INVENTORY = 'ADD_TO_INVENTORY';
 const REMOVE_FROM_INVENTORY = 'REMOVE_FROM_INVENTORY';
+const ADD_COIN = 'ADD_COIN';
 /**
  * INITIAL STATE
  */
 const initialState = {
   inv: [],
-  items: 0
+  items: 0,
+  coins: 0
 };
 
 /**
@@ -32,6 +34,9 @@ export const addToInventory = (name, id) => ({
 export const removeFromInventory = id => ({
   type: REMOVE_FROM_INVENTORY,
   id
+});
+export const addCoins = () => ({
+  type: ADD_COIN
 });
 
 /**
@@ -55,6 +60,12 @@ export default function(state = initialState, action) {
         ...state,
         inv: [...state.inv.filter(element => element.id !== action.id)]
       };
+    case ADD_COIN:
+      if (state.coins < 5) {
+        return { ...state, coins: state.coins + 1 };
+      } else {
+        return state;
+      }
     default:
       return state;
   }

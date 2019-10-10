@@ -34,7 +34,6 @@ export const gotLoadedBoard = board => {
   };
 };
 
-
 const MOVE_BOARD_PIECE = 'MOVE_BOARD_PIECE';
 export const moveBoardPiece = (id, position) => {
   return {
@@ -57,7 +56,6 @@ export const loadBoard = boardId => {
     dispatch(gotLoadedBoard(board));
   };
 };
-
 
 /**
  * REDUCER

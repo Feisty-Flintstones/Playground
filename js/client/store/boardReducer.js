@@ -13,7 +13,6 @@ const initialBoard = {
 
 const LOAD_BOARD = 'LOAD_BOARD';
 
-
 const ADD_TO_BOARD = 'ADD_TO_BOARD';
 const REMOVE_FROM_BOARD = 'REMOVE_FROM_BOARD';
 
@@ -33,9 +32,8 @@ export const gotLoadedBoard = board => {
   return {
     type: LOAD_BOARD,
     board
-  }
-}
-
+  };
+};
 
 const MOVE_BOARD_PIECE = 'MOVE_BOARD_PIECE';
 export const moveBoardPiece = (id, position) => {
@@ -51,8 +49,9 @@ export const setCalibration = calibration => ({
 });
 
 /**
- * THUNK 
+ * THUNK
  */
+//HUGE
 export const loadBoard = boardId => {
   return async (dispatch) => {
     try {
@@ -64,6 +63,7 @@ export const loadBoard = boardId => {
     }
   }
 }
+
 
 /**
  * REDUCER

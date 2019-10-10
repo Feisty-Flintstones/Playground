@@ -14,16 +14,16 @@ import {loadBoard, removeFromBoard, addToBoard} from './store/boardReducer'
 import { addToInventory, removeFromInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
+import Coin from './components/coin';
+import Crown from './components/crown.js';
+import { setCalibration } from './store/boardReducer.js';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: 'Initializing AR...',
-      calibrated: true,
-      updateDistance: false,
-      update: false
+      updateDistance: false
     };
     this.separation = Infinity;
     this.distanceBetween = this.distanceBetween.bind(this);
@@ -71,7 +71,10 @@ class DisconnectedMainScreenAR extends Component {
           this.arSceneRef = component;
         }}
       >
-        <ViroARImageMarker target='calibrate' pauseUpdates={this.state.update}>
+        <ViroARImageMarker
+          target='calibrate'
+          pauseUpdates={this.props.calibration}
+        >
           <View>
             <ViroAmbientLight color='#aaaaaa' />
             <Viro3DObject
@@ -85,9 +88,7 @@ class DisconnectedMainScreenAR extends Component {
               scale={[0.05, 0.05, 0.05]}
               rotation={[90, 0, 0]}
               onClick={() => {
-                this.setState({
-                  update: true
-                });
+                this.props.setCalibration(true);
               }}
             />
             <ViroSpotLight
@@ -155,13 +156,15 @@ var styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  boardPieces: state.boardReducer.boardPieces
+  boardPieces: state.boardReducer.boardPieces,
+  calibration: state.boardReducer.calibration
 });
 
 const mapDispatchToProps = dispatch => ({
   loadBoard: id => dispatch(loadBoard(id)),
   removeFromBoard: id => dispatch(removeFromBoard(id)),
-  addToInventory: (name, id) => dispatch(addToInventory(name, id))
+  addToInventory: (name, id) => dispatch(addToInventory(name, id)),
+  setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated))
 })
 const MainScreenAR = connect(
   mapStateToProps,
@@ -169,29 +172,3 @@ const MainScreenAR = connect(
 )(DisconnectedMainScreenAR);
 
 export default MainScreenAR;
-
-// switch (piece.name) {
-                //   case 'Smiley':
-                //     return (
-                //       <Smiley
-                //         key={piece.id}
-                //         item={piece}
-                //         visible={this.separation <= 2}
-                //         xpos = {piece.xpos/10}
-                //         ypos = {piece.ypos/10}
-                //         zpos = {piece.zpos/10}
-                //       />
-                //     );
-                  // case 'Poop':
-                  //   return (
-                  //     <Poop
-                  //       key={piece.id}
-                  //       item={piece}
-                  //       visible={this.separation <= 2}
-                  //       xpos = {piece.xpos/10}
-                  //       ypos = {piece.ypos/10}
-                  //       zpos = {piece.zpos/10}
-                  //     />
-                  //   );
-                  // default:
-                  //   return null;

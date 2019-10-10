@@ -22,11 +22,12 @@ import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
-import MapOne from './js/client/MapOne'
+import Tutorial from './js/client/Tutorial'
+
 let UNSET = 'UNSET';
 let BOARD = 'AR';
 let LOAD = 'LOAD';
-let MAP_ONE = 'MAP_ONE'
+let TUTORIAL = 'TUTORIAL';
 
 // This determines which type of experience to launch in, or UNSET, if the user should
 // be presented with a choice of AR or VR. By default, we offer the user a choice.
@@ -148,6 +149,8 @@ class App extends Component {
       return this.loadScreen();
     } else if (this.state.navigatorType === BOARD) {
       return this.renderGameAR();
+    } else if (this.state.navigatorType === TUTORIAL) {
+      return this.renderTutorial();
     }
     // else if (this.state.navigatorType === MAP_ONE) {
     //   return this.renderMapOne();
@@ -184,7 +187,7 @@ class App extends Component {
             </View>
             <View style={localStyles.menu} activeOpacity={0.5}>
               <TouchableHighlight
-                onPress={() => this.selectScreen(BOARD)}
+                onPress={() => this.selectScreen(TUTORIAL)}
               >
                 <Text style={localStyles.header}>T U T O R I A L</Text>
               </TouchableHighlight>

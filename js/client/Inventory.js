@@ -19,11 +19,17 @@ const styles = StyleSheet.create({
 
   slots: {
     width: 500,
-
     padding: 15,
     backgroundColor: '#fcfcfc',
     borderColor: '#ddd',
     borderWidth: 1
+  },
+  slots1: {
+    width: '50%'
+    // padding: 15,
+    // backgroundColor: '#fcfcfc',
+    // borderColor: '#ddd',
+    // borderWidth: 1
   },
   menu: {
     padding: 0,
@@ -47,47 +53,92 @@ class DisconnectedInventory extends Component {
     return (
       <View style={{ flexDirection: 'row' }}>
         <View style={{ width: '83%' }}>
-          <XBar
-            slots={[
-              {
-                style: styles.slots
-              },
-              this.props.inv.map(item => {
-                return (
-                  {
-                    children:
-                      item.name === 'Smiley' ? (
-                        <Image
-                          source={require('./res/inventory_icons/pixel_smiley.png')}
-                          style={{ height: 50, width: 20 }}
-                        />
-                      ) : item.name === 'Poop' ? (
-                        <Image
-                          source={require('./res/inventory_icons/pixel_turd.png')}
-                          style={{ height: 50, width: 50 }}
-                        />
-                      ) : (
-                        <View />
-                      ),
-                    onPress: () => {
-                      this.props.addToBoard(item.id);
-                      this.props.removeFromInventory(item.id);
+          {!this.state.menuClicked ? (
+            <XBar
+              slots={[
+                {
+                  style: styles.slots
+                },
+                this.props.inv.map(item => {
+                  return (
+                    {
+                      children:
+                        item.name === 'Smiley' ? (
+                          <Image
+                            source={require('./res/inventory_icons/pixel_smiley.png')}
+                            style={{ height: 50, width: 20 }}
+                          />
+                        ) : item.name === 'Poop' ? (
+                          <Image
+                            source={require('./res/inventory_icons/pixel_turd.png')}
+                            style={{ height: 50, width: 50 }}
+                          />
+                        ) : (
+                          <View />
+                        ),
+                      onPress: () => {
+                        this.props.addToBoard(item.id);
+                        this.props.removeFromInventory(item.id);
+                      }
+                    },
+                    {
+                      children: <Text>Burger</Text>
                     }
-                  },
-                  {
-                    children: <Text>Burger</Text>
-                  }
-                );
-              })
-            ]}
-            activeOpacity={0.5}
-            style={{
-              height: 50,
-              borderColor: '#ddd',
-              borderWidth: 1,
-              borderRadius: 2
-            }}
-          />
+                  );
+                })
+              ]}
+              activeOpacity={0.5}
+              style={{
+                height: 50,
+                borderColor: '#ddd',
+                borderWidth: 1,
+                borderRadius: 2
+              }}
+            />
+          ) : (
+            <XBar
+              slots={[
+                // {
+                //   style: styles.slots1
+                // },
+                {
+                  children: (
+                    <View
+                      style={{
+                        backgroundColor: 'gray',
+                        borderWidth: 1,
+                        borderColor: '#ddd',
+                        width: '100%'
+                      }}
+                    >
+                      <Text>CALIBRATE</Text>
+                    </View>
+                  ),
+
+                  onPress: () => console.log('you dare challenge me?'),
+                  activeOpacity: 0.5
+                },
+                {
+                  children: (
+                    <View
+                      style={{
+                        backgroundColor: 'gray',
+                        borderWidth: 1,
+                        borderColor: '#ddd',
+                        width: '50%'
+                      }}
+                    >
+                      <Text>EXIT</Text>
+                    </View>
+                  ),
+
+                  onPress: () => console.log('you dare challenge me?'),
+                  activeOpacity: 0.5
+                }
+              ]}
+              layout="absolute center"
+            />
+          )}
         </View>
 
         <View style={{ width: '20%', aligntItems: 'flex-end' }}>
@@ -103,7 +154,8 @@ class DisconnectedInventory extends Component {
                   borderColor: '#ddd',
                   alignItems: 'stretch'
                 },
-                onPress: () => console.log('a scrollable slot was pressed!'),
+                onPress: () =>
+                  this.setState({ menuClicked: !this.state.menuClicked }),
                 activeOpacity: 0.5
               }
             ]}

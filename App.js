@@ -113,10 +113,11 @@ let localStyles = StyleSheet.create({
     paddingLeft: 40,
     paddingRight: 40,
     backgroundColor: 'rgba(255,255,255, .1)',
-    marginVertical: 8
+    marginVertical: 8,
+    textAlign: 'center'
   },
   menu: {
-    width: '60%'
+    width: '70%'
   },
   menu1: {
     alignItems: 'center'
@@ -247,9 +248,9 @@ class App extends Component {
   renderGameAR = () => {
     return (
       <Provider store={store}>
-        {this._getInventorySlot()}
-        {this._getARNavigator()}
         {this._getCoinCounter()}
+        {this._getARNavigator()}
+        {this._getInventorySlot()}
       </Provider>
     );
   };
@@ -266,12 +267,13 @@ class App extends Component {
         {...this.state.sharedProps}
         initialScene={{ scene: InitialARScene }}
         onExitViro={this._exitViro}
+        autofocus={true}
       />
     );
   }
   //Inventory React Native Component
   _getInventorySlot() {
-    return <Inventory />;
+    return <Inventory onExitViro={this._exitViro} />;
   }
   //Coin Counter React Native Component
   _getCoinCounter() {

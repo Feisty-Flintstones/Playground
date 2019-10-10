@@ -14,16 +14,15 @@ import { setUserPosition } from './store/index.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
 import Coin from './components/coin';
+import Crown from './components/crown.js';
+import { setCalibration } from './store/boardReducer.js';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      text: 'Initializing AR...',
-      calibrated: true,
-      updateDistance: false,
-      update: false
+      updateDistance: false
     };
     this.separation = Infinity;
     this.distanceBetween = this.distanceBetween.bind(this);
@@ -67,7 +66,10 @@ class DisconnectedMainScreenAR extends Component {
           this.arSceneRef = component;
         }}
       >
-        <ViroARImageMarker target='calibrate' pauseUpdates={this.state.update}>
+        <ViroARImageMarker
+          target='calibrate'
+          pauseUpdates={this.props.calibration}
+        >
           <View>
             <ViroAmbientLight color='#aaaaaa' />
             <Viro3DObject
@@ -81,9 +83,7 @@ class DisconnectedMainScreenAR extends Component {
               scale={[0.05, 0.05, 0.05]}
               rotation={[90, 0, 0]}
               onClick={() => {
-                this.setState({
-                  update: true
-                });
+                this.props.setCalibration(true);
               }}
             />
             <ViroSpotLight
@@ -94,7 +94,6 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
-            <Coin position={[0, 0, 2]} />
             {this.props.boardPieces.map(piece => {
               if (piece.collected === false) {
                 this.distanceBetween(piece);
@@ -137,11 +136,15 @@ var styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  boardPieces: state.boardReducer.boardPieces
+  boardPieces: state.boardReducer.boardPieces,
+  calibration: state.boardReducer.calibration
+});
+const mapStateToDispatch = dispatch => ({
+  setCalibration: bool => dispatch(setCalibration(bool))
 });
 const MainScreenAR = connect(
   mapStateToProps,
-  null
+  mapStateToDispatch
 )(DisconnectedMainScreenAR);
 
 export default MainScreenAR;

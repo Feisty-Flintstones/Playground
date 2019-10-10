@@ -6,8 +6,14 @@ async function seed() {
 
     const boards = await Promise.all([
         Board.create({
+            id: 1,
             name: 'fullStack',
             totem: `require('./res/tottem.jpg')`
+        }),
+        Board.create({
+            id: 0,
+            name: 'tutorial',
+            totem: `require('./res/tottem.jpg)`
         })
     ])
 
@@ -39,6 +45,26 @@ async function seed() {
             name: 'Poop',
             source: `require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')`,
             is3D: true
+        }),
+        Item.create({
+            name: 'Coin',
+            source: 'required',
+            is3D: true
+        }),
+        Item.create({
+            name: 'Coin',
+            source: 'required',
+            is3D: true
+        }),
+        Item.create({
+            name: 'Coin',
+            source: 'required',
+            is3D: true
+        }),
+        Item.create({
+            name: 'Coin',
+            source: 'required',
+            is3D: true
         })
     ])
 
@@ -48,7 +74,7 @@ async function seed() {
             ypos: 0,
             zpos: -10,
             type: 'onClick',
-            isCollected: false,
+            collected: false,
             itemId: 2,
             boardId: 1
         }),
@@ -57,7 +83,7 @@ async function seed() {
             ypos: 10,
             zpos: 0,
             type: 'onClick',
-            isCollected: false,
+            collected: false,
             itemId: 4,
             boardId: 1
         }),
@@ -66,11 +92,48 @@ async function seed() {
             ypos: 15,
             zpos: 0,
             type: 'onClick',
-            isCollected: false,
+            collected: false,
             itemId: 3,
             boardId: 1
+        }),
+        BoardObjective.create({
+            xpos: 0,
+            ypos: 10,
+            zpos: 0,
+            type: 'onClick',
+            collected: false,
+            itemId: 6,
+            boardId: 0
+        }),
+        BoardObjective.create({
+            xpos: 0,
+            ypos: 0,
+            zpos: 30,
+            type: 'onClick',
+            collected: false,
+            itemId: 7,
+            boardId: 0
+        }),
+        BoardObjective.create({
+            xpos: 0,
+            ypos: 0,
+            zpos: 30,
+            type: 'onClick',
+            collected: false,
+            itemId: 8,
+            boardId: 0
+        }),
+        BoardObjective.create({
+            xpos: -20,
+            ypos: 10,
+            zpos: 30,
+            type: 'onClick',
+            collected: false,
+            itemId: 5,
+            boardId: 0
         })
     ])
+    
 
     console.log(`seeded ${boards.length} boards`)
     console.log(`seeded ${items.length} items`)

@@ -8,6 +8,10 @@ async function seed() {
         Board.create({
             name: 'fullStack',
             totem: `require('./res/tottem.jpg')`
+        }),
+        Board.create({
+            name: 'tutorial',
+            totem: `require('./res/tottem.jpg)`
         })
     ])
 

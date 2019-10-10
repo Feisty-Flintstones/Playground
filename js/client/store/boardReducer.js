@@ -56,9 +56,7 @@ export const setCalibration = calibration => ({
 export const loadBoard = boardId => {
   return async (dispatch) => {
     try {
-      // console.log("BOARDID:", boardId)
-      const board = await axios.get(`http://${IPAddress}:8080/api/board/${boardId}`);
-      // console.log("BOARD", board)
+      const {data: board} = await axios.get(`http://${IPAddress}:8080/api/board/${boardId}`);
       dispatch(gotLoadedBoard(board));
     }
     catch(error) {
@@ -81,7 +79,7 @@ export default function(state = initialBoard, action) {
         ...state,
         boardPieces: [
           ...state.boardPieces.map(element => {
-            if (element.id === action.id) {
+            if (element.itemId === action.id) {
               element.position = action.position;
             }
             return element;
@@ -89,23 +87,26 @@ export default function(state = initialBoard, action) {
         ]
       };
     case REMOVE_FROM_BOARD:
+      console.log('REMOVE', action);
       return {
         ...state,
         boardPieces: [
           ...state.boardPieces.map(element => {
-            if (element.id === action.id) {
+            if (element.itemId === action.id) {
               element.collected = true;
+              return element
             }
-            return element;
+            else return element;
           })
         ]
       };
     case ADD_TO_BOARD:
+      console.log('ADD', action)
       return {
         ...state,
         boardPieces: [
           ...state.boardPieces.map(element => {
-            if (element.id === action.id) {
+            if (element.itemId === action.id) {
               element.collected = false;
             }
             return element;

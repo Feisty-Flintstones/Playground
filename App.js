@@ -9,7 +9,7 @@
 
 import React, { Component } from 'react';
 import store from './js/client/store';
-import { Provider, connect } from 'react-redux';
+import { Provider } from 'react-redux';
 import {
   Text,
   View,
@@ -23,9 +23,8 @@ import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import MapOne from './js/client/MapOne'
-import MainScreenAR from './js/client/MainScreenAR';
 let UNSET = 'UNSET';
-let AR_NAVIGATOR_TYPE = 'AR';
+let BOARD = 'AR';
 let LOAD = 'LOAD';
 let MAP_ONE = 'MAP_ONE'
 
@@ -133,7 +132,8 @@ class App extends Component {
 
     this.state = {
       navigatorType: defaultNavigatorType,
-      sharedProps: sharedProps
+      sharedProps: sharedProps,
+      boardSelect: 0
     };
     this._getARNavigator = this._getARNavigator.bind(this);
     this._getInventorySlot = this._getInventorySlot.bind(this);
@@ -146,12 +146,12 @@ class App extends Component {
       return this.homeScreen();
     } else if (this.state.navigatorType === LOAD) {
       return this.loadScreen();
-    } else if (this.state.navigatorType === AR_NAVIGATOR_TYPE) {
+    } else if (this.state.navigatorType === BOARD) {
       return this.renderGameAR();
     }
-    else if (this.state.navigatorType === MAP_ONE) {
-      return this.renderMapOne();
-    }
+    // else if (this.state.navigatorType === MAP_ONE) {
+    //   return this.renderMapOne();
+    // }
   }
 
   //Renders the home screen
@@ -172,7 +172,7 @@ class App extends Component {
           <View style={localStyles.selections}>
             <View style={localStyles.menu} activeOpacity={0.5}>
               <TouchableHighlight
-                onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
+                onPress={() => this.selectScreen(BOARD)}
               >
                 <Text style={localStyles.header}>P L A Y</Text>
               </TouchableHighlight>
@@ -184,7 +184,7 @@ class App extends Component {
             </View>
             <View style={localStyles.menu} activeOpacity={0.5}>
               <TouchableHighlight
-                onPress={() => this.selectScreen(AR_NAVIGATOR_TYPE)}
+                onPress={() => this.selectScreen(BOARD)}
               >
                 <Text style={localStyles.header}>T U T O R I A L</Text>
               </TouchableHighlight>
@@ -212,7 +212,7 @@ class App extends Component {
           </View>
           <View style={localStyles.menu1} activeOpacity={0.5}>
             <TouchableHighlight onPress={() => {
-              this.selectScreen(MAP_ONE)
+              this.selectScreen(BOARD, 1)
             }
             }>
               <Text style={localStyles.header}>
@@ -250,45 +250,48 @@ class App extends Component {
       </ImageBackground>
     );
   };
-  // _getMapOne() {
+  
+  //Renders the game in AR mode
+  // renderMapOne() {
   //   return (
   //     <Provider store = {store}>
   //       {this._getInventorySlot()}
+  //       {this._getMapOne()}
   //     </Provider>
   //   )
   // }
-  //Renders the game in AR mode
-  renderMapOne() {
-    return (
-      <Provider store = {store}>
-        {this._getInventorySlot()}
-        {this._getMapOne()}
-      </Provider>
-    )
-  }
-  _getMapOne() {
-    return (
-      <ViroARSceneNavigator 
-      {...this.state.sharedProps}
-      initialScene = {{scene: MapOne}}
-      onExitViro = {this._exitViro} 
-      />
-    )
-  }
-  renderGameAR = () => {
-    
-          return (
-            <Provider store={store}>
-              {this._getInventorySlot()}
-              {this._getARNavigator()}
-            </Provider>
-          );
-    };
+  // _getMapOne() {
+  //   return (
+  //     <ViroARSceneNavigator 
+  //     {...this.state.sharedProps}
+  //     initialScene = {{scene: MapOne}}
+  //     onExitViro = {this._exitViro} 
+  //     />
+  //   )
+  // }
+
   //Sets the navigatorType on state. Pass the scene as an argument
-  selectScreen = navigatorType => {
-    this.setState({
-      navigatorType: navigatorType
-    });
+  selectScreen = (navigatorType, boardNum) => {
+    if(boardNum){
+      this.setState({
+        navigatorType: navigatorType,
+        boardSelect: boardNum
+      });
+    } else {
+      this.setState({
+        navigatorType: navigatorType,
+      });
+    }
+  };
+
+  //Create REDUX Store
+  renderGameAR = () => {
+    return (
+      <Provider store={store}>
+        {this._getInventorySlot()}
+        {this._getARNavigator()}
+      </Provider>
+    );
   };
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
@@ -296,13 +299,12 @@ class App extends Component {
       <ViroARSceneNavigator
         {...this.state.sharedProps}
         initialScene={{ scene: InitialARScene }}
+        viroAppProps={this.state.boardSelect}
         onExitViro={this._exitViro}
       />
     );
   }
-  _pushMapOneScene() {
-    this.props.sceneNavigator.push({scene: MapOne})
-  }
+  
   // //Inventory React Native Component
   _getInventorySlot() {
     return <Inventory />;

@@ -12,11 +12,11 @@ class Poop extends React.Component {
         <Viro3DObject
           source={require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')}
           type='VRX'
-          position={this.props.position}
+          position={[this.props.xpos, this.props.ypos, this.props.zpos]}
           scale={[0.2, 0.2, 0.2]}
           onClick={() => {
-            this.props.removeFromBoard(this.props.item.id);
-            this.props.addToInventory(this.props.item.name, this.props.item.id);
+            this.props.removeFromBoard(this.props.id);
+            this.props.addToInventory(this.props.item.name, this.props.id);
           }}
           visible={this.props.visible}
         />

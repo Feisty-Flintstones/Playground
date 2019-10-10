@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {IPAddress} from '../../../my_API_KEY'
 
 const SET_CALIBRATION = 'SET_CALIBRATION';
 /**
@@ -53,11 +54,12 @@ export const setCalibration = calibration => ({
  * THUNK 
  */
 export const loadBoard = boardId => {
- 
   return async (dispatch) => {
     try {
-      const board = await axios.get(`/api/board/${boardId}`);
-    dispatch(gotLoadedBoard(board));
+      // console.log("BOARDID:", boardId)
+      const board = await axios.get(`http://${IPAddress}:8080/api/board/${boardId}`);
+      // console.log("BOARD", board)
+      dispatch(gotLoadedBoard(board));
     }
     catch(error) {
       console.error(error);

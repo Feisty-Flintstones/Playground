@@ -61,7 +61,6 @@ class MapOne extends React.Component {
             physicalWidth: 0.1
           }
         });
-        console.log(this.props.boardPieces);
         return (
           <ViroARScene
             ref={component => {

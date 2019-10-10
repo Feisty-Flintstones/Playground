@@ -5,7 +5,7 @@ import XBar from 'react-native-x-bar';
 import { StyleSheet, Text, View, Alert, Image } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromInventory } from './store/inventoryReducer.js';
-import { addToBoard } from './store/boardReducer.js';
+import { addToBoard, setCalibration } from './store/boardReducer.js';
 
 const styles = StyleSheet.create({
   bar: {
@@ -112,14 +112,16 @@ class DisconnectedInventory extends Component {
                         padding: 15
                       }}
                     >
-                      <Text>CALIBRATE</Text>
+                      <Text>RECALIBRATE</Text>
                     </View>
                   ),
                   style: {
                     width: '50%'
                   },
-
-                  onPress: () => console.log('you dare challenge me?'),
+                  onPress: () => {
+                    console.log('you dare challenge me?');
+                    this.props.setCalibration(false);
+                  },
                   activeOpacity: 0.5
                 },
                 {
@@ -140,11 +142,14 @@ class DisconnectedInventory extends Component {
                     width: '50%'
                   },
 
-                  onPress: () => console.log('you dare challenge me?'),
+                  onPress: () => {
+                    console.log('you dare challenge me?');
+                    this.props.onExitViro();
+                  },
                   activeOpacity: 0.5
                 }
               ]}
-              layout="absolute center"
+              layout='absolute center'
               groups={[0, 1]}
             />
           )}
@@ -168,7 +173,7 @@ class DisconnectedInventory extends Component {
                 activeOpacity: 0.5
               }
             ]}
-            layout="absolute center"
+            layout='absolute center'
           />
         </View>
       </View>
@@ -182,7 +187,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   removeFromInventory: id => dispatch(removeFromInventory(id)),
-  addToBoard: id => dispatch(addToBoard(id))
+  addToBoard: id => dispatch(addToBoard(id)),
+  setCalibration: bool => dispatch(setCalibration(bool))
 });
 const Inventory = connect(
   mapStateToProps,

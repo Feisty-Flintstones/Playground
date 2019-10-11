@@ -28,15 +28,19 @@ class DisconnectedMainScreenAR extends Component {
     this.state = {
       updateDistance: false
     };
-    this.separation = Infinity;
+    this.separation = {};
     this.distanceBetween = this.distanceBetween.bind(this);
+    this.distance = this.distance.bind(this);
   }
   componentDidMount() {
     if (this.props.arSceneNavigator.viroAppProps === 1) this.props.loadBoard(1);
+    this.props.boardPieces.forEach(element => {
+      this.separation[element.itemId] = Infinity;
+    });
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      1000
+      100
     );
   }
   componentWillUnmount() {
@@ -57,7 +61,10 @@ class DisconnectedMainScreenAR extends Component {
     let position2 = [xpos / 10, ypos / 10, zpos / 10];
     if (this.arSceneRef && position2) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
-      this.separation = this.distance(position.position, position2);
+      this.separation[component.itemId] = this.distance(
+        position.position,
+        position2
+      );
     }
   }
   render() {
@@ -102,10 +109,9 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
+
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
-                  console.log(piece);
-
                   if (piece.collected === false) {
                     this.distanceBetween(piece);
                     switch (piece.name) {
@@ -114,7 +120,7 @@ class DisconnectedMainScreenAR extends Component {
                           <Smiley
                             key={piece.itemId}
                             item={piece}
-                            visible={this.separation <= 2}
+                            visible={this.separation[piece.itemId] <= 2.5}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}
@@ -126,7 +132,19 @@ class DisconnectedMainScreenAR extends Component {
                           <Poop
                             key={piece.itemId}
                             item={piece}
-                            visible={this.separation <= 2}
+                            visible={this.separation[piece.itemId] <= 2.5}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      case 'Coin':
+                        return (
+                          <Coin
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation[piece.itemId] <= 3}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}

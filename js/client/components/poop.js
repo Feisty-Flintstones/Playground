@@ -24,9 +24,7 @@ class Poop extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({
-  position: state.boardReducer.boardPieces[1].position
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   removeFromBoard: id => dispatch(removeFromBoard(id)),

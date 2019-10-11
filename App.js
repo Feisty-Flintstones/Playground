@@ -289,9 +289,9 @@ class App extends Component {
   renderGameAR = () => {
     return (
       <Provider store={store}>
-        {this._getInventorySlot()}
         {this._getCoinCounter()}
         {this._getARNavigator()}
+        {this._getInventorySlot()}
       </Provider>
     );
   };
@@ -303,7 +303,7 @@ class App extends Component {
         initialScene={{ scene: InitialARScene }}
         viroAppProps={this.state.boardSelect}
         onExitViro={this._exitViro}
-        autofocus={true}
+        // autofocus={true}
       />
     );
   }

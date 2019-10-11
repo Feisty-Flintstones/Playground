@@ -10,8 +10,11 @@ import {
   ViroARImageMarker,
   ViroARTrackingTargets
 } from 'react-viro';
-import {loadBoard, removeFromBoard, addToBoard} from './store/boardReducer'
-import { addToInventory, removeFromInventory } from './store/inventoryReducer.js';
+import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
+import {
+  addToInventory,
+  removeFromInventory
+} from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
 import Coin from './components/coin';
@@ -29,7 +32,7 @@ class DisconnectedMainScreenAR extends Component {
     this.distanceBetween = this.distanceBetween.bind(this);
   }
   componentDidMount() {
-    if(this.props.arSceneNavigator.viroAppProps === 1) this.props.loadBoard(1)
+    if (this.props.arSceneNavigator.viroAppProps === 1) this.props.loadBoard(1);
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
@@ -51,7 +54,7 @@ class DisconnectedMainScreenAR extends Component {
     let xpos = component.xpos;
     let ypos = component.ypos;
     let zpos = component.zpos;
-    let position2 = [xpos/10, ypos/10, zpos/10]
+    let position2 = [xpos / 10, ypos / 10, zpos / 10];
     if (this.arSceneRef && position2) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
       this.separation = this.distance(position.position, position2);
@@ -99,46 +102,43 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
-            {this.props.boardPieces ? (
-              this.props.boardPieces.map(piece => {
-              if (piece.collected === false) {
-                this.distanceBetween(piece);
-                switch (piece.name) {
-                  case 'Smiley':
-                    console.log(piece);
-                    return (
-                      
-                      <Smiley
-                        key={piece.itemId}
-                        item={piece}
-                        visible={this.separation <= 2}
-                        xpos = {piece.xpos/10}
-                        ypos = {piece.ypos/10}
-                        zpos = {piece.zpos/10}
-                        id = {piece.itemId}
-                      />
-                    );
-                  case 'Poop':
-                    console.log(piece);
-                    return (
-                      
-                      <Poop
-                        key={piece.itemId}
-                        item={piece}
-                        visible={this.separation <= 2}
-                        xpos = {piece.xpos/10}
-                        ypos = {piece.ypos/10}
-                        zpos = {piece.zpos/10}
-                        id = {piece.itemId}
-                      />
-                    
-                    );
-                  default:
-                    return null;
-}}
-})) : (
-              null
-            )}
+            {this.props.boardPieces
+              ? this.props.boardPieces.map(piece => {
+                  console.log(piece);
+
+                  if (piece.collected === false) {
+                    this.distanceBetween(piece);
+                    switch (piece.name) {
+                      case 'Smiley':
+                        return (
+                          <Smiley
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation <= 2}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      case 'Poop':
+                        return (
+                          <Poop
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation <= 2}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      default:
+                        return null;
+                    }
+                  }
+                })
+              : null}
           </View>
         </ViroARImageMarker>
       </ViroARScene>
@@ -165,7 +165,7 @@ const mapDispatchToProps = dispatch => ({
   removeFromBoard: id => dispatch(removeFromBoard(id)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
   setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated))
-})
+});
 const MainScreenAR = connect(
   mapStateToProps,
   mapDispatchToProps

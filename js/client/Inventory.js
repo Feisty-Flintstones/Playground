@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   slots: {
     width: 500,
     padding: 15,
-    backgroundColor: '#fcfcfc',
+    backgroundColor: 'transparent',
     borderColor: '#ddd',
     borderWidth: 1
   },
@@ -60,31 +60,26 @@ class DisconnectedInventory extends Component {
                   style: styles.slots
                 },
                 this.props.inv.map(item => {
-                  return (
-                    {
-                      children:
-                        item.name === 'Smiley' ? (
-                          <Image
-                            source={require('./res/inventory_icons/pixel_smiley.png')}
-                            style={{ height: 50, width: 20 }}
-                          />
-                        ) : item.name === 'Poop' ? (
-                          <Image
-                            source={require('./res/inventory_icons/pixel_turd.png')}
-                            style={{ height: 50, width: 50 }}
-                          />
-                        ) : (
-                          <View />
-                        ),
-                      onPress: () => {
-                        this.props.addToBoard(item.id);
-                        this.props.removeFromInventory(item.id);
-                      }
-                    },
-                    {
-                      children: <Text>Burger</Text>
+                  return {
+                    children:
+                      item.name === 'Smiley' ? (
+                        <Image
+                          source={require('./res/inventory_icons/pixel_smiley.png')}
+                          style={{ height: 50, width: 20 }}
+                        />
+                      ) : item.name === 'Poop' ? (
+                        <Image
+                          source={require('./res/inventory_icons/pixel_turd.png')}
+                          style={{ height: 50, width: 20 }}
+                        />
+                      ) : (
+                        <View />
+                      ),
+                    onPress: () => {
+                      this.props.addToBoard(item.id);
+                      this.props.removeFromInventory(item.id);
                     }
-                  );
+                  };
                 })
               ]}
               activeOpacity={0.5}

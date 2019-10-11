@@ -175,9 +175,7 @@ class App extends Component {
           </View>
           <View style={localStyles.selections}>
             <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight
-                onPress={() => this.selectScreen(BOARD)}
-              >
+              <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
                 <Text style={localStyles.header}>P L A Y</Text>
               </TouchableHighlight>
             </View>
@@ -187,9 +185,7 @@ class App extends Component {
               </TouchableHighlight>
             </View>
             <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight
-                onPress={() => this.selectScreen(TUTORIAL)}
-              >
+              <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL)}>
                 <Text style={localStyles.header}>T U T O R I A L</Text>
               </TouchableHighlight>
             </View>
@@ -215,10 +211,11 @@ class App extends Component {
             />
           </View>
           <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => {
-              this.selectScreen(BOARD, 1)
-            }
-            }>
+            <TouchableHighlight
+              onPress={() => {
+                this.selectScreen(BOARD, 1);
+              }}
+            >
               <Text style={localStyles.header}>
                 M A P #1
                 <Image
@@ -254,7 +251,7 @@ class App extends Component {
       </ImageBackground>
     );
   };
-  
+
   //Renders the game in AR mode
   // renderMapOne() {
   //   return (
@@ -266,24 +263,24 @@ class App extends Component {
   // }
   // _getMapOne() {
   //   return (
-  //     <ViroARSceneNavigator 
+  //     <ViroARSceneNavigator
   //     {...this.state.sharedProps}
   //     initialScene = {{scene: MapOne}}
-  //     onExitViro = {this._exitViro} 
+  //     onExitViro = {this._exitViro}
   //     />
   //   )
   // }
 
   //Sets the navigatorType on state. Pass the scene as an argument
   selectScreen = (navigatorType, boardNum) => {
-    if(boardNum){
+    if (boardNum) {
       this.setState({
         navigatorType: navigatorType,
         boardSelect: boardNum
       });
     } else {
       this.setState({
-        navigatorType: navigatorType,
+        navigatorType: navigatorType
       });
     }
   };
@@ -292,9 +289,9 @@ class App extends Component {
   renderGameAR = () => {
     return (
       <Provider store={store}>
+        {this._getInventorySlot()}
         {this._getCoinCounter()}
         {this._getARNavigator()}
-        {this._getInventorySlot()}
       </Provider>
     );
   };
@@ -310,7 +307,7 @@ class App extends Component {
       />
     );
   }
-  
+
   // //Inventory React Native Component
   _getInventorySlot() {
     return <Inventory onExitViro={this._exitViro} />;
@@ -327,5 +324,4 @@ class App extends Component {
   }
 }
 
-
-export default (App);
+export default App;

@@ -20,6 +20,7 @@ import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
 import { setCalibration } from './store/boardReducer.js';
+import YouWinAR from './YouWinAR';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -28,15 +29,20 @@ class DisconnectedMainScreenAR extends Component {
     this.state = {
       updateDistance: false
     };
-    this.separation = Infinity;
+    this.separation = {};
     this.distanceBetween = this.distanceBetween.bind(this);
+    this.distance = this.distance.bind(this);
+    this.youWon = this.youWon.bind(this);
   }
   componentDidMount() {
-    if (this.props.arSceneNavigator.viroAppProps === 1) this.props.loadBoard(1);
+    this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
+    this.props.boardPieces.forEach(element => {
+      this.separation[element.itemId] = Infinity;
+    });
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      1000
+      100
     );
   }
   componentWillUnmount() {
@@ -57,8 +63,16 @@ class DisconnectedMainScreenAR extends Component {
     let position2 = [xpos / 10, ypos / 10, zpos / 10];
     if (this.arSceneRef && position2) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
-      this.separation = this.distance(position.position, position2);
+      this.separation[component.itemId] = this.distance(
+        position.position,
+        position2
+      );
     }
+  }
+  youWon() {
+    // console.log(this.props.cameraPos);
+    this.props.arSceneNavigator.pop();
+    this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
   render() {
     ViroARTrackingTargets.createTargets({
@@ -102,10 +116,9 @@ class DisconnectedMainScreenAR extends Component {
               color="#ffffff"
               castsShadow={true}
             />
+            {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
-                  console.log(piece);
-
                   if (piece.collected === false) {
                     this.distanceBetween(piece);
                     switch (piece.name) {
@@ -114,7 +127,7 @@ class DisconnectedMainScreenAR extends Component {
                           <Smiley
                             key={piece.itemId}
                             item={piece}
-                            visible={this.separation <= 2}
+                            visible={this.separation[piece.itemId] <= 2.5}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}
@@ -126,7 +139,19 @@ class DisconnectedMainScreenAR extends Component {
                           <Poop
                             key={piece.itemId}
                             item={piece}
-                            visible={this.separation <= 2}
+                            visible={this.separation[piece.itemId] <= 2.5}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      case 'Coin':
+                        return (
+                          <Coin
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation[piece.itemId] <= 3}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}
@@ -157,7 +182,8 @@ var styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
-  calibration: state.boardReducer.calibration
+  calibration: state.boardReducer.calibration,
+  coins: state.inventoryReducer.coins
 });
 
 const mapDispatchToProps = dispatch => ({

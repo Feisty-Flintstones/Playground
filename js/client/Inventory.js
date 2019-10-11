@@ -18,9 +18,8 @@ const styles = StyleSheet.create({
   },
 
   slots: {
-    width: 500,
-    padding: 15,
-    backgroundColor: 'transparent',
+    padding: 'auto',
+    backgroundColor: '#fcfcfc',
     borderColor: '#ddd',
     borderWidth: 1
   },
@@ -52,8 +51,15 @@ class DisconnectedInventory extends Component {
   render() {
     return (
       <View style={{ flexDirection: 'row' }}>
-        <View style={{ width: '83%' }}>
-          {!this.state.menuClicked ? (
+        {!this.state.menuClicked ? (
+          <View
+            style={{
+              height: '100%',
+              borderColor: '#ddd',
+              borderWidth: 1,
+              borderRadius: 2
+            }}
+          >
             <XBar
               slots={[
                 {
@@ -65,12 +71,12 @@ class DisconnectedInventory extends Component {
                       item.name === 'Smiley' ? (
                         <Image
                           source={require('./res/inventory_icons/pixel_smiley.png')}
-                          style={{ height: 50, width: 20 }}
+                          style={{ height: 50, width: 50 }}
                         />
                       ) : item.name === 'Poop' ? (
                         <Image
                           source={require('./res/inventory_icons/pixel_turd.png')}
-                          style={{ height: 50, width: 20 }}
+                          style={{ height: 50, width: 50 }}
                         />
                       ) : (
                         <View />
@@ -83,14 +89,10 @@ class DisconnectedInventory extends Component {
                 })
               ]}
               activeOpacity={0.5}
-              style={{
-                height: 50,
-                borderColor: '#ddd',
-                borderWidth: 1,
-                borderRadius: 2
-              }}
             />
-          ) : (
+          </View>
+        ) : (
+          <View style={{ width: '83%' }}>
             <XBar
               slots={[
                 // {
@@ -147,8 +149,8 @@ class DisconnectedInventory extends Component {
               layout='absolute center'
               groups={[0, 1]}
             />
-          )}
-        </View>
+          </View>
+        )}
 
         <View style={{ width: '20%', aligntItems: 'flex-end' }}>
           <XBar
@@ -191,3 +193,39 @@ const Inventory = connect(
 )(DisconnectedInventory);
 
 export default Inventory;
+/*<XBar
+            slots={[
+              {
+                style: styles.slots
+              },
+              this.props.inv.map(item => {
+                return {
+                  children:
+                    item.name === 'Smiley' ? (
+                      <Image
+                        source={require('./res/inventory_icons/pixel_smiley.png')}
+                        style={{ height: 30, width: 50 }}
+                      />
+                    ) : item.name === 'Poop' ? (
+                      <Image
+                        source={require('./res/inventory_icons/pixel_turd.png')}
+                        style={{ height: 30, width: 50 }}
+                      />
+                    ) : (
+                      <View />
+                    ),
+                  onPress: () => {
+                    this.props.addToBoard(item.id);
+                    this.props.removeFromInventory(item.id);
+                  }
+                };
+              })
+            ]}
+            activeOpacity={0.5}
+            style={{
+              // height: 50,
+              borderColor: '#ddd',
+              borderWidth: 1,
+              borderRadius: 2
+            }}
+          />*/

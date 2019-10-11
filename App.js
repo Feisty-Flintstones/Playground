@@ -24,9 +24,10 @@ import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
 import Tutorial from './js/client/Tutorial';
+import YouWinAR from './js/client/YouWinAR';
 
 let UNSET = 'UNSET';
-let PLAY = 'AR';
+let BOARD = 'AR';
 let LOAD = 'LOAD';
 let TUTORIAL = 'TUTORIAL';
 
@@ -151,7 +152,7 @@ class App extends Component {
       return this.homeScreen();
     } else if (this.state.navigatorType === LOAD) {
       return this.loadScreen();
-    } else if (this.state.navigatorType === PLAY) {
+    } else if (this.state.navigatorType === BOARD) {
       return this.renderGameAR();
     } else if (this.state.navigatorType === TUTORIAL) {
       return this.renderTutorialAR();
@@ -178,7 +179,7 @@ class App extends Component {
           </View>
           <View style={localStyles.selections}>
             <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(PLAY)}>
+              <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
                 <Text style={localStyles.header}>P L A Y</Text>
               </TouchableHighlight>
             </View>
@@ -218,7 +219,7 @@ class App extends Component {
           <View style={localStyles.menu1} activeOpacity={0.5}>
             <TouchableHighlight
               onPress={() => {
-                this.selectScreen(PLAY, 1);
+                this.selectScreen(BOARD, 1);
               }}
             >
               <Text style={localStyles.header}>
@@ -230,8 +231,8 @@ class App extends Component {
               </Text>
             </TouchableHighlight>
           </View>
-          {/* <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+          <View style={localStyles.menu1} activeOpacity={0.5}>
+            <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
               <Text style={localStyles.header}>
                 M A P #2
                 <Image
@@ -242,7 +243,7 @@ class App extends Component {
             </TouchableHighlight>
           </View>
           <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+            <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
               <Text style={localStyles.header}>
                 M A P #3
                 <Image
@@ -251,7 +252,7 @@ class App extends Component {
                 />
               </Text>
             </TouchableHighlight>
-          </View> */}
+          </View>
         </View>
       </ImageBackground>
     );
@@ -275,9 +276,9 @@ class App extends Component {
   renderGameAR = () => {
     return (
       <Provider store={store}>
-        {this._getInventorySlot()}
         {this._getCoinCounter()}
         {this._getARNavigator()}
+        {this._getInventorySlot()}
       </Provider>
     );
   };
@@ -290,7 +291,7 @@ class App extends Component {
         initialScene={{ scene: InitialARScene }}
         viroAppProps={this.state.boardSelect}
         onExitViro={this._exitViro}
-        autofocus={true}
+        cameraPos={[]}
       />
     );
   }

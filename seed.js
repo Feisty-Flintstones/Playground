@@ -65,6 +65,11 @@ async function seed() {
       name: 'Coin',
       source: 'required',
       is3D: true
+    }),
+    Item.create({
+      name: 'Coin',
+      source: 'required',
+      is3D: true
     })
   ]);
 
@@ -112,7 +117,7 @@ async function seed() {
       type: 'onClick',
       collected: false,
       itemId: 6,
-      boardId: 0
+      boardId: 1
     }),
     BoardObjective.create({
       xpos: 0,
@@ -121,16 +126,16 @@ async function seed() {
       type: 'onClick',
       collected: false,
       itemId: 7,
-      boardId: 0
+      boardId: 1
     }),
     BoardObjective.create({
-      xpos: 0,
+      xpos: -10,
       ypos: 0,
       zpos: 30,
       type: 'onClick',
       collected: false,
       itemId: 8,
-      boardId: 0
+      boardId: 1
     }),
     BoardObjective.create({
       xpos: -20,
@@ -139,7 +144,16 @@ async function seed() {
       type: 'onClick',
       collected: false,
       itemId: 5,
-      boardId: 0
+      boardId: 1
+    }),
+    BoardObjective.create({
+      xpos: -40,
+      ypos: 10,
+      zpos: 30,
+      type: 'onClick',
+      collected: false,
+      itemId: 9,
+      boardId: 1
     })
   ]);
 

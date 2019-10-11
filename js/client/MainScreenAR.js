@@ -75,18 +75,18 @@ class DisconnectedMainScreenAR extends Component {
         }}
       >
         <ViroARImageMarker
-          target='calibrate'
+          target="calibrate"
           pauseUpdates={this.props.calibration}
         >
           <View>
-            <ViroAmbientLight color='#aaaaaa' />
+            <ViroAmbientLight color="#aaaaaa" />
             <Viro3DObject
               source={require('./res/animated_objects/object_star_anim/object_star_anim.vrx')}
               resources={[
                 require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
                 require('./res/animated_objects/object_star_anim/object_star_specular.png')
               ]}
-              type='VRX'
+              type="VRX"
               position={[0, 0, 0]}
               scale={[0.05, 0.05, 0.05]}
               rotation={[90, 0, 0]}
@@ -99,7 +99,7 @@ class DisconnectedMainScreenAR extends Component {
               outerAngle={90}
               direction={[0, -1, -0.2]}
               position={[0, 3, 1]}
-              color='#ffffff'
+              color="#ffffff"
               castsShadow={true}
             />
             {this.props.boardPieces

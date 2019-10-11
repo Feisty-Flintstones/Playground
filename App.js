@@ -23,9 +23,10 @@ import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
+import Tutorial from './js/client/Tutorial';
 
 let UNSET = 'UNSET';
-let BOARD = 'AR';
+let PLAY = 'AR';
 let LOAD = 'LOAD';
 let TUTORIAL = 'TUTORIAL';
 
@@ -138,6 +139,8 @@ class App extends Component {
       boardSelect: 0
     };
     this._getARNavigator = this._getARNavigator.bind(this);
+    this._getTutorialARNavigator = this._getTutorialARNavigator.bind(this);
+
     this._getInventorySlot = this._getInventorySlot.bind(this);
     this._exitViro = this._exitViro.bind(this);
   }
@@ -148,10 +151,10 @@ class App extends Component {
       return this.homeScreen();
     } else if (this.state.navigatorType === LOAD) {
       return this.loadScreen();
-    } else if (this.state.navigatorType === BOARD) {
+    } else if (this.state.navigatorType === PLAY) {
       return this.renderGameAR();
     } else if (this.state.navigatorType === TUTORIAL) {
-      return this.renderTutorial();
+      return this.renderTutorialAR();
     }
     // else if (this.state.navigatorType === MAP_ONE) {
     //   return this.renderMapOne();
@@ -175,7 +178,7 @@ class App extends Component {
           </View>
           <View style={localStyles.selections}>
             <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+              <TouchableHighlight onPress={() => this.selectScreen(PLAY)}>
                 <Text style={localStyles.header}>P L A Y</Text>
               </TouchableHighlight>
             </View>
@@ -185,7 +188,9 @@ class App extends Component {
               </TouchableHighlight>
             </View>
             <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL)}>
+              <TouchableHighlight
+                onPress={() => this.selectScreen(TUTORIAL, 0)}
+              >
                 <Text style={localStyles.header}>T U T O R I A L</Text>
               </TouchableHighlight>
             </View>
@@ -213,7 +218,7 @@ class App extends Component {
           <View style={localStyles.menu1} activeOpacity={0.5}>
             <TouchableHighlight
               onPress={() => {
-                this.selectScreen(BOARD, 1);
+                this.selectScreen(PLAY, 1);
               }}
             >
               <Text style={localStyles.header}>
@@ -252,25 +257,6 @@ class App extends Component {
     );
   };
 
-  //Renders the game in AR mode
-  // renderMapOne() {
-  //   return (
-  //     <Provider store = {store}>
-  //       {this._getInventorySlot()}
-  //       {this._getMapOne()}
-  //     </Provider>
-  //   )
-  // }
-  // _getMapOne() {
-  //   return (
-  //     <ViroARSceneNavigator
-  //     {...this.state.sharedProps}
-  //     initialScene = {{scene: MapOne}}
-  //     onExitViro = {this._exitViro}
-  //     />
-  //   )
-  // }
-
   //Sets the navigatorType on state. Pass the scene as an argument
   selectScreen = (navigatorType, boardNum) => {
     if (boardNum) {
@@ -295,12 +281,34 @@ class App extends Component {
       </Provider>
     );
   };
+
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
     return (
       <ViroARSceneNavigator
         {...this.state.sharedProps}
         initialScene={{ scene: InitialARScene }}
+        viroAppProps={this.state.boardSelect}
+        onExitViro={this._exitViro}
+        autofocus={true}
+      />
+    );
+  }
+
+  renderTutorialAR = () => {
+    return (
+      <Provider store={store}>
+        {this._getCoinCounter()}
+        {this._getTutorialARNavigator()}
+      </Provider>
+    );
+  };
+
+  _getTutorialARNavigator() {
+    return (
+      <ViroARSceneNavigator
+        {...this.state.sharedProps}
+        initialScene={{ scene: Tutorial }}
         viroAppProps={this.state.boardSelect}
         onExitViro={this._exitViro}
         autofocus={true}

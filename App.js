@@ -23,6 +23,7 @@ import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
+import YouWinAR from './js/client/YouWinAR';
 
 let UNSET = 'UNSET';
 let BOARD = 'AR';
@@ -225,8 +226,8 @@ class App extends Component {
               </Text>
             </TouchableHighlight>
           </View>
-          {/* <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+          <View style={localStyles.menu1} activeOpacity={0.5}>
+            <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
               <Text style={localStyles.header}>
                 M A P #2
                 <Image
@@ -237,7 +238,7 @@ class App extends Component {
             </TouchableHighlight>
           </View>
           <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+            <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
               <Text style={localStyles.header}>
                 M A P #3
                 <Image
@@ -246,7 +247,7 @@ class App extends Component {
                 />
               </Text>
             </TouchableHighlight>
-          </View> */}
+          </View>
         </View>
       </ImageBackground>
     );
@@ -303,7 +304,7 @@ class App extends Component {
         initialScene={{ scene: InitialARScene }}
         viroAppProps={this.state.boardSelect}
         onExitViro={this._exitViro}
-        // autofocus={true}
+        cameraPos={[]}
       />
     );
   }

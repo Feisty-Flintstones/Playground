@@ -20,6 +20,7 @@ import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
 import { setCalibration } from './store/boardReducer.js';
+import YouWinAR from './YouWinAR';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -31,9 +32,10 @@ class DisconnectedMainScreenAR extends Component {
     this.separation = {};
     this.distanceBetween = this.distanceBetween.bind(this);
     this.distance = this.distance.bind(this);
+    this.youWon = this.youWon.bind(this);
   }
   componentDidMount() {
-    if (this.props.arSceneNavigator.viroAppProps === 1) this.props.loadBoard(1);
+    this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
     this.props.boardPieces.forEach(element => {
       this.separation[element.itemId] = Infinity;
     });
@@ -66,6 +68,11 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
+  }
+  youWon() {
+    // console.log(this.props.cameraPos);
+    this.props.arSceneNavigator.pop();
+    this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
   render() {
     ViroARTrackingTargets.createTargets({
@@ -109,7 +116,7 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
-
+            {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
                   if (piece.collected === false) {
@@ -175,7 +182,8 @@ var styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
-  calibration: state.boardReducer.calibration
+  calibration: state.boardReducer.calibration,
+  coins: state.inventoryReducer.coins
 });
 
 const mapDispatchToProps = dispatch => ({

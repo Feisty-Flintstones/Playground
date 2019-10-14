@@ -12,7 +12,7 @@ class Key extends React.Component {
         <View>
             <Viro3DObject
                 viroTag="key"
-                source={require('../res/Key_B.obj/Key_B_02.obj')}
+                source={require('../res/key/key.obj')}
                 type="OBJ"
                 materials="key"
                 highAccuracyEvents={true}
@@ -23,10 +23,10 @@ class Key extends React.Component {
                     this.props.addToInventory(this.props.item.name, this.props.id);
                 }}
                 visible={this.props.visible}
-                physicsBody={{
-                type:'kinematic',
-                mass: 0
-                }}
+                // physicsBody={{
+                // type:'kinematic',
+                // mass: 0
+                // }}
             />
         </View>
         );
@@ -37,7 +37,7 @@ ViroMaterials.createMaterials({
     key: {
         shininess: 2.0,
         lightingModel: "Blinn",
-        diffuseTexture: require('../res/Key_B.obj/keyB_tx.bmp')
+        diffuseTexture: require('../res/key/key.bmp')
     },
 });
 

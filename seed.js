@@ -19,6 +19,32 @@ async function seed() {
 
   const items = await Promise.all([
     Item.create({
+      name: 'Coin1',
+      source: 'required',
+      is3D: true
+    }),
+    Item.create({
+      name: 'Coin2',
+      source: 'required',
+      is3D: true
+    }),
+    Item.create({
+      name: 'Coin3',
+      source: 'required',
+      is3D: true
+    }),
+    Item.create({
+      name: 'Coin4',
+      source: 'required',
+      is3D: true
+    }),
+    Item.create({
+      name: 'Coin5',
+      source: 'required',
+      is3D: true
+    }),
+    //6
+    Item.create({
       name: 'Star',
       source: `require('./res/animated_objects/object_star_anim/object_star_anim.vrx')`,
       resources: `[
@@ -27,11 +53,13 @@ async function seed() {
             ]`,
       is3D: true
     }),
+    //7
     Item.create({
       name: 'Smiley',
       source: `require("./res/animated_objects/emoji_smile/emoji_smile.vrx")`,
       is3D: true
     }),
+    //8
     Item.create({
       name: 'Heart',
       source: `require('../res/animated_objects/emoji_heart_anim/emoji_heart_anim.vrx')`,
@@ -41,34 +69,23 @@ async function seed() {
             ]`,
       is3D: true
     }),
+    //9
     Item.create({
       name: 'Poop',
       source: `require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')`,
       is3D: true
     }),
+    //10
     Item.create({
-      name: 'Coin',
-      source: 'required',
+      name: 'Key',
+      source: `require('../res/key/key.obj')`,
+      resources: `[require('../res/key/key.bmp')]`,
       is3D: true
     }),
+    //11
     Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
-    }),
-    Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
-    }),
-    Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
-    }),
-    Item.create({
-      name: 'Coin',
-      source: 'required',
+      name: 'Lock',
+      source: `require('../res/padlock/scene.gltf')`,
       is3D: true
     })
   ]);
@@ -77,19 +94,19 @@ async function seed() {
     BoardObjective.create({
       xpos: 0,
       ypos: 0,
-      zpos: -5,
+      zpos: 0,
       type: 'onClick',
       collected: false,
-      itemId: 1,
+      itemId: 10,
       boardId: 1
     }),
     BoardObjective.create({
       xpos: 0,
-      ypos: 0,
-      zpos: -20,
+      ypos: 3,
+      zpos: 0,
       type: 'onClick',
       collected: false,
-      itemId: 2,
+      itemId: 11,
       boardId: 1
     }),
     BoardObjective.create({
@@ -98,7 +115,7 @@ async function seed() {
       zpos: 0,
       type: 'onClick',
       collected: false,
-      itemId: 4,
+      itemId: 7,
       boardId: 1
     }),
     BoardObjective.create({
@@ -117,15 +134,6 @@ async function seed() {
       type: 'onClick',
       collected: false,
       itemId: 6,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 0,
-      ypos: 0,
-      zpos: 30,
-      type: 'onClick',
-      collected: false,
-      itemId: 7,
       boardId: 1
     }),
     BoardObjective.create({

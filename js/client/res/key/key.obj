@@ -4,9 +4,9 @@
 # Right Hemisphere, LTD
 # http://www.righthemisphere.com/
 # 
-mtllib Key_B_02.mtl
-# object Key_B
-g Key_B
+mtllib ./key.mtl
+# object key
+g key
 v 3.03865 -0.0395375 0.27566
 v 3.03865 0.123898 0.222557
 v 3.03865 0.123898 -0.227343

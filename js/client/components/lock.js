@@ -17,11 +17,11 @@ class Lock extends React.Component {
                 highAccuracyEvents={true}
                 position={[0, 0.05, 0]}
                 scale={[0.005, 0.005, 0.005]}
-                physicsBody={{
-                    type:'static',
-                    mass: 1
-                }}
-                onCollision={this.onCollide}
+                // physicsBody={{
+                //     type:'static',
+                //     mass: 1
+                // }}
+                // onCollision={this.onCollide}
             />
         </View>
         );

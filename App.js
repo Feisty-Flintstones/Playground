@@ -25,7 +25,6 @@ import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
 import Tutorial from './js/client/Tutorial';
-import YouWinAR from './js/client/YouWinAR';
 
 let UNSET = 'UNSET';
 let BOARD = 'AR';

@@ -4,16 +4,12 @@ import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
-  Viro3DObject,
-  ViroAmbientLight,
   ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
-import {
-  addToInventory,
-} from './store/inventoryReducer.js';
+import { addToInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
 import Coin from './components/coin';
@@ -81,6 +77,7 @@ class DisconnectedMainScreenAR extends Component {
     ViroARTrackingTargets.createTargets({
       calibrate: {
         source: require('./res/test.jpg'),
+        // source: require('./res/tottem.jpg'),
         orientation: 'Up',
         physicalWidth: 0.1
       }
@@ -139,9 +136,21 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Poop':
+                      // case 'Poop':
+                      //   return (
+                      //     <Poop
+                      //       key={piece.itemId}
+                      //       item={piece}
+                      //       visible={this.separation[piece.itemId] <= 2.5}
+                      //       xpos={piece.xpos / 10}
+                      //       ypos={piece.ypos / 10}
+                      //       zpos={piece.zpos / 10}
+                      //       id={piece.itemId}
+                      //     />
+                      //   );
+                        case 'Key':
                         return (
-                          <Poop
+                          <Key
                             key={piece.itemId}
                             item={piece}
                             visible={this.separation[piece.itemId] <= 2.5}
@@ -151,7 +160,19 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Coin':
+                        case 'Lock':
+                        return (
+                          <Lock
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation[piece.itemId] <= 2.5}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      case `Coin${piece.itemId}`:
                         return (
                           <Coin
                             key={piece.itemId}

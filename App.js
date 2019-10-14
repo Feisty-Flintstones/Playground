@@ -26,7 +26,6 @@ import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
 import Tutorial from './js/client/Tutorial';
 import YouWinAR from './js/client/YouWinAR';
-import SlideMenu from './js/client/SlideMenu';
 
 let UNSET = 'UNSET';
 let BOARD = 'AR';
@@ -136,12 +135,21 @@ let localStyles = StyleSheet.create({
     justifyContent: 'center'
   },
   button2: {
+    justifyContent: 'center',
     backgroundColor: 'white',
     height: 70,
     marginHorizontal: 60,
     borderRadius: 35,
     alignItems: 'center',
+    marginVertical: 10
+  },
+  button3: {
     justifyContent: 'center',
+    backgroundColor: 'white',
+    height: 70,
+    marginHorizontal: 170,
+    borderRadius: 35,
+    alignItems: 'center',
     marginVertical: 10
   }
 });
@@ -210,11 +218,13 @@ class App extends Component {
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>P L A Y </Text>
             </View>
           </TouchableHighlight>
+
           <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
             <View style={localStyles.button2}>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>L O A D </Text>
             </View>
           </TouchableHighlight>
+
           <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
             <View style={localStyles.button2}>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
@@ -260,61 +270,137 @@ class App extends Component {
       // </ImageBackground>
     );
   };
+
   //Renders the load screen
-  //currently holds dummy data.
   loadScreen = () => {
     return (
-      <ImageBackground
-        source={require('./assets/white-wallpaper.jpg')}
-        style={localStyles.container}
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+          justifyContent: 'flex-end'
+        }}
       >
-        <View style={localStyles.overlayContainer1}>
-          <View style={localStyles.top} activeOpacity={0.5}>
-            {/* <Text style={localStyles.header}>L O G O here</Text> */}
-            <Image
-              source={require('./js/client/res/Main.png')}
-              style={localStyles.container}
-            />
-          </View>
-          <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight
-              onPress={() => {
-                this.selectScreen(BOARD, 1);
-              }}
-            >
-              <Text style={localStyles.header}>
+        <View style={{ ...StyleSheet.absoluteFill }}>
+          <Image
+            source={require('./js/client/res/PlaygroundAR.jpg')}
+            style={{ flex: 1, height: null, width: null }}
+          />
+        </View>
+        <View style={localStyles.container2}>
+          <Image
+            source={require('./js/client/res/Playground_logo.png')}
+            resizeMode="contain"
+            style={{ height: '95%', width: '95%' }}
+          />
+        </View>
+
+        <View style={{ height: height / 2 }}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+            <View style={localStyles.button2}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  marginBottom: 20
+                }}
+              >
                 M A P #1
                 <Image
                   source={require('./js/client/res/inventory_icons/pixel_smiley.png')}
                   style={{ width: 50, height: 50 }}
-                />
+                />{' '}
               </Text>
-            </TouchableHighlight>
-          </View>
-          <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
-              <Text style={localStyles.header}>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+            <View style={localStyles.button2}>
+              <Text
+                style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
+              >
                 M A P #2
                 <Image
                   source={require('./js/client/res/inventory_icons/pixel_heart.png')}
                   style={{ width: 50, height: 50 }}
                 />
               </Text>
-            </TouchableHighlight>
-          </View>
-          <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
-              <Text style={localStyles.header}>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
+            <View style={localStyles.button2}>
+              <Text
+                style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
+              >
                 M A P #3
                 <Image
                   source={require('./js/client/res/inventory_icons/pixel_turd.png')}
-                  style={{ width: 50, height: 50 }}
+                  style={{ width: 40, height: 50 }}
                 />
               </Text>
+            </View>
+          </TouchableHighlight>
+          <View>
+            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+              <View style={localStyles.button3}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>X</Text>
+              </View>
             </TouchableHighlight>
           </View>
         </View>
-      </ImageBackground>
+      </View>
+      // <ImageBackground
+      //   source={require('./assets/white-wallpaper.jpg')}
+      //   style={localStyles.container}
+      // >
+      //   <View style={localStyles.overlayContainer1}>
+      //     <View style={localStyles.top} activeOpacity={0.5}>
+      //       {/* <Text style={localStyles.header}>L O G O here</Text> */}
+      //       <Image
+      //         source={require('./js/client/res/Main.png')}
+      //         style={localStyles.container}
+      //       />
+      //     </View>
+      //     <View style={localStyles.menu1} activeOpacity={0.5}>
+      //       <TouchableHighlight
+      //         onPress={() => {
+      //           this.selectScreen(BOARD, 1);
+      //         }}
+      //       >
+      //         <Text style={localStyles.header}>
+      //           M A P #1
+      //           <Image
+      //             source={require('./js/client/res/inventory_icons/pixel_smiley.png')}
+      //             style={{ width: 50, height: 50 }}
+      //           />
+      //         </Text>
+      //       </TouchableHighlight>
+      //     </View>
+      //     <View style={localStyles.menu1} activeOpacity={0.5}>
+      //       <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
+      //         <Text style={localStyles.header}>
+      //           M A P #2
+      //           <Image
+      //             source={require('./js/client/res/inventory_icons/pixel_heart.png')}
+      //             style={{ width: 50, height: 50 }}
+      //           />
+      //         </Text>
+      //       </TouchableHighlight>
+      //     </View>
+      //     <View style={localStyles.menu1} activeOpacity={0.5}>
+      //       <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
+      //         <Text style={localStyles.header}>
+      //           M A P #3
+      //           <Image
+      //             source={require('./js/client/res/inventory_icons/pixel_turd.png')}
+      //             style={{ width: 50, height: 50 }}
+      //           />
+      //         </Text>
+      //       </TouchableHighlight>
+      //     </View>
+      //   </View>
+      // </ImageBackground>
     );
   };
 

@@ -103,8 +103,8 @@ class Tutorial extends React.Component {
           width={6}
           alignItems="center"
           justifyContent="center"
-          onClick={() => this.setState({ firstBB: false })}
-          visible={this.state.firstBB}
+          // onClick={() => this.setState({ firstBB: false })}
+          // visible={this.state.firstBB}
         >
           <ViroText
             style={styles.prodTitleText}

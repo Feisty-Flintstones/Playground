@@ -16,13 +16,16 @@ import {
   StyleSheet,
   TouchableHighlight,
   ImageBackground,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
 import InitialARScene from './js/client/MainScreenAR';
 import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
+import Tutorial from './js/client/Tutorial';
+import YouWinAR from './js/client/YouWinAR';
 
 let UNSET = 'UNSET';
 let BOARD = 'AR';
@@ -125,8 +128,32 @@ let localStyles = StyleSheet.create({
   },
   selections: {
     alignItems: 'center'
+  },
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  button2: {
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    height: 70,
+    marginHorizontal: 60,
+    borderRadius: 35,
+    alignItems: 'center',
+    marginVertical: 10
+  },
+  button3: {
+    justifyContent: 'center',
+    backgroundColor: 'white',
+    height: 70,
+    marginHorizontal: 170,
+    borderRadius: 35,
+    alignItems: 'center',
+    marginVertical: 10
   }
 });
+const { width, height } = Dimensions.get('window');
 
 class App extends Component {
   constructor() {
@@ -138,6 +165,8 @@ class App extends Component {
       boardSelect: 0
     };
     this._getARNavigator = this._getARNavigator.bind(this);
+    this._getTutorialARNavigator = this._getTutorialARNavigator.bind(this);
+
     this._getInventorySlot = this._getInventorySlot.bind(this);
     this._exitViro = this._exitViro.bind(this);
   }
@@ -151,125 +180,140 @@ class App extends Component {
     } else if (this.state.navigatorType === BOARD) {
       return this.renderGameAR();
     } else if (this.state.navigatorType === TUTORIAL) {
-      return this.renderTutorial();
+      return this.renderTutorialAR();
     }
-    // else if (this.state.navigatorType === MAP_ONE) {
-    //   return this.renderMapOne();
-    // }
   }
 
   //Renders the home screen
   homeScreen = () => {
     return (
-      <ImageBackground
-        source={require('./assets/white-wallpaper.jpg')}
-        style={localStyles.container}
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+          justifyContent: 'flex-end'
+        }}
       >
-        <View style={localStyles.overlayContainer}>
-          <View style={localStyles.top} activeOpacity={0.5}>
-            {/* <Text style={localStyles.header}>L O G O here</Text> */}
-            <Image
-              source={require('./js/client/res/Main.png')}
-              style={localStyles.container}
-            />
-          </View>
-          <View style={localStyles.selections}>
-            <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
-                <Text style={localStyles.header}>P L A Y</Text>
-              </TouchableHighlight>
-            </View>
-            <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
-                <Text style={localStyles.header}>L O A D</Text>
-              </TouchableHighlight>
-            </View>
-            <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL)}>
-                <Text style={localStyles.header}>T U T O R I A L</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
+        <View style={{ ...StyleSheet.absoluteFill }}>
+          <Image
+            source={require('./js/client/res/PlaygroundAR.jpg')}
+            style={{ flex: 1, height: null, width: null }}
+          />
         </View>
-      </ImageBackground>
+        <View style={localStyles.container2}>
+          <Image
+            source={require('./js/client/res/Playground_logo.png')}
+            resizeMode="contain"
+            style={{ height: '95%', width: '95%' }}
+          />
+        </View>
+
+        <View style={{ height: height / 2 }}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+            <View style={localStyles.button2}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>P L A Y </Text>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+            <View style={localStyles.button2}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>L O A D </Text>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
+            <View style={localStyles.button2}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                T U T O R I A L
+              </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>
     );
   };
+
   //Renders the load screen
-  //currently holds dummy data.
   loadScreen = () => {
     return (
-      <ImageBackground
-        source={require('./assets/white-wallpaper.jpg')}
-        style={localStyles.container}
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+          justifyContent: 'flex-end'
+        }}
       >
-        <View style={localStyles.overlayContainer1}>
-          <View style={localStyles.top} activeOpacity={0.5}>
-            {/* <Text style={localStyles.header}>L O G O here</Text> */}
-            <Image
-              source={require('./js/client/res/Main.png')}
-              style={localStyles.container}
-            />
-          </View>
-          <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight
-              onPress={() => {
-                this.selectScreen(BOARD, 1);
-              }}
-            >
-              <Text style={localStyles.header}>
+        <View style={{ ...StyleSheet.absoluteFill }}>
+          <Image
+            source={require('./js/client/res/PlaygroundAR.jpg')}
+            style={{ flex: 1, height: null, width: null }}
+          />
+        </View>
+        <View style={localStyles.container2}>
+          <Image
+            source={require('./js/client/res/Playground_logo.png')}
+            resizeMode="contain"
+            style={{ height: '95%', width: '95%' }}
+          />
+        </View>
+
+        <View style={{ height: height / 2 }}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 1)}>
+            <View style={localStyles.button2}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  fontWeight: 'bold',
+                  marginBottom: 20
+                }}
+              >
                 M A P #1
                 <Image
                   source={require('./js/client/res/inventory_icons/pixel_smiley.png')}
                   style={{ width: 50, height: 50 }}
-                />
+                />{' '}
               </Text>
-            </TouchableHighlight>
-          </View>
-          {/* <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
-              <Text style={localStyles.header}>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
+            <View style={localStyles.button2}>
+              <Text
+                style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
+              >
                 M A P #2
                 <Image
                   source={require('./js/client/res/inventory_icons/pixel_heart.png')}
                   style={{ width: 50, height: 50 }}
                 />
               </Text>
-            </TouchableHighlight>
-          </View>
-          <View style={localStyles.menu1} activeOpacity={0.5}>
-            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
-              <Text style={localStyles.header}>
+            </View>
+          </TouchableHighlight>
+
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
+            <View style={localStyles.button2}>
+              <Text
+                style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
+              >
                 M A P #3
                 <Image
                   source={require('./js/client/res/inventory_icons/pixel_turd.png')}
-                  style={{ width: 50, height: 50 }}
+                  style={{ width: 40, height: 50 }}
                 />
               </Text>
+            </View>
+          </TouchableHighlight>
+          <View>
+            <TouchableHighlight onPress={() => this.selectScreen(UNSET)}>
+              <View style={localStyles.button3}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>X</Text>
+              </View>
             </TouchableHighlight>
-          </View> */}
+          </View>
         </View>
-      </ImageBackground>
+      </View>
     );
   };
-
-  //Renders the game in AR mode
-  // renderMapOne() {
-  //   return (
-  //     <Provider store = {store}>
-  //       {this._getInventorySlot()}
-  //       {this._getMapOne()}
-  //     </Provider>
-  //   )
-  // }
-  // _getMapOne() {
-  //   return (
-  //     <ViroARSceneNavigator
-  //     {...this.state.sharedProps}
-  //     initialScene = {{scene: MapOne}}
-  //     onExitViro = {this._exitViro}
-  //     />
-  //   )
-  // }
 
   //Sets the navigatorType on state. Pass the scene as an argument
   selectScreen = (navigatorType, boardNum) => {
@@ -295,6 +339,7 @@ class App extends Component {
       </Provider>
     );
   };
+
   // Returns the ViroARSceneNavigator which will start the AR experience
   _getARNavigator() {
     return (
@@ -303,7 +348,29 @@ class App extends Component {
         initialScene={{ scene: InitialARScene }}
         viroAppProps={this.state.boardSelect}
         onExitViro={this._exitViro}
-        // autofocus={true}
+        cameraPos={[]}
+      />
+    );
+  }
+
+  renderTutorialAR = () => {
+    console.log('tutorial mode selected');
+    return (
+      <Provider store={store}>
+        {this._getCoinCounter()}
+        {this._getTutorialARNavigator()}
+      </Provider>
+    );
+  };
+
+  _getTutorialARNavigator() {
+    return (
+      <ViroARSceneNavigator
+        {...this.state.sharedProps}
+        initialScene={{ scene: Tutorial }}
+        viroAppProps={this.state.boardSelect}
+        onExitViro={this._exitViro}
+        autofocus={true}
       />
     );
   }

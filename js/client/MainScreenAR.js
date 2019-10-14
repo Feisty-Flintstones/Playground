@@ -20,6 +20,7 @@ import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
 import { setCalibration } from './store/boardReducer.js';
+import YouWinAR from './YouWinAR';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -31,16 +32,17 @@ class DisconnectedMainScreenAR extends Component {
     this.separation = {};
     this.distanceBetween = this.distanceBetween.bind(this);
     this.distance = this.distance.bind(this);
+    this.youWon = this.youWon.bind(this);
   }
   componentDidMount() {
-    if (this.props.arSceneNavigator.viroAppProps === 1) this.props.loadBoard(1);
+    this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
     this.props.boardPieces.forEach(element => {
       this.separation[element.itemId] = Infinity;
     });
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      100
+      400
     );
   }
   componentWillUnmount() {
@@ -67,6 +69,11 @@ class DisconnectedMainScreenAR extends Component {
       );
     }
   }
+  youWon() {
+    // console.log(this.props.cameraPos);
+    this.props.arSceneNavigator.pop();
+    this.props.arSceneNavigator.push({ scene: YouWinAR });
+  }
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
@@ -82,18 +89,18 @@ class DisconnectedMainScreenAR extends Component {
         }}
       >
         <ViroARImageMarker
-          target='calibrate'
+          target="calibrate"
           pauseUpdates={this.props.calibration}
         >
           <View>
-            <ViroAmbientLight color='#aaaaaa' />
+            <ViroAmbientLight color="#aaaaaa" />
             <Viro3DObject
               source={require('./res/animated_objects/object_star_anim/object_star_anim.vrx')}
               resources={[
                 require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
                 require('./res/animated_objects/object_star_anim/object_star_specular.png')
               ]}
-              type='VRX'
+              type="VRX"
               position={[0, 0, 0]}
               scale={[0.05, 0.05, 0.05]}
               rotation={[90, 0, 0]}
@@ -106,10 +113,10 @@ class DisconnectedMainScreenAR extends Component {
               outerAngle={90}
               direction={[0, -1, -0.2]}
               position={[0, 3, 1]}
-              color='#ffffff'
+              color="#ffffff"
               castsShadow={true}
             />
-
+            {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
                   if (piece.collected === false) {
@@ -175,7 +182,8 @@ var styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
-  calibration: state.boardReducer.calibration
+  calibration: state.boardReducer.calibration,
+  coins: state.inventoryReducer.coins
 });
 
 const mapDispatchToProps = dispatch => ({

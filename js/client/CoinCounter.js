@@ -40,7 +40,7 @@ class CoinCounter extends React.Component {
           <Text
             style={{
               color: 'white',
-              fontFamily: 'monospace',
+
               fontSize: 20,
               justifyContent: 'flex-start',
               paddingRight: '65%'
@@ -48,9 +48,7 @@ class CoinCounter extends React.Component {
           >
             {this.state.timer + 's'}
           </Text>
-          <Text
-            style={{ color: 'white', fontFamily: 'monospace', fontSize: 20 }}
-          >
+          <Text style={{ color: 'white', fontSize: 20 }}>
             {this.props.coins + '/5'}
           </Text>
           <Image

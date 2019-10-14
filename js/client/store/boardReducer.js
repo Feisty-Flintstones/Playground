@@ -1,13 +1,12 @@
 import axios from 'axios';
-import {IPAddress} from '../../../my_API_KEY'
+import { IPAddress } from '../../../my_API_KEY';
 
 const SET_CALIBRATION = 'SET_CALIBRATION';
 /**
  * INITIAL STATE
  */
 const initialBoard = {
-  boardPieces: [
-  ],
+  boardPieces: [],
   calibration: false
 };
 
@@ -53,17 +52,17 @@ export const setCalibration = calibration => ({
  */
 //HUGE
 export const loadBoard = boardId => {
-  return async (dispatch) => {
+  return async dispatch => {
     try {
-      const {data: board} = await axios.get(`http://${IPAddress}:8080/api/board/${boardId}`);
+      const { data: board } = await axios.get(
+        `http://${IPAddress}:8080/api/board/${boardId}`
+      );
       dispatch(gotLoadedBoard(board));
-    }
-    catch(error) {
+    } catch (error) {
       console.error(error);
     }
-  }
-}
-
+  };
+};
 
 /**
  * REDUCER
@@ -71,7 +70,7 @@ export const loadBoard = boardId => {
 export default function(state = initialBoard, action) {
   switch (action.type) {
     case LOAD_BOARD:
-      return {...state, boardPieces: action.board.objectives}
+      return { ...state, boardPieces: action.board.objectives };
     case SET_CALIBRATION:
       return { ...state, calibration: action.calibration };
     case MOVE_BOARD_PIECE:
@@ -94,14 +93,15 @@ export default function(state = initialBoard, action) {
           ...state.boardPieces.map(element => {
             if (element.itemId === action.id) {
               element.collected = true;
-              return element
+              return element;
+            } else {
+              return element;
             }
-            else return element;
           })
         ]
       };
     case ADD_TO_BOARD:
-      console.log('ADD', action)
+      console.log('ADD', action);
       return {
         ...state,
         boardPieces: [

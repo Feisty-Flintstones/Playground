@@ -25,8 +25,7 @@ class Coin extends React.Component {
         <Viro3DObject
           source={require('../res/animated_objects/coin/coin.vrx')}
           type='VRX'
-          position={this.props.position}
-          highAccuracyEvents={true}
+          position={[this.props.xpos, this.props.ypos, this.props.zpos]}
           scale={[0.0005, 0.0005, 0.0005]}
           onClick={() => {
             this.props.addCoins();
@@ -35,7 +34,7 @@ class Coin extends React.Component {
             });
           }}
           animation={{ name: 'rotate', run: true, loop: true }}
-          visible={this.state.visible}
+          visible={this.state.visible && this.props.visible}
         />
       </View>
     );

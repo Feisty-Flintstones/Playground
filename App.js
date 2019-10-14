@@ -225,7 +225,7 @@ class App extends Component {
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
+          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL)}>
             <View style={localStyles.button2}>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                 T U T O R I A L
@@ -296,7 +296,7 @@ class App extends Component {
         </View>
 
         <View style={{ height: height / 2 }}>
-          <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 1)}>
             <View style={localStyles.button2}>
               <Text
                 style={{
@@ -314,7 +314,7 @@ class App extends Component {
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
             <View style={localStyles.button2}>
               <Text
                 style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
@@ -328,7 +328,7 @@ class App extends Component {
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
             <View style={localStyles.button2}>
               <Text
                 style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 20 }}
@@ -443,6 +443,7 @@ class App extends Component {
   }
 
   renderTutorialAR = () => {
+    console.log('tutorial mode selected');
     return (
       <Provider store={store}>
         {this._getCoinCounter()}

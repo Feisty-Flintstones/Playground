@@ -12,7 +12,7 @@ class Key extends React.Component {
         <View>
             <Viro3DObject
                 viroTag="key"
-                source={require('../res/key/key.obj')}
+                source={require('../res/Key_B.obj/Key_B_02.obj')}
                 type="OBJ"
                 materials="key"
                 highAccuracyEvents={true}
@@ -37,7 +37,7 @@ ViroMaterials.createMaterials({
     key: {
         shininess: 2.0,
         lightingModel: "Blinn",
-        diffuseTexture: require('../res/key/key.bmp')
+        diffuseTexture: require('../res/Key_B.obj/keyB_tx.bmp')
     },
 });
 

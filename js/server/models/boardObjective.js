@@ -25,7 +25,7 @@ const BoardObjective = db.define('boardObjective', {
     }
   },
   type: {
-    type: Sequelize.ENUM('onClick', 'onCollide', 'onSwipe'),
+    type: Sequelize.ENUM('onClick', 'onCollision', 'onSwipe'),
     allowNull: false,
     validate: {
       notEmpty: true

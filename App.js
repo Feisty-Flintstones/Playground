@@ -162,8 +162,7 @@ class App extends Component {
     this.state = {
       navigatorType: defaultNavigatorType,
       sharedProps: sharedProps,
-      boardSelect: 0,
-      isReady: false
+      boardSelect: 0
     };
     this._getARNavigator = this._getARNavigator.bind(this);
     this._getTutorialARNavigator = this._getTutorialARNavigator.bind(this);
@@ -174,7 +173,7 @@ class App extends Component {
 
   render() {
     //****This IF statement declares which VIEW to display**** */
-    if (this.state.navigatorType === UNSET && !this.state.isReady) {
+    if (this.state.navigatorType === UNSET) {
       return this.homeScreen();
     } else if (this.state.navigatorType === LOAD) {
       return this.loadScreen();
@@ -225,7 +224,7 @@ class App extends Component {
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL)}>
+          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
             <View style={localStyles.button2}>
               <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
                 T U T O R I A L

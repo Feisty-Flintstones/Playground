@@ -36,7 +36,7 @@ class Tutorial extends React.Component {
     this.distanceBetween = this.distanceBetween.bind(this);
   }
   componentDidMount() {
-    if (this.props.arSceneNavigator.viroAppProps === 0) this.props.loadBoard(0);
+    // if (this.props.arSceneNavigator.viroAppProps === 0) this.props.loadBoard(0);
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
@@ -84,7 +84,6 @@ class Tutorial extends React.Component {
           this.arSceneRef = component;
         }}
       >
-        {/* Step # 1 */}
         <ViroAmbientLight color={'#aaaaaa'} intensity={5000} />
         <ViroSpotLight
           innerAngle={5}
@@ -103,8 +102,8 @@ class Tutorial extends React.Component {
           width={6}
           alignItems="center"
           justifyContent="center"
-          // onClick={() => this.setState({ firstBB: false })}
-          // visible={this.state.firstBB}
+          onClick={() => this.setState({ firstBB: false })}
+          visible={this.state.firstBB}
         >
           <ViroText
             style={styles.prodTitleText}
@@ -116,8 +115,6 @@ class Tutorial extends React.Component {
             text="Find your TOTEM to calibrate BOARD!"
           />
         </ViroFlexView>
-
-        {/* Step # 2 */}
         <ViroARImageMarker
           target="calibrate"
           pauseUpdates={this.props.calibration}
@@ -155,7 +152,6 @@ class Tutorial extends React.Component {
               />
             </ViroFlexView>
           </View>
-
           {/* Step # 3 */}
           <View>
             <ViroFlexView
@@ -183,8 +179,7 @@ class Tutorial extends React.Component {
               />
             </ViroFlexView>
           </View>
-
-          <Coin position={[0, 0, 7]} visible={this.separation <= 2} />
+          <Coin xpos={0} ypos={0} zpos={7} visible={this.separation <= 2} />
           <ViroText
             style={styles.prodTitleText}
             width={6}

@@ -8,17 +8,18 @@ import {
   ViroAmbientLight,
   ViroSpotLight,
   ViroARImageMarker,
-  ViroARTrackingTargets
+  ViroARTrackingTargets,
 } from 'react-viro';
-import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
+import { loadBoard, removeFromBoard } from './store/boardReducer';
 import {
   addToInventory,
-  removeFromInventory
 } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
+import Key from './components/key'
+import Lock from './components/lock'
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
 
@@ -69,18 +70,21 @@ class DisconnectedMainScreenAR extends Component {
       );
     }
   }
+  onCollide() {
+
+  }
   youWon() {
-    // console.log(this.props.cameraPos);
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        source: require('./res/tottem.jpg'),
+        source: require('./res/test.jpg'),
         orientation: 'Up',
         physicalWidth: 0.1
       }
+      
     });
     return (
       <ViroARScene
@@ -93,21 +97,20 @@ class DisconnectedMainScreenAR extends Component {
           pauseUpdates={this.props.calibration}
         >
           <View>
-            <ViroAmbientLight color="#aaaaaa" />
-            <Viro3DObject
-              source={require('./res/animated_objects/object_star_anim/object_star_anim.vrx')}
-              resources={[
-                require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
-                require('./res/animated_objects/object_star_anim/object_star_specular.png')
-              ]}
-              type="VRX"
-              position={[0, 0, 0]}
-              scale={[0.05, 0.05, 0.05]}
-              rotation={[90, 0, 0]}
-              onClick={() => {
-                this.props.setCalibration(true);
-              }}
-            />
+
+          {/* SPOTLIGHT AND SHADING */}
+          <ViroSpotLight
+            innerAngle={5}
+            outerAngle={25}
+            direction={[0,-1,0]}
+            position={[0, 5, 0]}
+            color="#e9e9e9"
+            castsShadow={true}
+            shadowMapSize={2048}
+            shadowNearZ={2}
+            shadowFarZ={7}
+            shadowOpacity={.7}
+          />
             <ViroSpotLight
               innerAngle={5}
               outerAngle={90}
@@ -116,6 +119,8 @@ class DisconnectedMainScreenAR extends Component {
               color="#ffffff"
               castsShadow={true}
             />
+
+            {/* BOARD OBJECTIVES */}
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
@@ -170,6 +175,7 @@ class DisconnectedMainScreenAR extends Component {
     );
   }
 }
+
 var styles = StyleSheet.create({
   helloWorldTextStyle: {
     fontFamily: 'Arial',

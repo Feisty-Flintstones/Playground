@@ -42,7 +42,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      100
+      400
     );
   }
   componentWillUnmount() {

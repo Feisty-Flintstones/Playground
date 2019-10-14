@@ -14,31 +14,27 @@ class Heart extends React.Component {
             require('../res/animated_objects/emoji_heart_anim/emoji_heart_specular.png'),
             require('../res/animated_objects/emoji_heart_anim/emoji_heart.png')
           ]}
-          type='VRX'
-          position={[0, 0, 4]}
+          type="VRX"
+          position={[this.props.xpos, this.props.ypos, this.props.zpos]}
           highAccuracyEvents={true}
           scale={[0.2, 0.2, 0.2]}
           onClick={() => {
             this.props.removeFromBoard(this.props.id);
-            this.props.addInventory(this.props.name, this.props.id);
+            this.props.addInventory(this.props.item.name, this.props.item.id);
           }}
+          visible={this.props.visible}
         />
       </View>
     );
   }
 }
-const mapStateToProps = state => ({
-  position: state.userReducer.position,
-  calibration: state.boardReducer.calibration
-});
 
 const mapDispatchToProps = dispatch => ({
   removeFromBoard: id => dispatch(removeFromBoard(id)),
-  addInventory: (name, id) => dispatch(addInventory(name, id)),
-  getInventory: () => dispatch(getInventory())
+  addInventory: (name, id) => dispatch(addInventory(name, id))
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Heart);

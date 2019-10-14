@@ -12,31 +12,7 @@ import Crown from './components/crown.js';
 import Fireworks from './components/Fireworks';
 
 class YouWin extends Component {
-  // constructor() {
-  //   super();
-  //   // this.distanceBetween = this.distanceBetween.bind(this);
-  // }
-  async componentDidMount() {}
-  // componentWillUnmount() {
-  //   clearInterval(this.interval);
-  // }
-  // distance(position1, position2) {
-  //   let sumSquares = 0;
-  //   for (let i = 0; i <= 2; i++) {
-  //     sumSquares += Math.abs((position1[i] - position2[i]) ** 2);
-  //   }
-  //   return Math.sqrt(sumSquares);
-  // }
-
-  // async distanceBetween(component) {
-  //   let position2 = component.position;
-  //   if (this.arSceneRef) {
-  //     const position = await this.arSceneRef.getCameraOrientationAsync();
-  //     this.separation = this.distance(position.position, position2);
-  //   }
-  // }
   render() {
-    // console.log(this.props.arSceneNavigator);
     return (
       <ViroARScene>
         <ViroARCamera>
@@ -48,7 +24,7 @@ class YouWin extends Component {
             height={5}
             extrusionDepth={8}
             materials={['frontMaterial', 'backMaterial', 'sideMaterial']}
-            text='YOU WON!!!!!'
+            text="YOU WON!!!!!"
           />
           <Crown position={[0, 1, -2]} />
           <Fireworks

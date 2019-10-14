@@ -11,7 +11,7 @@ class Poop extends React.Component {
       <View>
         <Viro3DObject
           source={require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')}
-          type='VRX'
+          type="VRX"
           position={[this.props.xpos, this.props.ypos, this.props.zpos]}
           scale={[0.2, 0.2, 0.2]}
           onClick={() => {
@@ -24,7 +24,6 @@ class Poop extends React.Component {
     );
   }
 }
-const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
   removeFromBoard: id => dispatch(removeFromBoard(id)),
@@ -32,6 +31,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Poop);

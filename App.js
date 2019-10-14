@@ -182,9 +182,6 @@ class App extends Component {
     } else if (this.state.navigatorType === TUTORIAL) {
       return this.renderTutorialAR();
     }
-    // else if (this.state.navigatorType === MAP_ONE) {
-    //   return this.renderMapOne();
-    // }
   }
 
   //Renders the home screen
@@ -233,40 +230,6 @@ class App extends Component {
           </TouchableHighlight>
         </View>
       </View>
-      // <SlideMenu />
-      // <ImageBackground
-      //   source={require('./assets/white-wallpaper.jpg')}
-      //   style={localStyles.container}
-      // >
-      //   <View style={localStyles.overlayContainer}>
-      //     <View style={localStyles.top} activeOpacity={0.5}>
-      //       {/* <Text style={localStyles.header}>L O G O here</Text> */}
-      //       <Image
-      //         source={require('./js/client/res/Main.png')}
-      //         style={localStyles.container}
-      //       />
-      //     </View>
-      //     <View style={localStyles.selections}>
-      //       <View style={localStyles.menu} activeOpacity={0.5}>
-      //         <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
-      //           <Text style={localStyles.header}>P L A Y</Text>
-      //         </TouchableHighlight>
-      //       </View>
-      //       <View style={localStyles.menu} activeOpacity={0.5}>
-      //         <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
-      //           <Text style={localStyles.header}>L O A D</Text>
-      //         </TouchableHighlight>
-      //       </View>
-      //       <View style={localStyles.menu} activeOpacity={0.5}>
-      //         <TouchableHighlight
-      //           onPress={() => this.selectScreen(TUTORIAL, 0)}
-      //         >
-      //           <Text style={localStyles.header}>T U T O R I A L</Text>
-      //         </TouchableHighlight>
-      //       </View>
-      //     </View>
-      //   </View>
-      // </ImageBackground>
     );
   };
 
@@ -349,57 +312,6 @@ class App extends Component {
           </View>
         </View>
       </View>
-      // <ImageBackground
-      //   source={require('./assets/white-wallpaper.jpg')}
-      //   style={localStyles.container}
-      // >
-      //   <View style={localStyles.overlayContainer1}>
-      //     <View style={localStyles.top} activeOpacity={0.5}>
-      //       {/* <Text style={localStyles.header}>L O G O here</Text> */}
-      //       <Image
-      //         source={require('./js/client/res/Main.png')}
-      //         style={localStyles.container}
-      //       />
-      //     </View>
-      //     <View style={localStyles.menu1} activeOpacity={0.5}>
-      //       <TouchableHighlight
-      //         onPress={() => {
-      //           this.selectScreen(BOARD, 1);
-      //         }}
-      //       >
-      //         <Text style={localStyles.header}>
-      //           M A P #1
-      //           <Image
-      //             source={require('./js/client/res/inventory_icons/pixel_smiley.png')}
-      //             style={{ width: 50, height: 50 }}
-      //           />
-      //         </Text>
-      //       </TouchableHighlight>
-      //     </View>
-      //     <View style={localStyles.menu1} activeOpacity={0.5}>
-      //       <TouchableHighlight onPress={() => this.selectScreen(BOARD, 2)}>
-      //         <Text style={localStyles.header}>
-      //           M A P #2
-      //           <Image
-      //             source={require('./js/client/res/inventory_icons/pixel_heart.png')}
-      //             style={{ width: 50, height: 50 }}
-      //           />
-      //         </Text>
-      //       </TouchableHighlight>
-      //     </View>
-      //     <View style={localStyles.menu1} activeOpacity={0.5}>
-      //       <TouchableHighlight onPress={() => this.selectScreen(BOARD, 3)}>
-      //         <Text style={localStyles.header}>
-      //           M A P #3
-      //           <Image
-      //             source={require('./js/client/res/inventory_icons/pixel_turd.png')}
-      //             style={{ width: 50, height: 50 }}
-      //           />
-      //         </Text>
-      //       </TouchableHighlight>
-      //     </View>
-      //   </View>
-      // </ImageBackground>
     );
   };
 

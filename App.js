@@ -16,7 +16,8 @@ import {
   StyleSheet,
   TouchableHighlight,
   ImageBackground,
-  Image
+  Image,
+  Dimensions
 } from 'react-native';
 import sharedProps from './my_API_KEY';
 import { ViroARSceneNavigator } from 'react-viro';
@@ -128,8 +129,23 @@ let localStyles = StyleSheet.create({
   },
   selections: {
     alignItems: 'center'
+  },
+  container2: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  button2: {
+    backgroundColor: 'white',
+    height: 70,
+    marginHorizontal: 60,
+    borderRadius: 35,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginVertical: 10
   }
 });
+const { width, height } = Dimensions.get('window');
 
 class App extends Component {
   constructor() {
@@ -167,7 +183,48 @@ class App extends Component {
   //Renders the home screen
   homeScreen = () => {
     return (
-      <SlideMenu />
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: 'white',
+          justifyContent: 'flex-end'
+        }}
+      >
+        <View style={{ ...StyleSheet.absoluteFill }}>
+          <Image
+            source={require('./js/client/res/PlaygroundAR.jpg')}
+            style={{ flex: 1, height: null, width: null }}
+          />
+        </View>
+        <View style={localStyles.container2}>
+          <Image
+            source={require('./js/client/res/Playground_logo.png')}
+            resizeMode="contain"
+            style={{ height: '95%', width: '95%' }}
+          />
+        </View>
+
+        <View style={{ height: height / 2 }}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+            <View style={localStyles.button2}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>P L A Y </Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+            <View style={localStyles.button2}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>L O A D </Text>
+            </View>
+          </TouchableHighlight>
+          <TouchableHighlight onPress={() => this.selectScreen(TUTORIAL, 0)}>
+            <View style={localStyles.button2}>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                T U T O R I A L
+              </Text>
+            </View>
+          </TouchableHighlight>
+        </View>
+      </View>
+      // <SlideMenu />
       // <ImageBackground
       //   source={require('./assets/white-wallpaper.jpg')}
       //   style={localStyles.container}

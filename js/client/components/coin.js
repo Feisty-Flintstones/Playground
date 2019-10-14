@@ -42,12 +42,9 @@ class Coin extends React.Component {
         />
         <ViroSound
           paused={!this.state.coinSound}
-          // muted={this.state.coinSound}
           source={require('../../../assets/ring_sound_effect.mp3')}
           loop={false}
           volume={1.0}
-
-          // onError={this.onErrorSound}
         />
       </View>
     );

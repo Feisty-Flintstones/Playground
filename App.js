@@ -25,6 +25,7 @@ import Inventory from './js/client/Inventory';
 import CoinCounter from './js/client/CoinCounter';
 import Tutorial from './js/client/Tutorial';
 import YouWinAR from './js/client/YouWinAR';
+import SlideMenu from './js/client/SlideMenu';
 
 let UNSET = 'UNSET';
 let BOARD = 'AR';
@@ -137,7 +138,8 @@ class App extends Component {
     this.state = {
       navigatorType: defaultNavigatorType,
       sharedProps: sharedProps,
-      boardSelect: 0
+      boardSelect: 0,
+      isReady: false
     };
     this._getARNavigator = this._getARNavigator.bind(this);
     this._getTutorialARNavigator = this._getTutorialARNavigator.bind(this);
@@ -148,7 +150,7 @@ class App extends Component {
 
   render() {
     //****This IF statement declares which VIEW to display**** */
-    if (this.state.navigatorType === UNSET) {
+    if (this.state.navigatorType === UNSET && !this.state.isReady) {
       return this.homeScreen();
     } else if (this.state.navigatorType === LOAD) {
       return this.loadScreen();
@@ -165,39 +167,40 @@ class App extends Component {
   //Renders the home screen
   homeScreen = () => {
     return (
-      <ImageBackground
-        source={require('./assets/white-wallpaper.jpg')}
-        style={localStyles.container}
-      >
-        <View style={localStyles.overlayContainer}>
-          <View style={localStyles.top} activeOpacity={0.5}>
-            {/* <Text style={localStyles.header}>L O G O here</Text> */}
-            <Image
-              source={require('./js/client/res/Main.png')}
-              style={localStyles.container}
-            />
-          </View>
-          <View style={localStyles.selections}>
-            <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
-                <Text style={localStyles.header}>P L A Y</Text>
-              </TouchableHighlight>
-            </View>
-            <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
-                <Text style={localStyles.header}>L O A D</Text>
-              </TouchableHighlight>
-            </View>
-            <View style={localStyles.menu} activeOpacity={0.5}>
-              <TouchableHighlight
-                onPress={() => this.selectScreen(TUTORIAL, 0)}
-              >
-                <Text style={localStyles.header}>T U T O R I A L</Text>
-              </TouchableHighlight>
-            </View>
-          </View>
-        </View>
-      </ImageBackground>
+      <SlideMenu />
+      // <ImageBackground
+      //   source={require('./assets/white-wallpaper.jpg')}
+      //   style={localStyles.container}
+      // >
+      //   <View style={localStyles.overlayContainer}>
+      //     <View style={localStyles.top} activeOpacity={0.5}>
+      //       {/* <Text style={localStyles.header}>L O G O here</Text> */}
+      //       <Image
+      //         source={require('./js/client/res/Main.png')}
+      //         style={localStyles.container}
+      //       />
+      //     </View>
+      //     <View style={localStyles.selections}>
+      //       <View style={localStyles.menu} activeOpacity={0.5}>
+      //         <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+      //           <Text style={localStyles.header}>P L A Y</Text>
+      //         </TouchableHighlight>
+      //       </View>
+      //       <View style={localStyles.menu} activeOpacity={0.5}>
+      //         <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+      //           <Text style={localStyles.header}>L O A D</Text>
+      //         </TouchableHighlight>
+      //       </View>
+      //       <View style={localStyles.menu} activeOpacity={0.5}>
+      //         <TouchableHighlight
+      //           onPress={() => this.selectScreen(TUTORIAL, 0)}
+      //         >
+      //           <Text style={localStyles.header}>T U T O R I A L</Text>
+      //         </TouchableHighlight>
+      //       </View>
+      //     </View>
+      //   </View>
+      // </ImageBackground>
     );
   };
   //Renders the load screen

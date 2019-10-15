@@ -86,8 +86,8 @@ class DisconnectedMainScreenAR extends Component {
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        // source: require('./res/test.jpg'),
-        source: require('./res/tottem.jpg'),
+        source: require('./res/test.jpg'),
+        // source: require('./res/tottem.jpg'),
         orientation: 'Up',
         physicalWidth: 0.1
       }
@@ -194,7 +194,7 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case `Coin${piece.itemId}`:
+                      case 'Coin':
                         return (
                           <Coin
                             key={piece.itemId}

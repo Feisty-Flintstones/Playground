@@ -2,11 +2,17 @@ import React from 'react';
 import { Viro3DObject, ViroMaterials } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import {removeFromBoard } from '../store/boardReducer'
+import {removeFromBoard, moveBoardPiece} from '../store/boardReducer'
 import { addToInventory } from '../store/inventoryReducer.js';
 
 
 class Key extends React.Component {
+  constructor(){
+    super()
+    this.state = {
+      isDragging: false
+    }
+  }
   render() {
     return (
         <View>
@@ -17,16 +23,37 @@ class Key extends React.Component {
                 materials="key"
                 highAccuracyEvents={true}
                 position={[this.props.xpos, this.props.ypos, this.props.zpos]}
-                scale={[0.012, 0.012, 0.012]}
-                onClick={() => {
+                scale={[0.024, 0.024, 0.024]}
+                onDrag={(position) => {
+                  this.setState({
+                    isDragging: true
+                  })
+                  this.props.moveBoardPiece(this.props.id, position)
+                }}
+                onClickState={(state) => {
+                  if (state === 2) {
+                    this.setState ({
+                      isDragging: false
+                  })
+                  if(!this.state.isDragging){
                     this.props.removeFromBoard(this.props.id);
                     this.props.addToInventory(this.props.item.name, this.props.id);
+                    }
+                }}}
+                // visible={this.props.visible}
+                physicsBody={{
+                type:'dynamic',
+                mass: 1,
+                useGravity: false,
+                shape: {
+                  type: "Compound"
+                }
                 }}
-                visible={this.props.visible}
-                // physicsBody={{
-                // type:'kinematic',
-                // mass: 0
-                // }}
+                onCollision={(tag) => {
+                  if (tag === "lock"){
+                    this.props.removeFromBoard(this.props.id);
+                  }
+                }}
             />
         </View>
         );
@@ -41,17 +68,14 @@ ViroMaterials.createMaterials({
     },
 });
 
-const mapStateToProps = state => ({
-  // position: state.boardReducer.boardPieces[0].position
-});
-
 const mapDispatchToProps = dispatch => ({
   removeFromBoard: id => dispatch(removeFromBoard(id)),
-  addToInventory: (name, id) => dispatch(addToInventory(name, id))
+  addToInventory: (name, id) => dispatch(addToInventory(name, id)),
+  moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position))
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Key);
 

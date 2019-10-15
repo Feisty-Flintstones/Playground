@@ -6,44 +6,49 @@ async function seed() {
 
   const boards = await Promise.all([
     Board.create({
+      id: 0,
+      name: 'tutorial',
+      totem: `require('./res/tottem.jpg)`
+    }),
+    Board.create({
       id: 1,
       name: 'fullStack',
       totem: `require('./res/tottem.jpg')`
     }),
     Board.create({
-      id: 0,
-      name: 'tutorial',
-      totem: `require('./res/tottem.jpg)`
+      id: 2,
+      name: "test",
+      totem: `require('./res/test.jpg'),`
     })
   ]);
 
   const items = await Promise.all([
     Item.create({
-      name: 'Coin1',
+      name: 'Coin',
       source: 'required',
       is3D: true,
       id: 1
     }),
     Item.create({
-      name: 'Coin2',
+      name: 'Coin',
       source: 'required',
       is3D: true,
       id: 2
     }),
     Item.create({
-      name: 'Coin3',
+      name: 'Coin',
       source: 'required',
       is3D: true,
       id: 3
     }),
     Item.create({
-      name: 'Coin4',
+      name: 'Coin',
       source: 'required',
       is3D: true,
       id: 4
     }),
     Item.create({
-      name: 'Coin5',
+      name: 'Coin',
       source: 'required',
       is3D: true,
       id: 5
@@ -167,7 +172,25 @@ async function seed() {
     //   collected: false,
     //   itemId: 9,
     //   boardId: 1
-    // })
+    // }),
+    BoardObjective.create({
+      xpos: -4,
+      ypos: 0,
+      zpos: -10,
+      type: 'onClick',
+      collected: false,
+      itemId: 10,
+      boardId: 2
+    }),
+    BoardObjective.create({
+      xpos: 4,
+      ypos: 0,
+      zpos: -10,
+      type: 'onClick',
+      collected: false,
+      itemId: 11,
+      boardId: 2
+    })
   ]);
 
   console.log(`seeded ${boards.length} boards`);

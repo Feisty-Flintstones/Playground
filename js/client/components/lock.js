@@ -7,6 +7,11 @@ import { addToInventory } from '../store/inventoryReducer.js';
 
 
 class Lock extends React.Component {
+  onCollide(tag){
+    if (tag === "key"){
+      
+    }
+  }
   render() {
     return (
         <View>
@@ -17,11 +22,11 @@ class Lock extends React.Component {
                 highAccuracyEvents={true}
                 position={[this.props.xpos, this.props.ypos, this.props.zpos]}
                 scale={[0.012, 0.012, 0.012]}
-                // physicsBody={{
-                //     type:'static',
-                //     mass: 1
-                // }}
-                // onCollision={this.onCollide}
+                physicsBody={{
+                    type:'static',
+                    mass: 1
+                }}
+                onCollision={this.onCollide}
                 visible={this.props.visible}
             />
         </View>

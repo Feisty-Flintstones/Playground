@@ -97,32 +97,32 @@ async function seed() {
 
   const objectives = await Promise.all([
     BoardObjective.create({
-      xpos: 0,
-      ypos: 10,
-      zpos: 0,
-      type: 'onCollision',
-      collected: false,
-      itemId: 10,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 0,
-      ypos: 3,
-      zpos: 0,
-      type: 'onCollision',
-      collected: false,
-      itemId: 11,
-      boardId: 1
-    }),
-    BoardObjective.create({
       xpos: -20,
       ypos: 10,
-      zpos: 0,
-      type: 'onClick',
+      zpos: 40,
+      type: 'onCollision',
       collected: false,
-      itemId: 7,
+      itemId: 1,
       boardId: 1
     }),
+    BoardObjective.create({
+      xpos: -30,
+      ypos: 0,
+      zpos: 20,
+      type: 'onCollision',
+      collected: false,
+      itemId: 2,
+      boardId: 1
+    }),
+    // BoardObjective.create({
+    //   xpos: -20,
+    //   ypos: 10,
+    //   zpos: 0,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 7,
+    //   boardId: 1
+    // }),
     BoardObjective.create({
       xpos: -20,
       ypos: 15,
@@ -132,24 +132,24 @@ async function seed() {
       itemId: 3,
       boardId: 1
     }),
-    BoardObjective.create({
-      xpos: 0,
-      ypos: 10,
-      zpos: 0,
-      type: 'onClick',
-      collected: false,
-      itemId: 6,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: -10,
-      ypos: 0,
-      zpos: 30,
-      type: 'onClick',
-      collected: false,
-      itemId: 8,
-      boardId: 1
-    }),
+    // BoardObjective.create({
+    //   xpos: 0,
+    //   ypos: 10,
+    //   zpos: 0,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 6,
+    //   boardId: 1
+    // }),
+    // BoardObjective.create({
+    //   xpos: -10,
+    //   ypos: 0,
+    //   zpos: 30,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 8,
+    //   boardId: 1
+    // }),
     BoardObjective.create({
       xpos: -20,
       ypos: 10,
@@ -159,15 +159,15 @@ async function seed() {
       itemId: 5,
       boardId: 1
     }),
-    BoardObjective.create({
-      xpos: -40,
-      ypos: 10,
-      zpos: 30,
-      type: 'onClick',
-      collected: false,
-      itemId: 9,
-      boardId: 1
-    })
+    // BoardObjective.create({
+    //   xpos: -40,
+    //   ypos: 10,
+    //   zpos: 30,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 9,
+    //   boardId: 1
+    // })
   ]);
 
   console.log(`seeded ${boards.length} boards`);

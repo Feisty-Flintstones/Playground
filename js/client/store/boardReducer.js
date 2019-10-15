@@ -11,9 +11,17 @@ const initialBoard = {
 };
 
 const LOAD_BOARD = 'LOAD_BOARD';
-
+const MOVE_BOARD_PIECE = 'MOVE_BOARD_PIECE';
 const ADD_TO_BOARD = 'ADD_TO_BOARD';
 const REMOVE_FROM_BOARD = 'REMOVE_FROM_BOARD';
+const ADD_COIN_TO_BOARD = 'ADD_COIN_TO_BOARD';
+
+export const addCoinToBoard = id => {
+  return {
+    type: ADD_COIN_TO_BOARD,
+    id
+  }
+}
 
 export const addToBoard = id => {
   return {
@@ -34,7 +42,6 @@ export const gotLoadedBoard = board => {
   };
 };
 
-const MOVE_BOARD_PIECE = 'MOVE_BOARD_PIECE';
 export const moveBoardPiece = (id, position) => {
   return {
     type: MOVE_BOARD_PIECE,
@@ -86,7 +93,6 @@ export default function(state = initialBoard, action) {
         ]
       };
     case REMOVE_FROM_BOARD:
-      console.log('REMOVE', action);
       return {
         ...state,
         boardPieces: [
@@ -101,7 +107,6 @@ export default function(state = initialBoard, action) {
         ]
       };
     case ADD_TO_BOARD:
-      console.log('ADD', action);
       return {
         ...state,
         boardPieces: [
@@ -113,6 +118,18 @@ export default function(state = initialBoard, action) {
           })
         ]
       };
+      case ADD_COIN_TO_BOARD:
+        return {
+          ...state,
+          boardPieces: [
+            ...state.boardPieces.map(element => {
+              if (element.itemId === action.id) {
+                element.name = "Coin"
+              }
+              return element;
+            })
+          ]
+        };
     default:
       return state;
   }

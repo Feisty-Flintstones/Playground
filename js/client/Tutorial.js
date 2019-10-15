@@ -33,7 +33,7 @@ class Tutorial extends React.Component {
       update: false,
       firstBB: true,
       secondBB: true,
-      thirdBB: true,
+      thirdBB: false,
       fourthBB: true,
       totem: true
     };
@@ -89,7 +89,18 @@ class Tutorial extends React.Component {
           this.arSceneRef = component;
         }}
       >
-        <ViroAmbientLight color={'#aaaaaa'} intensity={5000} />
+        <ViroSpotLight
+          innerAngle={5}
+          outerAngle={25}
+          direction={[0, -1, 0]}
+          position={[0, 5, 0]}
+          color="#e9e9e9"
+          castsShadow={true}
+          shadowMapSize={2048}
+          shadowNearZ={2}
+          shadowFarZ={7}
+          shadowOpacity={0.7}
+        />
         <ViroSpotLight
           innerAngle={5}
           outerAngle={90}
@@ -211,13 +222,46 @@ class Tutorial extends React.Component {
             </ViroFlexView>
           </View> */}
 
-          <Coin xpos={0} ypos={0} zpos={2} visible={true} />
-          <Coin xpos={-1} ypos={0} zpos={2} visible={true} />
-          <Coin xpos={-2} ypos={0} zpos={2} visible={true} />
-          <Coin xpos={-3} ypos={0} zpos={2} visible={true} />
-          <Coin xpos={-4} ypos={0} zpos={2} visible={true} />
+          <Coin xpos={0} ypos={0} zpos={3} visible={true} />
+          <Coin xpos={-1} ypos={0} zpos={3} visible={true} />
+          <Coin xpos={-2} ypos={0} zpos={3} visible={true} />
+          <Coin xpos={-3} ypos={0} zpos={3} visible={true} />
+          <Coin xpos={-4} ypos={0} zpos={3} visible={true} />
+          {this.props.coins === 5 ? (
+            <ViroFlexView
+              transformBehaviors={['billboard']}
+              style={styles.titleContainerGood}
+              position={[0, 0, -7]}
+              scale={[0.5, 0.5, 0.5]}
+              height={2.5}
+              width={6}
+              alignItems="center"
+              justifyContent="center"
+              onClick={() => this.setState({ thirdBB: true })}
+              visible={this.state.thirdBB}
+            >
+              <ViroText
+                style={styles.prodTitleText}
+                width={6}
+                height={0.5}
+                flexWrap="wrap"
+                padding={0.2}
+                textAlign="center"
+                text="GRATZ!"
+              />
+              <ViroText
+                style={styles.prodTitleText}
+                width={6}
+                height={0.5}
+                flexWrap="wrap"
+                padding={0.2}
+                textAlign="center"
+                text="Click to dismiss hint"
+              />
+            </ViroFlexView>
+          ) : null}
 
-          <ViroText
+          {/* <ViroText
             style={styles.prodTitleText}
             width={6}
             height={0.5}
@@ -227,7 +271,7 @@ class Tutorial extends React.Component {
             textAlign="center"
             text="Items are hidden until you're close to them!"
             visible={this.state.fourthBB}
-          />
+          /> */}
         </ViroARImageMarker>
       </ViroARScene>
     );
@@ -254,7 +298,8 @@ let styles = StyleSheet.create({
 
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
-  calibration: state.boardReducer.calibration
+  calibration: state.boardReducer.calibration,
+  coins: state.inventoryReducer.coins
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { connect } from 'react-redux';
+import { timeUp } from './store/timeReducer';
 
 class CoinCounter extends React.Component {
   constructor() {
@@ -17,7 +18,8 @@ class CoinCounter extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.timer === 1) {
+    if (this.state.timer === 0) {
+      this.props.timeUp();
       clearInterval(this.interval);
     }
   }
@@ -64,7 +66,13 @@ const mapStateToProps = state => ({
   coins: state.inventoryReducer.coins
 });
 
+const mapDispatchToProps = dispatch => ({
+  timeUp: () => {
+    dispatch(timeUp());
+  }
+});
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(CoinCounter);

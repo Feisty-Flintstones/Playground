@@ -15,10 +15,11 @@ import Smiley from './components/smiley';
 import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
-import Key from './components/key'
-import Lock from './components/lock'
+import Key from './components/key';
+import Lock from './components/lock';
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
+import YouLoseAR from './YouLoseAR';
 
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
@@ -57,10 +58,10 @@ class DisconnectedMainScreenAR extends Component {
   }
 
   async distanceBetween(component) {
-    if (!this.worldOriginRef) return
-    let xpos = component.xpos/10 + this.worldOriginRef[0];
-    let ypos = component.ypos/10 + this.worldOriginRef[1];
-    let zpos = component.zpos/10 + this.worldOriginRef[2];
+    if (!this.worldOriginRef) return;
+    let xpos = component.xpos / 10 + this.worldOriginRef[0];
+    let ypos = component.ypos / 10 + this.worldOriginRef[1];
+    let zpos = component.zpos / 10 + this.worldOriginRef[2];
     let position2 = [xpos, ypos, zpos];
     if (this.arSceneRef && position2) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
@@ -69,19 +70,29 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
-    console.log('COMPONENT NAME: ', component.name, 'POSITION: ', position2, 'WORLD ORIGIN REFERENCE: ', this.worldOriginRef)
-    console.log("DISTANCE :", this.separation[component.itemId])
+    console.log(
+      'COMPONENT NAME: ',
+      component.name,
+      'POSITION: ',
+      position2,
+      'WORLD ORIGIN REFERENCE: ',
+      this.worldOriginRef
+    );
+    console.log('DISTANCE :', this.separation[component.itemId]);
   }
-  onCollide() {
-  }
+  onCollide() {}
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
+  youLose() {
+    this.props.arSceneNavigator.pop();
+    this.props.arSceneNavigator.push({ scene: YouLoseAR });
+  }
 
   async handleOrigin() {
-    const {position} = await this.arSceneRef.getCameraOrientationAsync();
-    this.worldOriginRef = position
+    const { position } = await this.arSceneRef.getCameraOrientationAsync();
+    this.worldOriginRef = position;
   }
   render() {
     ViroARTrackingTargets.createTargets({
@@ -91,7 +102,6 @@ class DisconnectedMainScreenAR extends Component {
         orientation: 'Up',
         physicalWidth: 0.1
       }
-      
     });
     return (
       <ViroARScene
@@ -100,46 +110,46 @@ class DisconnectedMainScreenAR extends Component {
         }}
       >
         <ViroARImageMarker
-          target="calibrate"
+          target='calibrate'
           pauseUpdates={this.props.calibration}
         >
           <View>
-
-          {/* SPOTLIGHT AND SHADING */}
-          <ViroSpotLight
-            innerAngle={5}
-            outerAngle={25}
-            direction={[0,-1,0]}
-            position={[0, 5, 0]}
-            color="#e9e9e9"
-            castsShadow={true}
-            shadowMapSize={2048}
-            shadowNearZ={2}
-            shadowFarZ={7}
-            shadowOpacity={.7}
-          />
+            {/* SPOTLIGHT AND SHADING */}
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={25}
+              direction={[0, -1, 0]}
+              position={[0, 5, 0]}
+              color='#e9e9e9'
+              castsShadow={true}
+              shadowMapSize={2048}
+              shadowNearZ={2}
+              shadowFarZ={7}
+              shadowOpacity={0.7}
+            />
             <ViroSpotLight
               innerAngle={5}
               outerAngle={90}
               direction={[0, -1, -0.2]}
               position={[0, 3, 1]}
-              color="#ffffff"
+              color='#ffffff'
               castsShadow={true}
             />
             <Viro3DObject
-            source = {require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
-            type = 'VRX'
-            resources = {[
-              require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
-              require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
-              require('./res/animated_objects/emoji_sad_anim/emoji_sad_specular.png')
-            ]}
-            position = {[0,0,0]}
-            onClick = {this.handleOrigin}
-            scale = {[.05,.05,.05]}
+              source={require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
+              type='VRX'
+              resources={[
+                require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
+                require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
+                require('./res/animated_objects/emoji_sad_anim/emoji_sad_specular.png')
+              ]}
+              position={[0, 0, 0]}
+              onClick={this.handleOrigin}
+              scale={[0.05, 0.05, 0.05]}
             />
 
             {/* BOARD OBJECTIVES */}
+            {this.props.timeUp ? this.youLose() : null}
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
@@ -170,7 +180,7 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                        case 'Key':
+                      case 'Key':
                         return (
                           <Key
                             key={piece.itemId}
@@ -182,7 +192,7 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                        case 'Lock':
+                      case 'Lock':
                         return (
                           <Lock
                             key={piece.itemId}
@@ -232,7 +242,8 @@ var styles = StyleSheet.create({
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
   calibration: state.boardReducer.calibration,
-  coins: state.inventoryReducer.coins
+  coins: state.inventoryReducer.coins,
+  timeUp: state.timeReducer.timeUp
 });
 
 const mapDispatchToProps = dispatch => ({

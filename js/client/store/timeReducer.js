@@ -1,24 +1,23 @@
-import axios from "axios";
+import axios from 'axios';
 // import history from "../history";
 
 /**
  * ACTION TYPES
  */
-const SET_USER_POSITION = "SET_USER_POSITION";
+const SET_TIME_UP = 'SET_TIME_UP';
 
 /**
  * INITIAL STATE
  */
 const defaultUser = {
-  position: [0, 0, -1]
+  timeUp: false
 };
 
 /**
  * ACTION CREATORS
  */
-export const setUserPosition = position => ({
-  type: SET_USER_POSITION,
-  position
+export const timeUp = () => ({
+  type: SET_TIME_UP
 });
 
 /**
@@ -30,8 +29,8 @@ export const setUserPosition = position => ({
  */
 export default function(state = defaultUser, action) {
   switch (action.type) {
-    case SET_USER_POSITION:
-      return { ...state, position: action.position };
+    case SET_TIME_UP:
+      return { ...state, timeUp: true };
     default:
       return state;
   }

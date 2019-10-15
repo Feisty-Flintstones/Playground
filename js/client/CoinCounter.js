@@ -3,7 +3,7 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { connect } from 'react-redux';
-import { decrementTime, timeOut } from './store/timeReducer';
+import { timeUp } from './store/timeReducer';
 
 class CoinCounter extends React.Component {
   constructor() {
@@ -14,8 +14,8 @@ class CoinCounter extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.timer === 1) {
-      // this.props.timeOut();
+    if (this.state.timer === 0) {
+      this.props.timeUp();
       clearInterval(this.interval);
     }
   }
@@ -69,7 +69,13 @@ const mapDispatch = dispatch => {
   };
 };
 
+const mapDispatchToProps = dispatch => ({
+  timeUp: () => {
+    dispatch(timeUp());
+  }
+});
+
 export default connect(
-  mapStateToProps,
-  mapDispatch
+  mapStateToProps
+  mapDispatchToProps
 )(CoinCounter);

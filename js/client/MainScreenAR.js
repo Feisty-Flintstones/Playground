@@ -19,8 +19,8 @@ import Key from './components/key';
 import Lock from './components/lock';
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
-import YouLostAR from './YouLoseAR';
-// var createReactClass = require("create-react-class");
+import YouLoseAR from './YouLoseAR';
+
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
@@ -85,9 +85,10 @@ class DisconnectedMainScreenAR extends Component {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
-  youLost() {
+
+  youLose() {
     this.props.arSceneNavigator.pop();
-    this.props.arSceneNavigator.push({ scene: YouLostAR });
+    this.props.arSceneNavigator.push({ scene: YouLoseAR });
   }
 
   async handleOrigin() {
@@ -97,8 +98,8 @@ class DisconnectedMainScreenAR extends Component {
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        // source: require('./res/test.jpg'),
-        source: require('./res/tottem.jpg'),
+        source: require('./res/test.jpg'),
+        // source: require('./res/tottem.jpg'),
         orientation: 'Up',
         physicalWidth: 0.1
       }
@@ -110,7 +111,7 @@ class DisconnectedMainScreenAR extends Component {
         }}
       >
         <ViroARImageMarker
-          target="calibrate"
+          target='calibrate'
           pauseUpdates={this.props.calibration}
         >
           <View>
@@ -120,7 +121,7 @@ class DisconnectedMainScreenAR extends Component {
               outerAngle={25}
               direction={[0, -1, 0]}
               position={[0, 5, 0]}
-              color="#e9e9e9"
+              color='#e9e9e9'
               castsShadow={true}
               shadowMapSize={2048}
               shadowNearZ={2}
@@ -132,12 +133,12 @@ class DisconnectedMainScreenAR extends Component {
               outerAngle={90}
               direction={[0, -1, -0.2]}
               position={[0, 3, 1]}
-              color="#ffffff"
+              color='#ffffff'
               castsShadow={true}
             />
             <Viro3DObject
               source={require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
-              type="VRX"
+              type='VRX'
               resources={[
                 require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
                 require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
@@ -149,7 +150,7 @@ class DisconnectedMainScreenAR extends Component {
             />
 
             {/* BOARD OBJECTIVES */}
-            {/* {this.props.timer === 1 ? this.youLost() : null} */}
+            {this.props.timeUp ? this.youLose() : null}
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
@@ -204,7 +205,7 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case `Coin${piece.itemId}`:
+                      case 'Coin':
                         return (
                           <Coin
                             key={piece.itemId}
@@ -243,8 +244,7 @@ const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
   calibration: state.boardReducer.calibration,
   coins: state.inventoryReducer.coins,
-  timer: state.timeReducer.timer,
-  timeLeft: state.timeReducer.timeLeft
+  timeUp: state.timeReducer.timeUp
 });
 
 const mapDispatchToProps = dispatch => ({

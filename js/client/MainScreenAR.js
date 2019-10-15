@@ -19,7 +19,7 @@ import Key from './components/key';
 import Lock from './components/lock';
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
-
+import YouLostAR from './YouLoseAR';
 // var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
@@ -33,6 +33,7 @@ class DisconnectedMainScreenAR extends Component {
     this.youWon = this.youWon.bind(this);
     this.worldOriginRef = undefined;
     this.handleOrigin = this.handleOrigin.bind(this);
+    this.youLost = this.youLost.bind(this);
   }
   componentDidMount() {
     this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
@@ -83,6 +84,10 @@ class DisconnectedMainScreenAR extends Component {
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
+  }
+  youLost() {
+    this.props.arSceneNavigator.pop();
+    this.props.arSceneNavigator.push({ scene: YouLostAR });
   }
 
   async handleOrigin() {
@@ -144,6 +149,7 @@ class DisconnectedMainScreenAR extends Component {
             />
 
             {/* BOARD OBJECTIVES */}
+            {/* {this.props.timer === 1 ? this.youLost() : null} */}
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
@@ -236,7 +242,9 @@ var styles = StyleSheet.create({
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
   calibration: state.boardReducer.calibration,
-  coins: state.inventoryReducer.coins
+  coins: state.inventoryReducer.coins,
+  timer: state.timeReducer.timer,
+  timeLeft: state.timeReducer.timeLeft
 });
 
 const mapDispatchToProps = dispatch => ({

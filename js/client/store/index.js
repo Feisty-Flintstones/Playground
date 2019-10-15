@@ -6,12 +6,14 @@ import userReducer from './userReducer';
 import boardReducer from './boardReducer';
 import objReducer from './objReducer';
 import inventoryReducer from './inventoryReducer';
+import timeReducer from './timeReducer';
 
 const reducer = combineReducers({
   userReducer,
   objReducer,
   boardReducer,
-  inventoryReducer
+  inventoryReducer,
+  timeReducer
 });
 
 const middleware = composeWithDevTools(applyMiddleware(thunkMiddleware));

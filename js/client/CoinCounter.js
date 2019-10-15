@@ -3,21 +3,19 @@
 import React from 'react';
 import { Text, View, Image } from 'react-native';
 import { connect } from 'react-redux';
+import { decrementTime, timeOut } from './store/timeReducer';
 
 class CoinCounter extends React.Component {
   constructor() {
     super();
-    this.state = { timer: 300 };
   }
   componentDidMount() {
-    this.interval = setInterval(
-      () => this.setState(prevState => ({ timer: prevState.timer - 1 })),
-      1000
-    );
+    this.interval = setInterval(() => this.props.decrementTime(), 1000);
   }
 
   componentDidUpdate() {
-    if (this.state.timer === 1) {
+    if (this.props.timer === 1) {
+      // this.props.timeOut();
       clearInterval(this.interval);
     }
   }
@@ -46,7 +44,7 @@ class CoinCounter extends React.Component {
               paddingRight: '65%'
             }}
           >
-            {this.state.timer + 's'}
+            {this.props.timer + 's'}
           </Text>
           <Text style={{ color: 'white', fontSize: 20 }}>
             {this.props.coins + '/5'}
@@ -61,10 +59,17 @@ class CoinCounter extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  coins: state.inventoryReducer.coins
+  coins: state.inventoryReducer.coins,
+  timer: state.timeReducer.timer
 });
+const mapDispatch = dispatch => {
+  return {
+    decrementTime: () => dispatch(decrementTime()),
+    timeOut: () => dispatch(timeOut())
+  };
+};
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatch
 )(CoinCounter);

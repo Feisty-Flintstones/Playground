@@ -22,6 +22,7 @@ import {
   removeFromInventory
 } from './store/inventoryReducer.js';
 import Coin from './components/coin';
+import Smiley from './components/smiley';
 
 class Tutorial extends React.Component {
   constructor() {
@@ -33,7 +34,7 @@ class Tutorial extends React.Component {
       update: false,
       firstBB: true,
       secondBB: true,
-      thirdBB: false,
+      thirdBB: true,
       fourthBB: true,
       totem: true
     };
@@ -128,7 +129,7 @@ class Tutorial extends React.Component {
             flexWrap="wrap"
             padding={0.2}
             textAlign="center"
-            text="Find your TOTEM to calibrate BOARD!"
+            text="Find your TOTEM to start game!"
           />
           <ViroText
             style={styles.prodTitleText}
@@ -137,7 +138,7 @@ class Tutorial extends React.Component {
             flexWrap="wrap"
             padding={0.2}
             textAlign="center"
-            text="Click to dismiss hint"
+            text="Hover your device over TOTEM to calibrate"
           />
         </ViroFlexView>
 
@@ -163,7 +164,7 @@ class Tutorial extends React.Component {
             onClick={() => {
               this.props.setCalibration(true);
             }}
-            scale={[0.09, 0.09, 0.09]}
+            scale={[0.04, 0.04, 0.04]}
             height={1}
             width={2}
             source={require('./res/start.png')}
@@ -221,6 +222,7 @@ class Tutorial extends React.Component {
               />
             </ViroFlexView>
           </View> */}
+          <Smiley xpos={-5} ypos={0} zpos={1} visible={true} />
 
           <Coin xpos={0} ypos={0} zpos={3} visible={true} />
           <Coin xpos={-1} ypos={0} zpos={3} visible={true} />
@@ -228,37 +230,76 @@ class Tutorial extends React.Component {
           <Coin xpos={-3} ypos={0} zpos={3} visible={true} />
           <Coin xpos={-4} ypos={0} zpos={3} visible={true} />
           {this.props.coins === 5 ? (
-            <ViroFlexView
-              transformBehaviors={['billboard']}
-              style={styles.titleContainerGood}
-              position={[0, 0, -7]}
-              scale={[0.5, 0.5, 0.5]}
-              height={2.5}
-              width={6}
-              alignItems="center"
-              justifyContent="center"
-              onClick={() => this.setState({ thirdBB: true })}
-              visible={this.state.thirdBB}
-            >
-              <ViroText
-                style={styles.prodTitleText}
+            <ViroARCamera>
+              <ViroFlexView
+                transformBehaviors={['billboard']}
+                style={styles.titleContainerGood}
+                position={[0, 0, -7]}
+                scale={[0.5, 0.5, 0.5]}
+                height={2.5}
                 width={6}
-                height={0.5}
-                flexWrap="wrap"
-                padding={0.2}
-                textAlign="center"
-                text="GRATZ!"
-              />
-              <ViroText
-                style={styles.prodTitleText}
-                width={6}
-                height={0.5}
-                flexWrap="wrap"
-                padding={0.2}
-                textAlign="center"
-                text="Click to dismiss hint"
-              />
-            </ViroFlexView>
+                alignItems="center"
+                justifyContent="center"
+                onClick={() => this.setState({ thirdBB: false })}
+                visible={this.state.thirdBB}
+              >
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="You got all the coins!"
+                />
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="You can also collect items and"
+                />
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="store it in your inventory list."
+                />
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="Look for the smiley and click to add it."
+                />
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="Click it from your inventory to discard."
+                />
+
+                {/* <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="Click to dismiss hint"
+                /> */}
+              </ViroFlexView>
+            </ViroARCamera>
           ) : null}
 
           {/* <ViroText

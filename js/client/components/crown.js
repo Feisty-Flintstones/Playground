@@ -14,10 +14,7 @@ class Crown extends React.Component {
           position={this.props.position}
           scale={[0.01, 0.01, 0.01]}
           rotation={[-90, 0, 0]}
-          onClick={() => {
-            // this.props.removeFromBoard(this.props.item.id);
-            // this.props.addToInventory(this.props.item.name, this.props.item.id);
-          }}
+          onClick={this.props.handleClick}
           //   visible={this.props.visible}
         />
       </View>

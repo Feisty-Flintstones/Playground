@@ -17,7 +17,7 @@ class Key extends React.Component {
                 materials="key"
                 highAccuracyEvents={true}
                 position={[this.props.xpos, this.props.ypos, this.props.zpos]}
-                scale={[0.005, 0.005, 0.005]}
+                scale={[0.012, 0.012, 0.012]}
                 onClick={() => {
                     this.props.removeFromBoard(this.props.id);
                     this.props.addToInventory(this.props.item.name, this.props.id);

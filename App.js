@@ -359,6 +359,7 @@ class App extends Component {
       <Provider store={store}>
         {this._getCoinCounter()}
         {this._getTutorialARNavigator()}
+        {this._getInventorySlot()}
       </Provider>
     );
   };

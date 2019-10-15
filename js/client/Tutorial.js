@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
+import { setCalibration } from './store/boardReducer.js';
+
 import {
   ViroARScene,
   Viro3DObject,
@@ -10,7 +12,9 @@ import {
   ViroARImageMarker,
   ViroARTrackingTargets,
   ViroFlexView,
-  ViroText
+  ViroText,
+  ViroARCamera,
+  ViroImage
 } from 'react-viro';
 import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
 import {
@@ -30,7 +34,8 @@ class Tutorial extends React.Component {
       firstBB: true,
       secondBB: true,
       thirdBB: true,
-      fourthBB: true
+      fourthBB: true,
+      totem: true
     };
     this.separation = Infinity;
     this.distanceBetween = this.distanceBetween.bind(this);
@@ -96,8 +101,8 @@ class Tutorial extends React.Component {
         <ViroFlexView
           transformBehaviors={['billboard']}
           style={styles.titleContainerGood}
-          position={[0, 0, -5]}
-          scale={[0.75, 0.75, 0.75]}
+          position={[0, 0, -7]}
+          scale={[0.5, 0.5, 0.5]}
           height={2.5}
           width={6}
           alignItems="center"
@@ -114,26 +119,51 @@ class Tutorial extends React.Component {
             textAlign="center"
             text="Find your TOTEM to calibrate BOARD!"
           />
+          <ViroText
+            style={styles.prodTitleText}
+            width={6}
+            height={0.5}
+            flexWrap="wrap"
+            padding={0.2}
+            textAlign="center"
+            text="Click to dismiss hint"
+          />
         </ViroFlexView>
+
+        <ViroImage
+          position={[0, 0.6, -2]}
+          scale={[0.25, 0.25, 0.25]}
+          height={2}
+          width={2}
+          source={require('./res/tottem.jpg')}
+          visible={this.state.firstBB}
+        />
+
+        {/* Step# 2 */}
+
         <ViroARImageMarker
           target="calibrate"
           pauseUpdates={this.props.calibration}
         >
-          <ViroText
-            style={styles.prodTitleText}
-            width={3}
-            height={0.5}
-            flexWrap="wrap"
-            textAlign="center"
-            text="√"
+          <ViroImage
+            position={[0, 0, 0]}
+            rotation={[-90, 0, 0]}
+            onClick={() => {
+              this.props.setCalibration(true);
+            }}
+            scale={[0.09, 0.09, 0.09]}
+            height={1}
+            width={2}
+            source={require('./res/start.png')}
           />
+
           <View>
             <ViroAmbientLight color="#aaaaaa" />
             <ViroFlexView
               transformBehaviors={['billboard']}
               style={styles.titleContainerGood}
-              position={[0, 0, -5]}
-              scale={[0.75, 0.75, 0.75]}
+              position={[0, -0.9, -5]}
+              scale={[0.5, 0.5, 0.5]}
               height={2.5}
               width={6}
               alignItems="center"
@@ -153,7 +183,7 @@ class Tutorial extends React.Component {
             </ViroFlexView>
           </View>
           {/* Step # 3 */}
-          <View>
+          {/* <View>
             <ViroFlexView
               transformBehaviors={['billboard']}
               style={styles.titleContainerGood}
@@ -178,14 +208,20 @@ class Tutorial extends React.Component {
                 text="Keep walking this way until you see it..."
               />
             </ViroFlexView>
-          </View>
-          <Coin xpos={0} ypos={0} zpos={7} visible={this.separation <= 2} />
+          </View> */}
+
+          <Coin xpos={0} ypos={0} zpos={2} visible={true} />
+          <Coin xpos={-1} ypos={0} zpos={2} visible={true} />
+          <Coin xpos={-2} ypos={0} zpos={2} visible={true} />
+          <Coin xpos={-3} ypos={0} zpos={2} visible={true} />
+          <Coin xpos={-4} ypos={0} zpos={2} visible={true} />
+
           <ViroText
             style={styles.prodTitleText}
             width={6}
             height={0.5}
             flexWrap="wrap"
-            position={[0, 0, 8]}
+            position={[0, 0, 5]}
             padding={0.2}
             textAlign="center"
             text="Items are hidden until you're close to them!"
@@ -221,7 +257,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  loadBoard: id => dispatch(loadBoard(id))
+  loadBoard: id => dispatch(loadBoard(id)),
+  setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated))
 });
 
 export default connect(

@@ -13,7 +13,6 @@ class Coin extends React.Component {
     };
   }
   render() {
-    console.log(this.state);
     ViroAnimations.registerAnimations({
       rotate: {
         properties: {
@@ -31,7 +30,6 @@ class Coin extends React.Component {
           scale={[0.0005, 0.0005, 0.0005]}
           onClick={() => {
             this.props.addCoins();
-            console.log(this.state);
             this.setState({
               visible: false,
               coinSound: true

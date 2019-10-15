@@ -19,18 +19,50 @@ async function seed() {
 
   const items = await Promise.all([
     Item.create({
+      name: 'Coin1',
+      source: 'required',
+      is3D: true,
+      id: 1
+    }),
+    Item.create({
+      name: 'Coin2',
+      source: 'required',
+      is3D: true,
+      id: 2
+    }),
+    Item.create({
+      name: 'Coin3',
+      source: 'required',
+      is3D: true,
+      id: 3
+    }),
+    Item.create({
+      name: 'Coin4',
+      source: 'required',
+      is3D: true,
+      id: 4
+    }),
+    Item.create({
+      name: 'Coin5',
+      source: 'required',
+      is3D: true,
+      id: 5
+    }),
+    Item.create({
       name: 'Star',
       source: `require('./res/animated_objects/object_star_anim/object_star_anim.vrx')`,
       resources: `[
                 require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
                 require('./res/animated_objects/object_star_anim/object_star_specular.png')
             ]`,
-      is3D: true
+      is3D: true,
+      id: 6
     }),
     Item.create({
       name: 'Smiley',
       source: `require("./res/animated_objects/emoji_smile/emoji_smile.vrx")`,
-      is3D: true
+      is3D: true,
+      id: 7
     }),
     Item.create({
       name: 'Heart',
@@ -39,37 +71,27 @@ async function seed() {
                 require('../res/animated_objects/emoji_heart_anim/emoji_heart_specular.png'),
                 require('../res/animated_objects/emoji_heart_anim/emoji_heart.png')
             ]`,
-      is3D: true
+      is3D: true,
+      id: 8
     }),
     Item.create({
       name: 'Poop',
       source: `require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')`,
-      is3D: true
+      is3D: true,
+      id: 9
     }),
     Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
+      name: 'Key',
+      source: `require('../res/key/key.obj')`,
+      resources: `[require('../res/key/key.bmp')]`,
+      is3D: true,
+      id: 10
     }),
     Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
-    }),
-    Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
-    }),
-    Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
-    }),
-    Item.create({
-      name: 'Coin',
-      source: 'required',
-      is3D: true
+      name: 'Lock',
+      source: `require('../res/padlock/scene.gltf')`,
+      is3D: true,
+      id: 11
     })
   ]);
 
@@ -77,19 +99,19 @@ async function seed() {
     BoardObjective.create({
       xpos: 0,
       ypos: 0,
-      zpos: -5,
-      type: 'onClick',
+      zpos: 0,
+      type: 'onCollision',
       collected: false,
-      itemId: 1,
+      itemId: 10,
       boardId: 1
     }),
     BoardObjective.create({
       xpos: 0,
-      ypos: 0,
-      zpos: -20,
-      type: 'onClick',
+      ypos: 3,
+      zpos: 0,
+      type: 'onCollision',
       collected: false,
-      itemId: 2,
+      itemId: 11,
       boardId: 1
     }),
     BoardObjective.create({
@@ -98,7 +120,7 @@ async function seed() {
       zpos: 0,
       type: 'onClick',
       collected: false,
-      itemId: 4,
+      itemId: 7,
       boardId: 1
     }),
     BoardObjective.create({
@@ -117,15 +139,6 @@ async function seed() {
       type: 'onClick',
       collected: false,
       itemId: 6,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 0,
-      ypos: 0,
-      zpos: 30,
-      type: 'onClick',
-      collected: false,
-      itemId: 7,
       boardId: 1
     }),
     BoardObjective.create({

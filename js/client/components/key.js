@@ -23,10 +23,10 @@ class Key extends React.Component {
                     this.props.addToInventory(this.props.item.name, this.props.id);
                 }}
                 visible={this.props.visible}
-                physicsBody={{
-                type:'kinematic',
-                mass: 0
-                }}
+                // physicsBody={{
+                // type:'kinematic',
+                // mass: 0
+                // }}
             />
         </View>
         );

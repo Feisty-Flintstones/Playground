@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import { setCalibration } from './store/boardReducer.js';
-
+import MapMarker from './components/mapMarker';
 import {
   ViroARScene,
   Viro3DObject,
@@ -145,6 +145,7 @@ class Tutorial extends React.Component {
           target="calibrate"
           pauseUpdates={this.props.calibration}
         >
+          <MapMarker position={[0, 0.2, 0]} />
           <ViroImage
             position={[0, 0, 0]}
             rotation={[-90, 0, 0]}

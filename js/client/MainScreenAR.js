@@ -7,6 +7,7 @@ import {
   ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
+  Viro3DObject
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
@@ -30,6 +31,8 @@ class DisconnectedMainScreenAR extends Component {
     this.distanceBetween = this.distanceBetween.bind(this);
     this.distance = this.distance.bind(this);
     this.youWon = this.youWon.bind(this);
+    this.worldOriginRef = undefined;
+    this.handleOrigin = this.handleOrigin.bind(this);
   }
   componentDidMount() {
     this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
@@ -54,10 +57,11 @@ class DisconnectedMainScreenAR extends Component {
   }
 
   async distanceBetween(component) {
-    let xpos = component.xpos;
-    let ypos = component.ypos;
-    let zpos = component.zpos;
-    let position2 = [xpos / 10, ypos / 10, zpos / 10];
+    if (!this.worldOriginRef) return
+    let xpos = component.xpos/10 + this.worldOriginRef[0];
+    let ypos = component.ypos/10 + this.worldOriginRef[1];
+    let zpos = component.zpos/10 + this.worldOriginRef[2];
+    let position2 = [xpos, ypos, zpos];
     if (this.arSceneRef && position2) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
       this.separation[component.itemId] = this.distance(
@@ -65,19 +69,25 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
+    console.log('COMPONENT NAME: ', component.name, 'POSITION: ', position2, 'WORLD ORIGIN REFERENCE: ', this.worldOriginRef)
+    console.log("DISTANCE :", this.separation[component.itemId])
   }
   onCollide() {
-
   }
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
+
+  async handleOrigin() {
+    const {position} = await this.arSceneRef.getCameraOrientationAsync();
+    this.worldOriginRef = position
+  }
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        source: require('./res/test.jpg'),
-        // source: require('./res/tottem.jpg'),
+        // source: require('./res/test.jpg'),
+        source: require('./res/tottem.jpg'),
         orientation: 'Up',
         physicalWidth: 0.1
       }
@@ -116,6 +126,18 @@ class DisconnectedMainScreenAR extends Component {
               color="#ffffff"
               castsShadow={true}
             />
+            <Viro3DObject
+            source = {require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
+            type = 'VRX'
+            resources = {[
+              require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
+              require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
+              require('./res/animated_objects/emoji_sad_anim/emoji_sad_specular.png')
+            ]}
+            position = {[0,0,0]}
+            onClick = {this.handleOrigin}
+            scale = {[.05,.05,.05]}
+            />
 
             {/* BOARD OBJECTIVES */}
             {this.props.coins === 5 ? this.youWon() : null}
@@ -136,18 +158,18 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      // case 'Poop':
-                      //   return (
-                      //     <Poop
-                      //       key={piece.itemId}
-                      //       item={piece}
-                      //       visible={this.separation[piece.itemId] <= 2.5}
-                      //       xpos={piece.xpos / 10}
-                      //       ypos={piece.ypos / 10}
-                      //       zpos={piece.zpos / 10}
-                      //       id={piece.itemId}
-                      //     />
-                      //   );
+                      case 'Poop':
+                        return (
+                          <Poop
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation[piece.itemId] <= 2.5}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
                         case 'Key':
                         return (
                           <Key

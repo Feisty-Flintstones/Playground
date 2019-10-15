@@ -98,7 +98,7 @@ async function seed() {
   const objectives = await Promise.all([
     BoardObjective.create({
       xpos: 0,
-      ypos: 0,
+      ypos: 10,
       zpos: 0,
       type: 'onCollision',
       collected: false,

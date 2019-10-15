@@ -15,13 +15,14 @@ class Lock extends React.Component {
                 source={require('../res/padlock/scene.gltf')}
                 type="GLTF"
                 highAccuracyEvents={true}
-                position={[0, 0.05, 0]}
-                scale={[0.005, 0.005, 0.005]}
+                position={[this.props.xpos, this.props.ypos, this.props.zpos]}
+                scale={[0.012, 0.012, 0.012]}
                 // physicsBody={{
                 //     type:'static',
                 //     mass: 1
                 // }}
                 // onCollision={this.onCollide}
+                visible={this.props.visible}
             />
         </View>
         );

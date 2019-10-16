@@ -187,7 +187,7 @@ class Tutorial extends React.Component {
             paused={!this.state.calibrated}
             source={require('../../assets/Splash_Tech.mp3')}
             loop={false}
-            volume={0.8}
+            volume={0.6}
           />
           <ViroSound
             paused={!this.state.calibrated}
@@ -291,7 +291,7 @@ class Tutorial extends React.Component {
                 transformBehaviors={['billboard']}
                 style={styles.titleContainerGood}
                 position={[0, 0, -7]}
-                scale={[0.5, 0.5, 0.5]}
+                scale={[0.6, 0.6, 0.6]}
                 height={2.5}
                 width={6}
                 alignItems="center"

@@ -2,12 +2,31 @@ import React from 'react';
 import { Viro3DObject } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { removeFromBoard } from '../store/boardReducer';
-import { addInventory, getInventory } from '../store/inventoryReducer.js';
+import { addCoinToBoard } from '../store/boardReducer';
 class Heart extends React.Component {
   render() {
     return (
       <View>
+        <ViroSpotLight
+              innerAngle={5}
+              outerAngle={25}
+              direction={[0, -1, 0]}
+              position={[0, 5, 0]}
+              color='#e9e9e9'
+              castsShadow={true}
+              shadowMapSize={2048}
+              shadowNearZ={2}
+              shadowFarZ={7}
+              shadowOpacity={0.7}
+          />
+          <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, 3, 1]}
+              color='#ffffff'
+              castsShadow={true}
+          />
         <Viro3DObject
           source={require('../res/animated_objects/emoji_heart_anim/emoji_heart_anim.vrx')}
           resources={[
@@ -19,8 +38,7 @@ class Heart extends React.Component {
           highAccuracyEvents={true}
           scale={[0.2, 0.2, 0.2]}
           onClick={() => {
-            this.props.removeFromBoard(this.props.id);
-            this.props.addInventory(this.props.item.name, this.props.item.id);
+            this.props.addCoinToBoard(this.props.id)
           }}
           visible={this.props.visible}
         />
@@ -30,8 +48,7 @@ class Heart extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  removeFromBoard: id => dispatch(removeFromBoard(id)),
-  addInventory: (name, id) => dispatch(addInventory(name, id))
+  addCoinToBoard: id => dispatch(addCoinToBoard(id))
 });
 
 export default connect(

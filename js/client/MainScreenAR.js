@@ -7,16 +7,17 @@ import {
   ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  Viro3DObject
+  ViroImage
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
-import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
 import Key from './components/key';
 import Lock from './components/lock';
+import Heart from './components/heart';
+import Star from './components/star';
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
 import YouLoseAR from './YouLoseAR';
@@ -70,17 +71,8 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
-    console.log(
-      'COMPONENT NAME: ',
-      component.name,
-      'POSITION: ',
-      position2,
-      'WORLD ORIGIN REFERENCE: ',
-      this.worldOriginRef
-    );
-    console.log('DISTANCE :', this.separation[component.itemId]);
   }
-  onCollide() {}
+
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
@@ -100,8 +92,8 @@ class DisconnectedMainScreenAR extends Component {
       calibrate: {
         // source: require('./res/test.jpg'),
         source: require('./res/tottem.jpg'),
-        orientation: 'Up',
-        physicalWidth: 0.1
+        orientation: 'Down',
+        physicalWidth: 0.18
       }
     });
     return (
@@ -116,37 +108,14 @@ class DisconnectedMainScreenAR extends Component {
         >
           <View>
             {/* SPOTLIGHT AND SHADING */}
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={25}
-              direction={[0, -1, 0]}
-              position={[0, 5, 0]}
-              color='#e9e9e9'
-              castsShadow={true}
-              shadowMapSize={2048}
-              shadowNearZ={2}
-              shadowFarZ={7}
-              shadowOpacity={0.7}
-            />
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={90}
-              direction={[0, -1, -0.2]}
-              position={[0, 3, 1]}
-              color='#ffffff'
-              castsShadow={true}
-            />
-            <Viro3DObject
-              source={require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
-              type='VRX'
-              resources={[
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_specular.png')
-              ]}
-              position={[0, 0, 0]}
-              onClick={this.handleOrigin}
-              scale={[0.05, 0.05, 0.05]}
+              <ViroImage
+            position={[0, 0, 0]}
+            rotation={[-90, 0, 0]}
+            onClick={this.handleOrigin}
+            scale={[0.04, 0.04, 0.04]}
+            height={1}
+            width={2}
+            source={require('./res/start.png')}
             />
 
             {/* BOARD OBJECTIVES */}
@@ -169,9 +138,9 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Poop':
+                      case 'Star':
                         return (
-                          <Poop
+                          <Star
                             key={piece.itemId}
                             item={piece}
                             visible={this.separation[piece.itemId] <= 2.5}
@@ -181,6 +150,30 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
+                      case 'Crown':
+                          return (
+                            <Crown
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                      case 'Heart':
+                          return (
+                            <Heart
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
                       case 'Key':
                         return (
                           <Key

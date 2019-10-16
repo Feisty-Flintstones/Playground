@@ -2,14 +2,32 @@ import React from 'react';
 import { Viro3DObject } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import {loadBoard, removeFromBoard, addToBoard} from '../store/boardReducer'
-import { addToInventory, removeFromInventory } from '../store/inventoryReducer.js';
-
+import {addCoinToBoard} from '../store/boardReducer'
 
 class Smiley extends React.Component {
   render() {
     return (
       <View>
+          <ViroSpotLight
+              innerAngle={5}
+              outerAngle={25}
+              direction={[0, -1, 0]}
+              position={[0, 5, 0]}
+              color='#e9e9e9'
+              castsShadow={true}
+              shadowMapSize={2048}
+              shadowNearZ={2}
+              shadowFarZ={7}
+              shadowOpacity={0.7}
+          />
+          <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, 3, 1]}
+              color='#ffffff'
+              castsShadow={true}
+          />
         <Viro3DObject
           source={require('../res/animated_objects/emoji_smile/emoji_smile.vrx')}
           type='VRX'
@@ -18,8 +36,7 @@ class Smiley extends React.Component {
           highAccuracyEvents={true}
           scale={[0.2, 0.2, 0.2]}
           onClick={() => {
-            this.props.removeFromBoard(this.props.id);
-            this.props.addToInventory(this.props.item.name, this.props.id);
+            this.props.addCoinToBoard(this.props.id)
           }}
           visible={this.props.visible}
         />
@@ -28,12 +45,10 @@ class Smiley extends React.Component {
   }
 }
 const mapStateToProps = state => ({
-  // position: state.boardReducer.boardPieces[0].position
 });
 
 const mapDispatchToProps = dispatch => ({
-  removeFromBoard: id => dispatch(removeFromBoard(id)),
-  addToInventory: (name, id) => dispatch(addToInventory(name, id))
+  addCoinToBoard: id => dispatch(addCoinToBoard(id)),
 });
 
 export default connect(

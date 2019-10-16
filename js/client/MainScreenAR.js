@@ -136,17 +136,14 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
-            <Viro3DObject
-              source={require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
-              type='VRX'
-              resources={[
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_specular.png')
-              ]}
+            <ViroImage
               position={[0, 0, 0]}
+              rotation={[-90, 0, 0]}
               onClick={this.handleOrigin}
-              scale={[0.05, 0.05, 0.05]}
+              scale={[0.04, 0.04, 0.04]}
+              height={1}
+              width={2}
+              source={require('./res/start.png')}
             />
 
             {/* BOARD OBJECTIVES */}
@@ -169,9 +166,9 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Poop':
+                      case 'Key':
                         return (
-                          <Poop
+                          <Key
                             key={piece.itemId}
                             item={piece}
                             visible={this.separation[piece.itemId] <= 2.5}
@@ -181,9 +178,33 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Key':
+                      case 'Heart':
                         return (
-                          <Key
+                          <Heart
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation[piece.itemId] <= 2.5}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      case 'Crown':
+                        return (
+                          <Crown
+                            key={piece.itemId}
+                            item={piece}
+                            visible={this.separation[piece.itemId] <= 2.5}
+                            xpos={piece.xpos / 10}
+                            ypos={piece.ypos / 10}
+                            zpos={piece.zpos / 10}
+                            id={piece.itemId}
+                          />
+                        );
+                      case 'Star':
+                        return (
+                          <Star
                             key={piece.itemId}
                             item={piece}
                             visible={this.separation[piece.itemId] <= 2.5}

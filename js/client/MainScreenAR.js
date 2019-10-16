@@ -4,10 +4,10 @@ import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
-  ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  ViroImage
+  ViroImage,
+  ViroSpotLight
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
@@ -92,8 +92,8 @@ class DisconnectedMainScreenAR extends Component {
       calibrate: {
         // source: require('./res/test.jpg'),
         source: require('./res/tottem.jpg'),
-        orientation: 'Down',
-        physicalWidth: 0.18
+        orientation: 'Up',
+        physicalWidth: 0.1651
       }
     });
     return (
@@ -107,8 +107,8 @@ class DisconnectedMainScreenAR extends Component {
           pauseUpdates={this.props.calibration}
         >
           <View>
-            {/* SPOTLIGHT AND SHADING */}
-              <ViroImage
+            {/* START */}
+          <ViroImage
             position={[0, 0, 0]}
             rotation={[-90, 0, 0]}
             onClick={this.handleOrigin}
@@ -117,6 +117,28 @@ class DisconnectedMainScreenAR extends Component {
             width={2}
             source={require('./res/start.png')}
             />
+
+            {/* SPOTLIGHT AND SHADING */}
+            <ViroSpotLight
+                    innerAngle={5}
+                    outerAngle={25}
+                    direction={[0, -1, 0]}
+                    position={[3, 5, 2]}
+                    color='#e9e9e9'
+                    castsShadow={true}
+                    shadowMapSize={2048}
+                    shadowNearZ={2}
+                    shadowFarZ={7}
+                    shadowOpacity={0.7}
+                />
+                <ViroSpotLight
+                    innerAngle={5}
+                    outerAngle={90}
+                    direction={[0, -1, -0.2]}
+                    position={[3, 3, 2]}
+                    color='#ffffff'
+                    castsShadow={true}
+                />
 
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}

@@ -121,7 +121,7 @@ async function seed() {
     }),
     BoardObjective.create({
       xpos: 20,
-      ypos: 5,
+      ypos: -5,
       zpos: 0,
       type: 'onClick',
       collected: false,

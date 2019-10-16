@@ -80,8 +80,8 @@ async function seed() {
       id: 8
     }),
     Item.create({
-      name: 'Poop',
-      source: `require('../res/animated_objects/emoji_poop_anim/emoji_poop_anim.vrx')`,
+      name: 'Crown',
+      source: `require('../res/animated_objects/crown/crown.obj')`,
       is3D: true,
       id: 9
     }),
@@ -102,94 +102,103 @@ async function seed() {
 
   const objectives = await Promise.all([
     BoardObjective.create({
-      xpos: -20,
-      ypos: 10,
-      zpos: 40,
+      xpos: 0,
+      ypos: -3,
+      zpos: 0,
       type: 'onCollision',
       collected: false,
-      itemId: 1,
+      itemId: 10,
       boardId: 1
     }),
     BoardObjective.create({
-      xpos: -30,
-      ypos: 0,
-      zpos: 20,
+      xpos: 45,
+      ypos: -5,
+      zpos: 0,
       type: 'onCollision',
       collected: false,
-      itemId: 2,
+      itemId: 11,
       boardId: 1
     }),
-    // BoardObjective.create({
-    //   xpos: -20,
-    //   ypos: 10,
-    //   zpos: 0,
-    //   type: 'onClick',
-    //   collected: false,
-    //   itemId: 7,
-    //   boardId: 1
-    // }),
     BoardObjective.create({
-      xpos: -20,
-      ypos: 15,
+      xpos: 20,
+      ypos: -5,
       zpos: 0,
       type: 'onClick',
       collected: false,
-      itemId: 3,
+      itemId: 9,
       boardId: 1
     }),
-    // BoardObjective.create({
-    //   xpos: 0,
-    //   ypos: 10,
-    //   zpos: 0,
-    //   type: 'onClick',
-    //   collected: false,
-    //   itemId: 6,
-    //   boardId: 1
-    // }),
-    // BoardObjective.create({
-    //   xpos: -10,
-    //   ypos: 0,
-    //   zpos: 30,
-    //   type: 'onClick',
-    //   collected: false,
-    //   itemId: 8,
-    //   boardId: 1
-    // }),
     BoardObjective.create({
-      xpos: -20,
-      ypos: 10,
+      xpos: 0,
+      ypos: 0,
+      zpos: 20,
+      type: 'onClick',
+      collected: false,
+      itemId: 8,
+      boardId: 1
+    }),
+    BoardObjective.create({
+      xpos: 40,
+      ypos: 3,
+      zpos: 30,
+      type: 'onClick',
+      collected: false,
+      itemId: 7,
+      boardId: 1
+    }),
+    BoardObjective.create({
+      xpos: 10,
+      ypos: 8,
+      zpos: 0,
+      type: 'onClick',
+      collected: false,
+      itemId: 6,
+      boardId: 1
+    }),
+    BoardObjective.create({
+      xpos: 20,
+      ypos: 0,
       zpos: 30,
       type: 'onClick',
       collected: false,
       itemId: 5,
       boardId: 1
     }),
-    // BoardObjective.create({
-    //   xpos: -40,
-    //   ypos: 10,
-    //   zpos: 30,
-    //   type: 'onClick',
-    //   collected: false,
-    //   itemId: 9,
-    //   boardId: 1
-    // }),
     BoardObjective.create({
-      xpos: -4,
-      ypos: 0,
+      xpos: 10,
+      ypos: -5,
       zpos: -10,
       type: 'onClick',
       collected: false,
-      itemId: 10,
-      boardId: 2
+      itemId: 4,
+      boardId: 1
     }),
     BoardObjective.create({
-      xpos: 4,
-      ypos: 0,
-      zpos: -10,
+      xpos: 25,
+      ypos: -2,
+      zpos: 5,
       type: 'onClick',
       collected: false,
-      itemId: 11,
-      boardId: 2
+      itemId: 3,
+      boardId: 1
+    }),
+    BoardObjective.create({
+      xpos: -10,
+      ypos: 0,
+      zpos: 20,
+      type: 'onClick',
+      collected: false,
+      itemId: 2,
+      boardId: 1
+    }),
+    BoardObjective.create({
+      xpos: 0,
+      ypos: -12,
+      zpos: 0,
+      type: 'onClick',
+      collected: false,
+      itemId: 1,
+      boardId: 1
     })
   ]);
 

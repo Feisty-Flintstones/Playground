@@ -20,8 +20,8 @@ export const addCoinToBoard = id => {
   return {
     type: ADD_COIN_TO_BOARD,
     id
-  }
-}
+  };
+};
 
 export const addToBoard = id => {
   return {
@@ -86,7 +86,9 @@ export default function(state = initialBoard, action) {
         boardPieces: [
           ...state.boardPieces.map(element => {
             if (element.itemId === action.id) {
-              element.position = action.position;
+              element.xpos = action.position[0];
+              element.ypos = action.position[1];
+              element.zpos = action.position[2];
             }
             return element;
           })
@@ -113,23 +115,24 @@ export default function(state = initialBoard, action) {
           ...state.boardPieces.map(element => {
             if (element.itemId === action.id) {
               element.collected = false;
+              element.xpos = null;
             }
             return element;
           })
         ]
       };
-      case ADD_COIN_TO_BOARD:
-        return {
-          ...state,
-          boardPieces: [
-            ...state.boardPieces.map(element => {
-              if (element.itemId === action.id) {
-                element.name = "Coin"
-              }
-              return element;
-            })
-          ]
-        };
+    case ADD_COIN_TO_BOARD:
+      return {
+        ...state,
+        boardPieces: [
+          ...state.boardPieces.map(element => {
+            if (element.itemId === action.id) {
+              element.name = 'Coin';
+            }
+            return element;
+          })
+        ]
+      };
     default:
       return state;
   }

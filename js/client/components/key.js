@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject, ViroMaterials } from 'react-viro';
+import { Viro3DObject, ViroMaterials, ViroAmbientLight } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromBoard, moveBoardPiece } from '../store/boardReducer';
@@ -11,10 +11,14 @@ class Key extends React.Component {
     this.state = {
       isDragging: false
     };
+    isFound = false
   }
+
+
   render() {
     return (
       <View>
+        <ViroAmbientLight color="#aaaaaa" />
         <Viro3DObject
           viroTag='key'
           source={require('../res/Key_B.obj/Key_B_02.obj')}
@@ -27,7 +31,8 @@ class Key extends React.Component {
             this.setState({
               isDragging: true
             });
-            this.props.moveBoardPiece(this.props.id, position);
+            this.isFound=true
+//             this.props.moveBoardPiece(this.props.id, position);
           }}
           onClickState={state => {
             if (state === 2) {
@@ -40,11 +45,11 @@ class Key extends React.Component {
               }
             }
           }}
-          // visible={this.props.visible}
+          visible={this.props.visible || this.isFound}
           physicsBody={{
             type: 'kinematic',
-            mass: 0,
-            useGravity: false,
+            // mass: 0,
+            // useGravity: false,
             shape: {
               type: 'Compound'
             }
@@ -67,9 +72,8 @@ ViroMaterials.createMaterials({
     diffuseTexture: require('../res/Key_B.obj/keyB_tx.bmp')
   }
 });
-
 const mapDispatchToProps = dispatch => ({
-  removeFromBoard: id => dispatch(removeFromBoard(id)),
+  removeFromBoard: (id, position) => dispatch(removeFromBoard(id, position)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
   moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position))
 });

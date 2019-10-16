@@ -1,22 +1,30 @@
+/* eslint-disable complexity */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
-  ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  Viro3DObject
+  ViroImage,
+  ViroNode,
+  ViroAmbientLight,
+  ViroSound
 } from 'react-viro';
-import { loadBoard, removeFromBoard } from './store/boardReducer';
+import {
+  loadBoard,
+  removeFromBoard,
+  moveBoardPiece
+} from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
-import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
 import Key from './components/key';
 import Lock from './components/lock';
+import Heart from './components/heart';
+import Star from './components/star';
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
 import YouLoseAR from './YouLoseAR';
@@ -25,7 +33,8 @@ class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      updateDistance: false
+      updateDistance: false,
+      calibrated: false
     };
     this.separation = {};
     this.distanceBetween = this.distanceBetween.bind(this);
@@ -34,6 +43,7 @@ class DisconnectedMainScreenAR extends Component {
     this.worldOriginRef = undefined;
     this.handleOrigin = this.handleOrigin.bind(this);
     this.youLose = this.youLose.bind(this);
+    this.getCameraPos = this.getCameraPos.bind(this);
   }
   componentDidMount() {
     this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
@@ -43,7 +53,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      400
+      200
     );
   }
   componentWillUnmount() {
@@ -70,17 +80,12 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
-    console.log(
-      'COMPONENT NAME: ',
-      component.name,
-      'POSITION: ',
-      position2,
-      'WORLD ORIGIN REFERENCE: ',
-      this.worldOriginRef
-    );
-    console.log('DISTANCE :', this.separation[component.itemId]);
   }
-  onCollide() {}
+  async getCameraPos() {
+    const { position } = await this.arSceneRef.getCameraOrientationAsync();
+    return [position[0] * 10, 0, position[2] * 10];
+  }
+
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
@@ -101,7 +106,7 @@ class DisconnectedMainScreenAR extends Component {
         // source: require('./res/test.jpg'),
         source: require('./res/tottem.jpg'),
         orientation: 'Up',
-        physicalWidth: 0.1
+        physicalWidth: 0.1651
       }
     });
     return (
@@ -115,135 +120,134 @@ class DisconnectedMainScreenAR extends Component {
           pauseUpdates={this.props.calibration}
         >
           <View>
-            {/* SPOTLIGHT AND SHADING */}
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={25}
-              direction={[0, -1, 0]}
-              position={[0, 5, 0]}
-              color='#e9e9e9'
-              castsShadow={true}
-              shadowMapSize={2048}
-              shadowNearZ={2}
-              shadowFarZ={7}
-              shadowOpacity={0.7}
-            />
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={90}
-              direction={[0, -1, -0.2]}
-              position={[0, 3, 1]}
-              color='#ffffff'
-              castsShadow={true}
-            />
+            {/* START */}
             <ViroImage
               position={[0, 0, 0]}
               rotation={[-90, 0, 0]}
-              onClick={this.handleOrigin}
+              onClick={() => {
+                this.handleOrigin();
+                this.props.setCalibration(true);
+                this.setState({
+                  calibrated: true
+                });
+              }}
               scale={[0.04, 0.04, 0.04]}
               height={1}
               width={2}
               source={require('./res/start.png')}
             />
-
+            <ViroSound
+              paused={!this.state.calibrated}
+              source={require('../../assets/ready.mp3')}
+              loop={false}
+              volume={1.0}
+            />
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
-            {this.props.coins === 5 ? this.youWon() : null}
-            {this.props.boardPieces
-              ? this.props.boardPieces.map(piece => {
-                  if (piece.collected === false) {
-                    this.distanceBetween(piece);
-                    switch (piece.name) {
-                      case 'Smiley':
-                        return (
-                          <Smiley
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Key':
-                        return (
-                          <Key
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Heart':
-                        return (
-                          <Heart
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Crown':
-                        return (
-                          <Crown
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Star':
-                        return (
-                          <Star
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Lock':
-                        return (
-                          <Lock
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Coin':
-                        return (
-                          <Coin
-                            key={piece.itemId}
-                            item={piece}
-                            visible={true}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      default:
-                        return null;
+            {this.props.coins === 7 ? this.youWon() : null}
+            <ViroNode rotation={[-90, 0, 0]}>
+              {this.props.boardPieces
+                ? this.props.boardPieces.map(piece => {
+                    if (piece.collected === false && this.worldOriginRef) {
+                      if (piece.xpos === null) {
+                        this.getCameraPos().then(position => {
+                          this.props.moveBoardPiece(piece.itemId, position);
+                        });
+                      } else {
+                        this.distanceBetween(piece);
+                        switch (piece.name) {
+                          case 'Smiley':
+                            return (
+                              <Smiley
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Star':
+                            return (
+                              <Star
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Crown':
+                            return (
+                              <Crown
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Heart':
+                            return (
+                              <Heart
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Key':
+                            return (
+                              <Key
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Lock':
+                            return (
+                              <Lock
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Coin':
+                            return (
+                              <Coin
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          default:
+                            return null;
+                        }
+                      }
                     }
-                  }
-                })
-              : null}
+                  })
+                : null}
+            </ViroNode>
           </View>
         </ViroARImageMarker>
       </ViroARScene>
@@ -272,7 +276,8 @@ const mapDispatchToProps = dispatch => ({
   loadBoard: id => dispatch(loadBoard(id)),
   removeFromBoard: id => dispatch(removeFromBoard(id)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
-  setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated))
+  setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated)),
+  moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position))
 });
 const MainScreenAR = connect(
   mapStateToProps,

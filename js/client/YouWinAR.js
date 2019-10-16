@@ -26,7 +26,6 @@ class YouWin extends Component {
             materials={['frontMaterial', 'backMaterial', 'sideMaterial']}
             text="YOU WON!!!!!"
           />
-          <Crown position={[0, 1, -2]} />
           <Fireworks
             loop={true}
             run={true}

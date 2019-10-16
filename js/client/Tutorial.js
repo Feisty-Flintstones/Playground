@@ -15,7 +15,8 @@ import {
   ViroText,
   ViroARCamera,
   ViroImage,
-  ViroNode
+  ViroNode,
+  ViroSound
 } from 'react-viro';
 import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
 import {
@@ -30,7 +31,7 @@ class Tutorial extends React.Component {
     super();
     this.state = {
       text: 'Initializing AR...',
-      calibrated: true,
+      calibrated: false,
       updateDistance: false,
       update: false,
       firstBB: true,
@@ -149,7 +150,7 @@ class Tutorial extends React.Component {
             flexWrap="wrap"
             padding={0.2}
             textAlign="center"
-            text="(click hint to hide)"
+            text="(CLICK hint to hide)"
           />
         </ViroFlexView>
 
@@ -173,6 +174,7 @@ class Tutorial extends React.Component {
             position={[0, 0, 0]}
             rotation={[-90, 0, 0]}
             onClick={() => {
+              this.setState({ calibrated: true });
               this.props.setCalibration(true);
             }}
             scale={[0.04, 0.04, 0.04]}
@@ -181,6 +183,18 @@ class Tutorial extends React.Component {
             source={require('./res/start.png')}
           />
 
+          <ViroSound
+            paused={!this.state.calibrated}
+            source={require('../../assets/Splash_Tech.mp3')}
+            loop={false}
+            volume={0.8}
+          />
+          <ViroSound
+            paused={!this.state.calibrated}
+            source={require('../../assets/ready.mp3')}
+            loop={false}
+            volume={1.0}
+          />
           <ViroAmbientLight color="#aaaaaa" />
           <ViroFlexView
             transformBehaviors={['billboard']}
@@ -312,7 +326,6 @@ class Tutorial extends React.Component {
                   textAlign="center"
                   text="(Click MENU then EXIT)"
                 />
-
 
                 {/* <ViroText
                   style={styles.prodTitleText}

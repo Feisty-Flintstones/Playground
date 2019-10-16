@@ -78,6 +78,11 @@ class DisconnectedInventory extends Component {
                           source={require('./res/inventory_icons/pixel_turd.png')}
                           style={{ height: 50, width: 50 }}
                         />
+                      ) : item.name === 'Key' ? (
+                        <Image
+                          source={require('./res/inventory_icons/pixel_key.png')}
+                          style={{ height: 50, width: 50 }}
+                        />
                       ) : (
                         <View />
                       ),
@@ -146,7 +151,7 @@ class DisconnectedInventory extends Component {
                   activeOpacity: 0.5
                 }
               ]}
-              layout='absolute center'
+              layout="absolute center"
               groups={[0, 1]}
             />
           </View>
@@ -170,7 +175,7 @@ class DisconnectedInventory extends Component {
                 activeOpacity: 0.5
               }
             ]}
-            layout='absolute center'
+            layout="absolute center"
           />
         </View>
       </View>

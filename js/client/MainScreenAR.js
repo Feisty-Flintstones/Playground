@@ -21,7 +21,6 @@ import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
 import YouLoseAR from './YouLoseAR';
 
-// var createReactClass = require("create-react-class");
 class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
@@ -34,6 +33,7 @@ class DisconnectedMainScreenAR extends Component {
     this.youWon = this.youWon.bind(this);
     this.worldOriginRef = undefined;
     this.handleOrigin = this.handleOrigin.bind(this);
+    this.youLost = this.youLost.bind(this);
   }
   componentDidMount() {
     this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
@@ -85,6 +85,7 @@ class DisconnectedMainScreenAR extends Component {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
+
   youLose() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouLoseAR });
@@ -209,7 +210,7 @@ class DisconnectedMainScreenAR extends Component {
                           <Coin
                             key={piece.itemId}
                             item={piece}
-                            visible={this.separation[piece.itemId] <= 3}
+                            visible={true}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}

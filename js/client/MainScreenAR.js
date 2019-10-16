@@ -9,7 +9,11 @@ import {
   ViroARTrackingTargets,
   Viro3DObject
 } from 'react-viro';
-import { loadBoard, removeFromBoard } from './store/boardReducer';
+import {
+  loadBoard,
+  removeFromBoard,
+  moveBoardPiece
+} from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
 import Poop from './components/poop';
@@ -34,6 +38,7 @@ class DisconnectedMainScreenAR extends Component {
     this.worldOriginRef = undefined;
     this.handleOrigin = this.handleOrigin.bind(this);
     this.youLose = this.youLose.bind(this);
+    this.getCameraPos = this.getCameraPos.bind(this);
   }
   componentDidMount() {
     this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
@@ -43,7 +48,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      400
+      300
     );
   }
   componentWillUnmount() {
@@ -70,15 +75,19 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
-    console.log(
-      'COMPONENT NAME: ',
-      component.name,
-      'POSITION: ',
-      position2,
-      'WORLD ORIGIN REFERENCE: ',
-      this.worldOriginRef
-    );
-    console.log('DISTANCE :', this.separation[component.itemId]);
+    // console.log(
+    //   'COMPONENT NAME: ',
+    //   component.name,
+    //   'POSITION: ',
+    //   position2,
+    //   'WORLD ORIGIN REFERENCE: ',
+    //   this.worldOriginRef
+    // );
+    // console.log('DISTANCE :', this.separation[component.itemId]);
+  }
+  async getCameraPos() {
+    const { position } = await this.arSceneRef.getCameraOrientationAsync();
+    return [position[0] * 10, position[1] * 10, position[2] * 10];
   }
   onCollide() {}
   youWon() {
@@ -155,70 +164,76 @@ class DisconnectedMainScreenAR extends Component {
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
                   if (piece.collected === false) {
-                    this.distanceBetween(piece);
-                    switch (piece.name) {
-                      case 'Smiley':
-                        return (
-                          <Smiley
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Poop':
-                        return (
-                          <Poop
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Key':
-                        return (
-                          <Key
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Lock':
-                        return (
-                          <Lock
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Coin':
-                        return (
-                          <Coin
-                            key={piece.itemId}
-                            item={piece}
-                            visible={true}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      default:
-                        return null;
+                    if (piece.xpos === null) {
+                      this.getCameraPos().then(position => {
+                        this.props.moveBoardPiece(piece.itemId, position);
+                      });
+                    } else {
+                      this.distanceBetween(piece);
+                      switch (piece.name) {
+                        case 'Smiley':
+                          return (
+                            <Smiley
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                        case 'Poop':
+                          return (
+                            <Poop
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                        case 'Key':
+                          return (
+                            <Key
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                        case 'Lock':
+                          return (
+                            <Lock
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                        case 'Coin':
+                          return (
+                            <Coin
+                              key={piece.itemId}
+                              item={piece}
+                              visible={true}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                        default:
+                          return null;
+                      }
                     }
                   }
                 })
@@ -251,7 +266,8 @@ const mapDispatchToProps = dispatch => ({
   loadBoard: id => dispatch(loadBoard(id)),
   removeFromBoard: id => dispatch(removeFromBoard(id)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
-  setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated))
+  setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated)),
+  moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position))
 });
 const MainScreenAR = connect(
   mapStateToProps,

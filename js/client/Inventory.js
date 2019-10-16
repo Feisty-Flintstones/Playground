@@ -107,14 +107,15 @@ class DisconnectedInventory extends Component {
                   children: (
                     <View
                       style={{
-                        backgroundColor: 'gray',
-                        borderWidth: 1,
+                        backgroundColor: 'black',
+                        borderWidth: 3,
                         borderColor: '#ddd',
                         width: '100%',
-                        padding: 15
+                        padding: 15,
+                        alignItems: 'center'
                       }}
                     >
-                      <Text>RECALIBRATE</Text>
+                      <Text style={{ color: 'white' }}>RECALIBRATE</Text>
                     </View>
                   ),
                   style: {
@@ -130,14 +131,15 @@ class DisconnectedInventory extends Component {
                   children: (
                     <View
                       style={{
-                        backgroundColor: 'gray',
-                        borderWidth: 1,
+                        backgroundColor: 'black',
+                        borderWidth: 3,
                         borderColor: '#ddd',
                         width: '100%',
-                        padding: 15
+                        padding: 15,
+                        alignItems: 'center'
                       }}
                     >
-                      <Text>EXIT</Text>
+                      <Text style={{ color: 'white' }}>EXIT</Text>
                     </View>
                   ),
                   style: {
@@ -151,7 +153,7 @@ class DisconnectedInventory extends Component {
                   activeOpacity: 0.5
                 }
               ]}
-              layout="absolute center"
+              layout='absolute center'
               groups={[0, 1]}
             />
           </View>
@@ -161,21 +163,21 @@ class DisconnectedInventory extends Component {
           <XBar
             slots={[
               {
-                children: <Text>MENU</Text>,
+                children: <Text style={{ color: 'white' }}>MENU</Text>,
 
                 style: {
-                  backgroundColor: 'gray',
+                  backgroundColor: 'black',
                   padding: 15,
-                  borderWidth: 1,
+                  borderWidth: 3,
                   borderColor: '#ddd',
-                  alignItems: 'stretch'
+                  alignItems: 'center'
                 },
                 onPress: () =>
                   this.setState({ menuClicked: !this.state.menuClicked }),
                 activeOpacity: 0.5
               }
             ]}
-            layout="absolute center"
+            layout='absolute center'
           />
         </View>
       </View>

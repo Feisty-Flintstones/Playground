@@ -32,7 +32,7 @@ class Key extends React.Component {
               isDragging: true
             });
             this.isFound=true
-            this.props.moveBoardPiece(this.props.id, position);
+//             this.props.moveBoardPiece(this.props.id, position);
           }}
           onClickState={state => {
             if (state === 2) {
@@ -48,8 +48,8 @@ class Key extends React.Component {
           visible={this.props.visible || this.isFound}
           physicsBody={{
             type: 'kinematic',
-            mass: 0,
-            useGravity: false,
+            // mass: 0,
+            // useGravity: false,
             shape: {
               type: 'Compound'
             }
@@ -72,9 +72,8 @@ ViroMaterials.createMaterials({
     diffuseTexture: require('../res/Key_B.obj/keyB_tx.bmp')
   }
 });
-
 const mapDispatchToProps = dispatch => ({
-  removeFromBoard: id => dispatch(removeFromBoard(id)),
+  removeFromBoard: (id, position) => dispatch(removeFromBoard(id, position)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
   moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position))
 });

@@ -202,21 +202,21 @@ class App extends Component {
         <View style={localStyles.container2}>
           <Image
             source={require('./js/client/res/Playground_logo.png')}
-            resizeMode="contain"
+            resizeMode='contain'
             style={{ height: '95%', width: '95%' }}
           />
         </View>
 
         <View style={{ height: height / 2 }}>
-          <TouchableHighlight onPress={() => this.selectScreen(BOARD)}>
+          <TouchableHighlight onPress={() => this.selectScreen(BOARD, 1)}>
             <View style={localStyles.button2}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>P L A Y </Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>P L A Y</Text>
             </View>
           </TouchableHighlight>
 
-          <TouchableHighlight onPress={() => this.selectScreen(LOAD)}>
+          <TouchableHighlight onPressOut={() => this.selectScreen(LOAD)}>
             <View style={localStyles.button2}>
-              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>L O A D </Text>
+              <Text style={{ fontSize: 20, fontWeight: 'bold' }}>L O A D</Text>
             </View>
           </TouchableHighlight>
 
@@ -251,7 +251,7 @@ class App extends Component {
         <View style={localStyles.container2}>
           <Image
             source={require('./js/client/res/Playground_logo.png')}
-            resizeMode="contain"
+            resizeMode='contain'
             style={{ height: '95%', width: '95%' }}
           />
         </View>

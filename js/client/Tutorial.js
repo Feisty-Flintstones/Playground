@@ -14,7 +14,9 @@ import {
   ViroFlexView,
   ViroText,
   ViroARCamera,
-  ViroImage
+  ViroImage,
+  ViroNode,
+  ViroSound
 } from 'react-viro';
 import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
 import {
@@ -29,7 +31,7 @@ class Tutorial extends React.Component {
     super();
     this.state = {
       text: 'Initializing AR...',
-      calibrated: true,
+      calibrated: false,
       updateDistance: false,
       update: false,
       firstBB: true,
@@ -110,11 +112,12 @@ class Tutorial extends React.Component {
           color="#ffffff"
           castsShadow={true}
         />
+
         <ViroFlexView
           transformBehaviors={['billboard']}
           style={styles.titleContainerGood}
-          position={[0, 0, -7]}
-          scale={[0.5, 0.5, 0.5]}
+          position={[0, -1, -3]}
+          scale={[0.3, 0.3, 0.3]}
           height={2.5}
           width={6}
           alignItems="center"
@@ -129,7 +132,7 @@ class Tutorial extends React.Component {
             flexWrap="wrap"
             padding={0.2}
             textAlign="center"
-            text="Find your TOTEM to start game!"
+            text="Find the TOTEM above and hover your"
           />
           <ViroText
             style={styles.prodTitleText}
@@ -138,12 +141,21 @@ class Tutorial extends React.Component {
             flexWrap="wrap"
             padding={0.2}
             textAlign="center"
-            text="Hover your device over TOTEM to calibrate"
+            text="device over it to START game!"
+          />
+          <ViroText
+            style={styles.prodTitleText}
+            width={6}
+            height={0.5}
+            flexWrap="wrap"
+            padding={0.2}
+            textAlign="center"
+            text="(CLICK hint to hide)"
           />
         </ViroFlexView>
 
         <ViroImage
-          position={[0, 0.6, -2]}
+          position={[0, 0, -2]}
           scale={[0.25, 0.25, 0.25]}
           height={2}
           width={2}
@@ -157,11 +169,12 @@ class Tutorial extends React.Component {
           target="calibrate"
           pauseUpdates={this.props.calibration}
         >
-          <MapMarker position={[0, 0.2, 0]} />
+          {/* <MapMarker position={[0, 0.2, 0]} /> */}
           <ViroImage
             position={[0, 0, 0]}
             rotation={[-90, 0, 0]}
             onClick={() => {
+              this.setState({ calibrated: true });
               this.props.setCalibration(true);
             }}
             scale={[0.04, 0.04, 0.04]}
@@ -170,31 +183,71 @@ class Tutorial extends React.Component {
             source={require('./res/start.png')}
           />
 
-          <View>
-            <ViroAmbientLight color="#aaaaaa" />
-            <ViroFlexView
-              transformBehaviors={['billboard']}
-              style={styles.titleContainerGood}
-              position={[0, -0.9, -5]}
-              scale={[0.5, 0.5, 0.5]}
-              height={2.5}
-              width={6}
-              alignItems="center"
-              justifyContent="center"
-              onClick={() => this.setState({ secondBB: false })}
-              visible={this.state.secondBB}
-            >
-              <ViroText
-                style={styles.prodTitleText}
-                width={6}
-                height={0.5}
-                flexWrap="wrap"
-                padding={0.2}
-                textAlign="center"
-                text="Look around for COINS! Click to collect!"
-              />
-            </ViroFlexView>
-          </View>
+          <ViroSound
+            paused={!this.state.calibrated}
+            source={require('../../assets/Splash_Tech.mp3')}
+            loop={false}
+            volume={0.6}
+          />
+          <ViroSound
+            paused={!this.state.calibrated}
+            source={require('../../assets/ready.mp3')}
+            loop={false}
+            volume={1.0}
+          />
+          <ViroAmbientLight color="#aaaaaa" />
+          <ViroFlexView
+            transformBehaviors={['billboard']}
+            style={styles.titleContainerGood}
+            position={[0, -1, -0.9]}
+            scale={[0.5, 0.5, 0.5]}
+            height={3}
+            alignItems="center"
+            justifyContent="center"
+            onClick={() => this.setState({ secondBB: false })}
+            visible={this.state.secondBB}
+          >
+            <ViroText
+              style={styles.prodTitleText}
+              width={2}
+              height={0}
+              flexWrap="wrap"
+              padding={0.2}
+              textAlign="center"
+              text="Click START!"
+            />
+          </ViroFlexView>
+
+          <ViroFlexView
+            transformBehaviors={['billboard']}
+            style={styles.titleContainerGood}
+            position={[0, 0, -0.9]}
+            scale={[0.5, 0.5, 0.5]}
+            height={3}
+            alignItems="center"
+            justifyContent="center"
+            onClick={() => this.setState({ secondBB: false })}
+            visible={true}
+          >
+            <ViroText
+              style={styles.prodTitleText}
+              width={2}
+              height={0}
+              flexWrap="wrap"
+              padding={0.2}
+              textAlign="center"
+              text="Find all"
+            />
+            <ViroText
+              style={styles.prodTitleText}
+              width={2}
+              height={0}
+              flexWrap="wrap"
+              padding={0.2}
+              textAlign="center"
+              text="the coins!"
+            />
+          </ViroFlexView>
           {/* Step # 3 */}
           {/* <View>
             <ViroFlexView
@@ -222,20 +275,23 @@ class Tutorial extends React.Component {
               />
             </ViroFlexView>
           </View> */}
-          <Smiley xpos={-5} ypos={0} zpos={1} visible={true} />
+          <ViroNode rotation={[-90, 0, 0]}>
+            <Smiley xpos={-6} ypos={0} zpos={-6} visible={true} />
 
-          <Coin xpos={0} ypos={0} zpos={3} visible={true} />
-          <Coin xpos={-1} ypos={0} zpos={3} visible={true} />
-          <Coin xpos={-2} ypos={0} zpos={3} visible={true} />
-          <Coin xpos={-3} ypos={0} zpos={3} visible={true} />
-          <Coin xpos={-4} ypos={0} zpos={3} visible={true} />
+            <Coin xpos={1} ypos={0} zpos={0} visible={true} />
+            <Coin xpos={2} ypos={0.4} zpos={0} visible={true} />
+            <Coin xpos={3} ypos={-1} zpos={-1} visible={true} />
+            <Coin xpos={3} ypos={0.5} zpos={-1} visible={true} />
+            <Coin xpos={3} ypos={0} zpos={-0} visible={true} />
+          </ViroNode>
+
           {this.props.coins === 5 ? (
             <ViroARCamera>
               <ViroFlexView
                 transformBehaviors={['billboard']}
                 style={styles.titleContainerGood}
                 position={[0, 0, -7]}
-                scale={[0.5, 0.5, 0.5]}
+                scale={[0.6, 0.6, 0.6]}
                 height={2.5}
                 width={6}
                 alignItems="center"
@@ -259,7 +315,7 @@ class Tutorial extends React.Component {
                   flexWrap="wrap"
                   padding={0.2}
                   textAlign="center"
-                  text="You can also collect items and"
+                  text="You're ready to play!"
                 />
                 <ViroText
                   style={styles.prodTitleText}
@@ -268,25 +324,7 @@ class Tutorial extends React.Component {
                   flexWrap="wrap"
                   padding={0.2}
                   textAlign="center"
-                  text="store it in your inventory list."
-                />
-                <ViroText
-                  style={styles.prodTitleText}
-                  width={6}
-                  height={0.5}
-                  flexWrap="wrap"
-                  padding={0.2}
-                  textAlign="center"
-                  text="Look for the smiley and click to add it."
-                />
-                <ViroText
-                  style={styles.prodTitleText}
-                  width={6}
-                  height={0.5}
-                  flexWrap="wrap"
-                  padding={0.2}
-                  textAlign="center"
-                  text="Click it from your inventory to discard."
+                  text="(Click MENU then EXIT)"
                 />
 
                 {/* <ViroText

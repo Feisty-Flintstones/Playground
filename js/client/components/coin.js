@@ -3,8 +3,9 @@ import {
   Viro3DObject,
   ViroAnimations,
   ViroSound,
-  ViroAmbientLight
-  } from 'react-viro';
+  ViroAmbientLight,
+  ViroSpotLight
+} from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { addCoins } from '../store/inventoryReducer.js';
@@ -27,29 +28,27 @@ class Coin extends React.Component {
     });
     return (
       <View>
-// <<<<<<< anothertest
-//         <ViroSpotLight
-//           innerAngle={5}
-//           outerAngle={25}
-//           direction={[0, -1, 0]}
-//           position={[this.props.xpos, this.props.ypos + 3, this.props.zpos]}
-//           color='#e9e9e9'
-//           castsShadow={true}
-//           shadowMapSize={2048}
-//           shadowNearZ={2}
-//           shadowFarZ={7}
-//           shadowOpacity={0.7}
-//         />
-//         <ViroSpotLight
-//           innerAngle={5}
-//           outerAngle={90}
-//           direction={[0, -1, -0.2]}
-//           position={[this.props.xpos, this.props.ypos, this.props.zpos]}
-//           color='#ffffff'
-//           castsShadow={true}
-//         />
-// =======
-        <ViroAmbientLight color="#aaaaaa" />
+        {/* <ViroSpotLight
+          innerAngle={5}
+          outerAngle={25}
+          direction={[0, -1, 0]}
+          position={[this.props.xpos, this.props.ypos + 3, this.props.zpos]}
+          color='#e9e9e9'
+          castsShadow={true}
+          shadowMapSize={2048}
+          shadowNearZ={2}
+          shadowFarZ={7}
+          shadowOpacity={0.7}
+        />
+        <ViroSpotLight
+          innerAngle={5}
+          outerAngle={90}
+          direction={[0, -1, -0.2]}
+          position={[this.props.xpos, this.props.ypos, this.props.zpos]}
+          color='#ffffff'
+          castsShadow={true}
+        /> */}
+        <ViroAmbientLight color='#aaaaaa' />
         <Viro3DObject
           source={require('../res/animated_objects/coin/coin.vrx')}
           type='VRX'

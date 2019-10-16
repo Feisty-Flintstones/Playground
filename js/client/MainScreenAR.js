@@ -144,7 +144,7 @@ class DisconnectedMainScreenAR extends Component {
             />
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
-            {this.props.coins === 7 ? this.youWon() : null}
+            {this.props.coins === 5 ? this.youWon() : null}
             <ViroNode rotation={[-90, 0, 0]}>
               {this.props.boardPieces
                 ? this.props.boardPieces.map(piece => {

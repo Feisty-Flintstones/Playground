@@ -207,7 +207,7 @@ class DisconnectedMainScreenAR extends Component {
                           <Coin
                             key={piece.itemId}
                             item={piece}
-                            visible={true}
+                            visible={this.separation[piece.itemId] <= 2.5}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}

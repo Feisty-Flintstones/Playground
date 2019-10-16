@@ -4,19 +4,20 @@ import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
-  ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  Viro3DObject
+  ViroImage,
+  ViroAmbientLight
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
-import Poop from './components/poop';
 import Coin from './components/coin';
 import Crown from './components/crown.js';
 import Key from './components/key';
 import Lock from './components/lock';
+import Heart from './components/heart';
+import Star from './components/star';
 import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
 import YouLoseAR from './YouLoseAR';
@@ -43,7 +44,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      400
+      200
     );
   }
   componentWillUnmount() {
@@ -70,17 +71,8 @@ class DisconnectedMainScreenAR extends Component {
         position2
       );
     }
-    console.log(
-      'COMPONENT NAME: ',
-      component.name,
-      'POSITION: ',
-      position2,
-      'WORLD ORIGIN REFERENCE: ',
-      this.worldOriginRef
-    );
-    console.log('DISTANCE :', this.separation[component.itemId]);
   }
-  onCollide() {}
+
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
@@ -101,7 +93,7 @@ class DisconnectedMainScreenAR extends Component {
         // source: require('./res/test.jpg'),
         source: require('./res/tottem.jpg'),
         orientation: 'Up',
-        physicalWidth: 0.1
+        physicalWidth: 0.1651
       }
     });
     return (
@@ -115,38 +107,19 @@ class DisconnectedMainScreenAR extends Component {
           pauseUpdates={this.props.calibration}
         >
           <View>
-            {/* SPOTLIGHT AND SHADING */}
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={25}
-              direction={[0, -1, 0]}
-              position={[0, 5, 0]}
-              color='#e9e9e9'
-              castsShadow={true}
-              shadowMapSize={2048}
-              shadowNearZ={2}
-              shadowFarZ={7}
-              shadowOpacity={0.7}
-            />
-            <ViroSpotLight
-              innerAngle={5}
-              outerAngle={90}
-              direction={[0, -1, -0.2]}
-              position={[0, 3, 1]}
-              color='#ffffff'
-              castsShadow={true}
-            />
-            <Viro3DObject
-              source={require('./res/animated_objects/emoji_sad_anim/emoji_sad_anim.vrx')}
-              type='VRX'
-              resources={[
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_diffuse.png'),
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_normal.png'),
-                require('./res/animated_objects/emoji_sad_anim/emoji_sad_specular.png')
-              ]}
-              position={[0, 0, 0]}
-              onClick={this.handleOrigin}
-              scale={[0.05, 0.05, 0.05]}
+            {/* START */}
+          <ViroImage
+            position={[0, 0, 0]}
+            rotation={[-90, 0, 0]}
+            onClick={() => {
+              this.handleOrigin() 
+              this.props.setCalibration(true);
+            }
+            }
+            scale={[0.04, 0.04, 0.04]}
+            height={1}
+            width={2}
+            source={require('./res/start.png')}
             />
 
             {/* BOARD OBJECTIVES */}
@@ -154,7 +127,7 @@ class DisconnectedMainScreenAR extends Component {
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
-                  if (piece.collected === false) {
+                  if (piece.collected === false && this.worldOriginRef) {
                     this.distanceBetween(piece);
                     switch (piece.name) {
                       case 'Smiley':
@@ -169,9 +142,9 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Poop':
+                      case 'Star':
                         return (
-                          <Poop
+                          <Star
                             key={piece.itemId}
                             item={piece}
                             visible={this.separation[piece.itemId] <= 2.5}
@@ -181,6 +154,30 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
+                      case 'Crown':
+                          return (
+                            <Crown
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
+                      case 'Heart':
+                          return (
+                            <Heart
+                              key={piece.itemId}
+                              item={piece}
+                              visible={this.separation[piece.itemId] <= 2.5}
+                              xpos={piece.xpos / 10}
+                              ypos={piece.ypos / 10}
+                              zpos={piece.zpos / 10}
+                              id={piece.itemId}
+                            />
+                          );
                       case 'Key':
                         return (
                           <Key
@@ -210,7 +207,7 @@ class DisconnectedMainScreenAR extends Component {
                           <Coin
                             key={piece.itemId}
                             item={piece}
-                            visible={true}
+                            visible={this.separation[piece.itemId] <= 2.5}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}

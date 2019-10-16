@@ -87,7 +87,7 @@ class DisconnectedMainScreenAR extends Component {
   }
   async getCameraPos() {
     const { position } = await this.arSceneRef.getCameraOrientationAsync();
-    return [position[0] * 10, position[1] * 10, position[2] * 10];
+    return [position[0] * 10, 0, position[2] * 10];
   }
   onCollide() {}
   youWon() {

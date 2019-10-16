@@ -7,7 +7,7 @@ import {
   ViroARImageMarker,
   ViroARTrackingTargets,
   ViroImage,
-  ViroSpotLight
+  ViroAmbientLight
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
@@ -44,7 +44,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      400
+      200
     );
   }
   componentWillUnmount() {
@@ -111,36 +111,16 @@ class DisconnectedMainScreenAR extends Component {
           <ViroImage
             position={[0, 0, 0]}
             rotation={[-90, 0, 0]}
-            onClick={this.handleOrigin}
+            onClick={() => {
+              this.handleOrigin() 
+              this.props.setCalibration(true);
+            }
+            }
             scale={[0.04, 0.04, 0.04]}
             height={1}
             width={2}
             source={require('./res/start.png')}
             />
-
-            {/* SPOTLIGHT AND SHADING */}
-            {/* <ViroAmbientLight color="#aaaaaa" /> */}
-            <ViroSpotLight
-                    innerAngle={5}
-                    outerAngle={25}
-                    direction={[0, -1, 0]}
-                    position={[3, 5, 2]}
-                    color='#e9e9e9'
-                    attenuationStartDistance={2}
-                    // castsShadow={true}
-                    // shadowMapSize={2048}
-                    // shadowNearZ={2}
-                    // shadowFarZ={7}
-                    // shadowOpacity={0.7}
-                />
-                {/* <ViroSpotLight
-                    innerAngle={5}
-                    outerAngle={90}
-                    direction={[0, -1, -0.2]}
-                    position={[3, 3, 2]}
-                    color='#ffffff'
-                    castsShadow={true}
-                /> */}
 
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}

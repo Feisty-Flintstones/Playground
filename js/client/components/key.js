@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject, ViroMaterials } from 'react-viro';
+import { Viro3DObject, ViroMaterials, ViroAmbientLight } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromBoard, moveBoardPiece } from '../store/boardReducer';
@@ -18,6 +18,7 @@ class Key extends React.Component {
   render() {
     return (
       <View>
+        <ViroAmbientLight color="#aaaaaa" />
         <Viro3DObject
           viroTag='key'
           source={require('../res/Key_B.obj/Key_B_02.obj')}

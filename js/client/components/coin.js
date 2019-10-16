@@ -3,6 +3,7 @@ import {
   Viro3DObject,
   ViroAnimations,
   ViroSound,
+  ViroAmbientLight
   } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
@@ -26,6 +27,7 @@ class Coin extends React.Component {
     });
     return (
       <View>
+        <ViroAmbientLight color="#aaaaaa" />
         <Viro3DObject
           source={require('../res/animated_objects/coin/coin.vrx')}
           type="VRX"

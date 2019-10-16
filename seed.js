@@ -111,7 +111,7 @@ async function seed() {
       boardId: 1
     }),
     BoardObjective.create({
-      xpos: 50,
+      xpos: 45,
       ypos: -5,
       zpos: 0,
       type: 'onCollision',
@@ -138,9 +138,9 @@ async function seed() {
       boardId: 1
     }),
     BoardObjective.create({
-      xpos: 20,
+      xpos: 40,
       ypos: 3,
-      zpos: 20,
+      zpos: 30,
       type: 'onClick',
       collected: false,
       itemId: 7,

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject, ViroMaterials } from 'react-viro';
+import { Viro3DObject, ViroMaterials, ViroAmbientLight } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import {addCoinToBoard} from '../store/boardReducer'
@@ -8,6 +8,7 @@ class Star extends React.Component {
     render() {
         return (
             <View>
+            <ViroAmbientLight color="#aaaaaa" />
             <Viro3DObject
                 source={require('../res/animated_objects/object_star_anim/object_star_anim.vrx')}
                 type='VRX'

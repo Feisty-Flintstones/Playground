@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject } from 'react-viro';
+import { Viro3DObject, ViroSpotLight, ViroAmbientLight } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromBoard, addCoinToBoard } from '../store/boardReducer'
@@ -11,6 +11,28 @@ class Lock extends React.Component {
   render() {
     return (
         <View>
+          {/* <ViroAmbientLight color="#e9e9e9" /> */}
+          <ViroSpotLight
+              innerAngle={5}
+              outerAngle={25}
+              direction={[0, -1, 0]}
+              position={[0, 5, 0]}
+              color='#e9e9e9'
+              castsShadow={true}
+              shadowMapSize={2048}
+              shadowNearZ={2}
+              shadowFarZ={7}
+              shadowOpacity={0.7}
+            />
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, 3, 1]}
+              color='#ffffff'
+              castsShadow={true}
+            />
+
             <Viro3DObject
                 viroTag="lock"
                 source={require('../res/padlock/scene.gltf')}

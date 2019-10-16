@@ -9,7 +9,8 @@ import {
   ViroARTrackingTargets,
   ViroImage,
   ViroNode,
-  ViroAmbientLight
+  ViroAmbientLight,
+  ViroSound
 } from 'react-viro';
 import {
   loadBoard,
@@ -32,7 +33,8 @@ class DisconnectedMainScreenAR extends Component {
   constructor() {
     super();
     this.state = {
-      updateDistance: false
+      updateDistance: false,
+      calibrated: false
     };
     this.separation = {};
     this.distanceBetween = this.distanceBetween.bind(this);
@@ -125,16 +127,24 @@ class DisconnectedMainScreenAR extends Component {
               onClick={() => {
                 this.handleOrigin();
                 this.props.setCalibration(true);
+                this.setState({
+                  calibrated: true
+                });
               }}
               scale={[0.04, 0.04, 0.04]}
               height={1}
               width={2}
               source={require('./res/start.png')}
             />
-
+            <ViroSound
+              paused={!this.state.calibrated}
+              source={require('../../assets/ready.mp3')}
+              loop={false}
+              volume={1.0}
+            />
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
-            {this.props.coins === 5 ? this.youWon() : null}
+            {this.props.coins === 7 ? this.youWon() : null}
             <ViroNode rotation={[-90, 0, 0]}>
               {this.props.boardPieces
                 ? this.props.boardPieces.map(piece => {

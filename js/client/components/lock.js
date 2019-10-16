@@ -29,6 +29,7 @@ class Lock extends React.Component {
           color='#ffffff'
           castsShadow={true}
         />
+        {/* <ViroAmbientLight color='#e9e9e9' /> */}
         <Viro3DObject
           viroTag='lock'
           source={require('../res/padlock/scene.gltf')}
@@ -55,6 +56,7 @@ class Lock extends React.Component {
     );
   }
 }
+
 const mapDispatchToProps = dispatch => ({
   removeFromBoard: id => dispatch(removeFromBoard(id)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),

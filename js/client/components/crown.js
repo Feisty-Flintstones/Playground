@@ -29,7 +29,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    addCoinToBoard: (name, id) => dispatch(addCoinToBoard(name, id))
+    addCoinToBoard: (name, id) => dispatch(addCoinToBoard(id))
 });
 
 export default connect(

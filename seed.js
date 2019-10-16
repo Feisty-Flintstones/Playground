@@ -155,51 +155,51 @@ async function seed() {
       itemId: 6,
       boardId: 1
     }),
-    BoardObjective.create({
-      xpos: 20,
-      ypos: 0,
-      zpos: 30,
-      type: 'onClick',
-      collected: false,
-      itemId: 5,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 10,
-      ypos: -5,
-      zpos: -10,
-      type: 'onClick',
-      collected: false,
-      itemId: 4,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 25,
-      ypos: -2,
-      zpos: 5,
-      type: 'onClick',
-      collected: false,
-      itemId: 3,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: -10,
-      ypos: 0,
-      zpos: 20,
-      type: 'onClick',
-      collected: false,
-      itemId: 2,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 0,
-      ypos: -12,
-      zpos: 0,
-      type: 'onClick',
-      collected: false,
-      itemId: 1,
-      boardId: 1
-    }),
+    // BoardObjective.create({
+    //   xpos: 20,
+    //   ypos: 0,
+    //   zpos: 30,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 5,
+    //   boardId: 1
+    // }),
+    // BoardObjective.create({
+    //   xpos: 10,
+    //   ypos: -5,
+    //   zpos: -10,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 4,
+    //   boardId: 1
+    // }),
+    // BoardObjective.create({
+    //   xpos: 25,
+    //   ypos: -2,
+    //   zpos: 5,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 3,
+    //   boardId: 1
+    // }),
+    // BoardObjective.create({
+    //   xpos: -10,
+    //   ypos: 0,
+    //   zpos: 20,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 2,
+    //   boardId: 1
+    // }),
+    // BoardObjective.create({
+    //   xpos: 0,
+    //   ypos: -12,
+    //   zpos: 0,
+    //   type: 'onClick',
+    //   collected: false,
+    //   itemId: 1,
+    //   boardId: 1
+    // }),
   ]);
 
   console.log(`seeded ${boards.length} boards`);

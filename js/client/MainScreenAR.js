@@ -119,33 +119,35 @@ class DisconnectedMainScreenAR extends Component {
             />
 
             {/* SPOTLIGHT AND SHADING */}
+            {/* <ViroAmbientLight color="#aaaaaa" /> */}
             <ViroSpotLight
                     innerAngle={5}
                     outerAngle={25}
                     direction={[0, -1, 0]}
                     position={[3, 5, 2]}
                     color='#e9e9e9'
-                    castsShadow={true}
-                    shadowMapSize={2048}
-                    shadowNearZ={2}
-                    shadowFarZ={7}
-                    shadowOpacity={0.7}
+                    attenuationStartDistance={2}
+                    // castsShadow={true}
+                    // shadowMapSize={2048}
+                    // shadowNearZ={2}
+                    // shadowFarZ={7}
+                    // shadowOpacity={0.7}
                 />
-                <ViroSpotLight
+                {/* <ViroSpotLight
                     innerAngle={5}
                     outerAngle={90}
                     direction={[0, -1, -0.2]}
                     position={[3, 3, 2]}
                     color='#ffffff'
                     castsShadow={true}
-                />
+                /> */}
 
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
-                  if (piece.collected === false) {
+                  if (piece.collected === false && this.worldOriginRef) {
                     this.distanceBetween(piece);
                     switch (piece.name) {
                       case 'Smiley':

@@ -15,7 +15,7 @@ class Star extends React.Component {
                 position={[this.props.xpos, this.props.ypos, this.props.zpos]}
                 anchorId={1}
                 highAccuracyEvents={true}
-                scale={[0.2, 0.2, 0.2]}
+                scale={[0.05, 0.05, 0.05]}
                 onClick={() => {
                     this.props.addCoinToBoard(this.props.id);
                 }}

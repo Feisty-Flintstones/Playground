@@ -18,6 +18,7 @@ class Lock extends React.Component {
                 highAccuracyEvents={true}
                 position={[this.props.xpos, this.props.ypos, this.props.zpos]}
                 scale={[0.024, 0.024, 0.024]}
+                rotation={[-90, 0, 0]}
                 physicsBody={{
                     type:'static',
                     mass: 0,

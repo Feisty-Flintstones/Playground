@@ -11,7 +11,10 @@ class Key extends React.Component {
     this.state = {
       isDragging: false
     };
+    isFound = false
   }
+
+
   render() {
     return (
       <View>
@@ -27,6 +30,7 @@ class Key extends React.Component {
             this.setState({
               isDragging: true
             });
+            this.isFound=true
             this.props.moveBoardPiece(this.props.id, position);
           }}
           onClickState={state => {
@@ -40,7 +44,7 @@ class Key extends React.Component {
               }
             }
           }}
-          // visible={this.props.visible}
+          visible={this.props.visible || this.isFound}
           physicsBody={{
             type: 'kinematic',
             mass: 0,

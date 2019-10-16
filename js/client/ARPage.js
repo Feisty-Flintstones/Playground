@@ -4,10 +4,13 @@ import { StyleSheet, View } from 'react-native';
 // import store from "./store/index";
 import {
   ViroARScene,
+  Viro3DObject,
+  ViroAmbientLight,
   ViroSpotLight,
   ViroARImageMarker,
   ViroARTrackingTargets,
-  Viro3DObject
+  ViroARCamera,
+  ViroText
 } from 'react-viro';
 import { loadBoard, removeFromBoard } from './store/boardReducer';
 import { addToInventory } from './store/inventoryReducer.js';
@@ -21,7 +24,8 @@ import { setCalibration } from './store/boardReducer.js';
 import YouWinAR from './YouWinAR';
 import YouLoseAR from './YouLoseAR';
 
-class DisconnectedMainScreenAR extends Component {
+// var createReactClass = require("create-react-class");
+class DisconnectedARPage extends Component {
   constructor() {
     super();
     this.state = {
@@ -31,9 +35,6 @@ class DisconnectedMainScreenAR extends Component {
     this.distanceBetween = this.distanceBetween.bind(this);
     this.distance = this.distance.bind(this);
     this.youWon = this.youWon.bind(this);
-    this.worldOriginRef = undefined;
-    this.handleOrigin = this.handleOrigin.bind(this);
-    this.youLose = this.youLose.bind(this);
   }
   componentDidMount() {
     this.props.loadBoard(this.props.arSceneNavigator.viroAppProps);
@@ -43,7 +44,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      400
+      500
     );
   }
   componentWillUnmount() {
@@ -58,47 +59,27 @@ class DisconnectedMainScreenAR extends Component {
   }
 
   async distanceBetween(component) {
-    if (!this.worldOriginRef) return;
-    let xpos = component.xpos / 10 + this.worldOriginRef[0];
-    let ypos = component.ypos / 10 + this.worldOriginRef[1];
-    let zpos = component.zpos / 10 + this.worldOriginRef[2];
-    let position2 = [xpos, ypos, zpos];
+    let xpos = component.xpos;
+    let ypos = component.ypos;
+    let zpos = component.zpos;
+    let position2 = [xpos / 10, ypos / 10, zpos / 10];
     if (this.arSceneRef && position2) {
       const position = await this.arSceneRef.getCameraOrientationAsync();
+      console.log(position);
       this.separation[component.itemId] = this.distance(
         position.position,
         position2
       );
     }
-    console.log(
-      'COMPONENT NAME: ',
-      component.name,
-      'POSITION: ',
-      position2,
-      'WORLD ORIGIN REFERENCE: ',
-      this.worldOriginRef
-    );
-    console.log('DISTANCE :', this.separation[component.itemId]);
   }
   onCollide() {}
   youWon() {
     this.props.arSceneNavigator.pop();
     this.props.arSceneNavigator.push({ scene: YouWinAR });
   }
-
-  youLose() {
-    this.props.arSceneNavigator.pop();
-    this.props.arSceneNavigator.push({ scene: YouLoseAR });
-  }
-
-  async handleOrigin() {
-    const { position } = await this.arSceneRef.getCameraOrientationAsync();
-    this.worldOriginRef = position;
-  }
   render() {
     ViroARTrackingTargets.createTargets({
       calibrate: {
-        // source: require('./res/test.jpg'),
         source: require('./res/tottem.jpg'),
         orientation: 'Up',
         physicalWidth: 0.1
@@ -108,15 +89,44 @@ class DisconnectedMainScreenAR extends Component {
       <ViroARScene
         ref={component => {
           this.arSceneRef = component;
+          console.log(component);
         }}
       >
-        <ViroARImageMarker
-          target='calibrate'
-          pauseUpdates={this.props.calibration}
-        >
-          <View>
-            {/* SPOTLIGHT AND SHADING */}
-            <ViroSpotLight
+        <Viro3DObject
+          source={require('./res/animated_objects/object_star_anim/object_star_anim.vrx')}
+          resources={[
+            require('./res/animated_objects/object_star_anim/object_star_diffuse.png'),
+            require('./res/animated_objects/object_star_anim/object_star_specular.png')
+          ]}
+          type='VRX'
+          position={[0, 0, 0]}
+          scale={[0.05, 0.05, 0.05]}
+          rotation={[90, 0, 0]}
+          onClick={() => {
+            // this.props.setCalibration(true);
+          }}
+        />
+        {/* <ViroText
+          fontSize={10}
+          position={[0, 0, 0]}
+          width={20}
+          height={5}
+          extrusionDepth={8}
+          materials={['frontMaterial', 'backMaterial', 'sideMaterial']}
+          text={'hi'}
+        /> */}
+        {/* <ViroARCamera
+            ref={component => {
+              if (component) {
+                temp = component;
+                console.log(temp.props.children.props.position);
+              }
+            }}
+          >
+           
+          </ViroARCamera> */}
+        {/* SPOTLIGHT AND SHADING */}
+        {/* <ViroSpotLight
               innerAngle={5}
               outerAngle={25}
               direction={[0, -1, 0]}
@@ -136,18 +146,10 @@ class DisconnectedMainScreenAR extends Component {
               color='#ffffff'
               castsShadow={true}
             />
-            <ViroImage
-              position={[0, 0, 0]}
-              rotation={[-90, 0, 0]}
-              onClick={this.handleOrigin}
-              scale={[0.04, 0.04, 0.04]}
-              height={1}
-              width={2}
-              source={require('./res/start.png')}
-            />
+            */}
 
-            {/* BOARD OBJECTIVES */}
-            {this.props.timeUp ? this.youLose() : null}
+        {/* BOARD OBJECTIVES */}
+        {/* 
             {this.props.coins === 5 ? this.youWon() : null}
             {this.props.boardPieces
               ? this.props.boardPieces.map(piece => {
@@ -166,57 +168,9 @@ class DisconnectedMainScreenAR extends Component {
                             id={piece.itemId}
                           />
                         );
-                      case 'Key':
+                      case 'Poop':
                         return (
-                          <Key
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Heart':
-                        return (
-                          <Heart
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Crown':
-                        return (
-                          <Crown
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Star':
-                        return (
-                          <Star
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Lock':
-                        return (
-                          <Lock
+                          <Poop
                             key={piece.itemId}
                             item={piece}
                             visible={this.separation[piece.itemId] <= 2.5}
@@ -231,7 +185,7 @@ class DisconnectedMainScreenAR extends Component {
                           <Coin
                             key={piece.itemId}
                             item={piece}
-                            visible={true}
+                            visible={this.separation[piece.itemId] <= 3}
                             xpos={piece.xpos / 10}
                             ypos={piece.ypos / 10}
                             zpos={piece.zpos / 10}
@@ -243,9 +197,7 @@ class DisconnectedMainScreenAR extends Component {
                     }
                   }
                 })
-              : null}
-          </View>
-        </ViroARImageMarker>
+              : null} */}
       </ViroARScene>
     );
   }
@@ -264,8 +216,7 @@ var styles = StyleSheet.create({
 const mapStateToProps = state => ({
   boardPieces: state.boardReducer.boardPieces,
   calibration: state.boardReducer.calibration,
-  coins: state.inventoryReducer.coins,
-  timeUp: state.timeReducer.timeUp
+  coins: state.inventoryReducer.coins
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -274,9 +225,9 @@ const mapDispatchToProps = dispatch => ({
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
   setCalibration: isCalibrated => dispatch(setCalibration(isCalibrated))
 });
-const MainScreenAR = connect(
+const ARPage = connect(
   mapStateToProps,
   mapDispatchToProps
-)(DisconnectedMainScreenAR);
+)(DisconnectedARPage);
 
-export default MainScreenAR;
+export default ARPage;

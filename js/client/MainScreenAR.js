@@ -1,3 +1,4 @@
+/* eslint-disable complexity */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
@@ -7,6 +8,7 @@ import {
   ViroARImageMarker,
   ViroARTrackingTargets,
   ViroImage,
+  ViroNode,
   ViroAmbientLight
 } from 'react-viro';
 import {
@@ -117,128 +119,125 @@ class DisconnectedMainScreenAR extends Component {
         >
           <View>
             {/* START */}
-          <ViroImage
-            position={[0, 0, 0]}
-            rotation={[-90, 0, 0]}
-            onClick={() => {
-              this.handleOrigin() 
-              this.props.setCalibration(true);
-            }
-            }
-            scale={[0.04, 0.04, 0.04]}
-            height={1}
-            width={2}
-            source={require('./res/start.png')}
+            <ViroImage
+              position={[0, 0, 0]}
+              rotation={[-90, 0, 0]}
+              onClick={() => {
+                this.handleOrigin();
+                this.props.setCalibration(true);
+              }}
+              scale={[0.04, 0.04, 0.04]}
+              height={1}
+              width={2}
+              source={require('./res/start.png')}
             />
 
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
             {this.props.coins === 5 ? this.youWon() : null}
-            {this.props.boardPieces
-              ? this.props.boardPieces.map(piece => {
-                  if (piece.collected === false && this.worldOriginRef) {
-                             if (piece.xpos === null) {
-                      this.getCameraPos().then(position => {
-                        this.props.moveBoardPiece(piece.itemId, position);
-                      });
-                    } else {
-                    this.distanceBetween(piece);
-                    switch (piece.name) {
-                      case 'Smiley':
-                        return (
-                          <Smiley
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Star':
-                        return (
-                          <Star
-                            key={piece.itemId}
-                            item={piece}
-                            visible={this.separation[piece.itemId] <= 2.5}
-                            xpos={piece.xpos / 10}
-                            ypos={piece.ypos / 10}
-                            zpos={piece.zpos / 10}
-                            id={piece.itemId}
-                          />
-                        );
-                      case 'Crown':
-                          return (
-                            <Crown
-                              key={piece.itemId}
-                              item={piece}
-                              visible={this.separation[piece.itemId] <= 2.5}
-                              xpos={piece.xpos / 10}
-                              ypos={piece.ypos / 10}
-                              zpos={piece.zpos / 10}
-                              id={piece.itemId}
-                            />
-                          );
-//                         case 'Poop':
-//                           return (
-//                             <Poop
-// =======
-                      case 'Heart':
-                          return (
-                            <Heart
-                              key={piece.itemId}
-                              item={piece}
-                              visible={this.separation[piece.itemId] <= 2.5}
-                              xpos={piece.xpos / 10}
-                              ypos={piece.ypos / 10}
-                              zpos={piece.zpos / 10}
-                              id={piece.itemId}
-                            />
-                          );
-                        case 'Key':
-                          return (
-                            <Key
-                              key={piece.itemId}
-                              item={piece}
-                              visible={this.separation[piece.itemId] <= 2.5}
-                              xpos={piece.xpos / 10}
-                              ypos={piece.ypos / 10}
-                              zpos={piece.zpos / 10}
-                              id={piece.itemId}
-                            />
-                          );
-                        case 'Lock':
-                          return (
-                            <Lock
-                              key={piece.itemId}
-                              item={piece}
-                              visible={this.separation[piece.itemId] <= 2.5}
-                              xpos={piece.xpos / 10}
-                              ypos={piece.ypos / 10}
-                              zpos={piece.zpos / 10}
-                              id={piece.itemId}
-                            />
-                          );
-                        case 'Coin':
-                          return (
-                            <Coin
-                              key={piece.itemId}
-                              item={piece}
-                              visible={true}
-                              xpos={piece.xpos / 10}
-                              ypos={piece.ypos / 10}
-                              zpos={piece.zpos / 10}
-                              id={piece.itemId}
-                            />
-                          );
-                        default:
-                          return null;
+            <ViroNode rotation={[-90, 0, 0]}>
+              {this.props.boardPieces
+                ? this.props.boardPieces.map(piece => {
+                    if (piece.collected === false && this.worldOriginRef) {
+                      if (piece.xpos === null) {
+                        this.getCameraPos().then(position => {
+                          this.props.moveBoardPiece(piece.itemId, position);
+                        });
+                      } else {
+                        this.distanceBetween(piece);
+                        switch (piece.name) {
+                          case 'Smiley':
+                            return (
+                              <Smiley
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Star':
+                            return (
+                              <Star
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Crown':
+                            return (
+                              <Crown
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Heart':
+                            return (
+                              <Heart
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Key':
+                            return (
+                              <Key
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Lock':
+                            return (
+                              <Lock
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          case 'Coin':
+                            return (
+                              <Coin
+                                key={piece.itemId}
+                                item={piece}
+                                visible={this.separation[piece.itemId] <= 2.5}
+                                xpos={piece.xpos / 10}
+                                ypos={piece.ypos / 10}
+                                zpos={piece.zpos / 10}
+                                id={piece.itemId}
+                              />
+                            );
+                          default:
+                            return null;
+                        }
                       }
                     }
-                  }
-                })
-              : null}
+                  })
+                : null}
+            </ViroNode>
           </View>
         </ViroARImageMarker>
       </ViroARScene>

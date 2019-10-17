@@ -48,7 +48,7 @@ class Coin extends React.Component {
           color='#ffffff'
           castsShadow={true}
         /> */}
-        <ViroAmbientLight color='#aaaaaa' />
+        {/* <ViroAmbientLight color='#aaaaaa' /> */}
         <Viro3DObject
           source={require('../res/animated_objects/coin/coin.vrx')}
           type='VRX'

@@ -9,7 +9,6 @@ import {
   ViroARTrackingTargets,
   ViroImage,
   ViroNode,
-  ViroAmbientLight,
   ViroSound
 } from 'react-viro';
 import {
@@ -53,7 +52,7 @@ class DisconnectedMainScreenAR extends Component {
     let stateDist = !this.state.updateDistance;
     this.interval = setInterval(
       () => this.setState({ updateDistance: stateDist }),
-      200
+      300
     );
   }
   componentWillUnmount() {
@@ -82,8 +81,17 @@ class DisconnectedMainScreenAR extends Component {
     }
   }
   async getCameraPos() {
-    const { position } = await this.arSceneRef.getCameraOrientationAsync();
-    return [position[0] * 10, 0, position[2] * 10];
+    const {
+      position,
+      forward
+    } = await this.arSceneRef.getCameraOrientationAsync();
+
+    let newpos = [
+      position[0] + forward[0],
+      position[1] + forward[1] * 1.1,
+      position[2] + forward[2] * 1.1
+    ];
+    return [newpos[0] * 10, newpos[1] * 10, newpos[2] * 10];
   }
 
   youWon() {
@@ -121,21 +129,33 @@ class DisconnectedMainScreenAR extends Component {
         >
           <View>
             {/* START */}
-            <ViroImage
-              position={[0, 0, 0]}
-              rotation={[-90, 0, 0]}
-              onClick={() => {
-                this.handleOrigin();
-                this.props.setCalibration(true);
-                this.setState({
-                  calibrated: true
-                });
-              }}
-              scale={[0.04, 0.04, 0.04]}
-              height={1}
-              width={2}
-              source={require('./res/start.png')}
-            />
+            {!this.props.calibration ? (
+              <ViroImage
+                position={[0, 0, 0]}
+                rotation={[-90, 0, 0]}
+                onClick={() => {
+                  this.handleOrigin();
+                  this.props.setCalibration(true);
+                  this.setState({
+                    calibrated: true
+                  });
+                }}
+                scale={[0.07, 0.07, 0.07]}
+                height={1}
+                width={2}
+                source={require('./res/start.png')}
+              />
+            ) : (
+              <ViroImage
+                position={[0, 0, 0]}
+                rotation={[-90, 0, 0]}
+                scale={[0.07, 0.07, 0.07]}
+                height={1}
+                width={2}
+                source={require('./res/go.png')}
+              />
+            )}
+
             <ViroSound
               paused={!this.state.calibrated}
               source={require('../../assets/ready.mp3')}

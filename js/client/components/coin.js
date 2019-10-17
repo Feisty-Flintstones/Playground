@@ -28,12 +28,12 @@ class Coin extends React.Component {
     });
     return (
       <View>
-        {/* <ViroSpotLight
+        <ViroSpotLight
           innerAngle={5}
           outerAngle={25}
           direction={[0, -1, 0]}
           position={[this.props.xpos, this.props.ypos + 3, this.props.zpos]}
-          color='#e9e9e9'
+          color="#e9e9e9"
           castsShadow={true}
           shadowMapSize={2048}
           shadowNearZ={2}
@@ -45,13 +45,12 @@ class Coin extends React.Component {
           outerAngle={90}
           direction={[0, -1, -0.2]}
           position={[this.props.xpos, this.props.ypos, this.props.zpos]}
-          color='#ffffff'
+          color="#ffffff"
           castsShadow={true}
-        /> */}
-        <ViroAmbientLight color='#aaaaaa' />
+        />
         <Viro3DObject
           source={require('../res/animated_objects/coin/coin.vrx')}
-          type='VRX'
+          type="VRX"
           position={[this.props.xpos, this.props.ypos, this.props.zpos]}
           scale={[0.0005, 0.0005, 0.0005]}
           onClick={() => {

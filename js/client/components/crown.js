@@ -8,7 +8,7 @@ class Crown extends React.Component {
   render() {
     return (
       <View>
-        <ViroAmbientLight color="#aaaaaa" />
+        {/* <ViroAmbientLight color="#aaaaaa" /> */}
         <Viro3DObject
           source={require('../res/animated_objects/crown/crown.obj')}
           resources={[require('../res/animated_objects/crown/crown.mtl')]}
@@ -17,7 +17,7 @@ class Crown extends React.Component {
           scale={[0.01, 0.01, 0.01]}
           rotation={[-135, 0, -45]}
           onClick={() => {
-            this.props.addCoinToBoard(this.props.id)
+            this.props.addCoinToBoard(this.props.id);
           }}
           visible={this.props.visible}
         />
@@ -25,20 +25,10 @@ class Crown extends React.Component {
     );
   }
 }
-
-ViroMaterials.createMaterials({
-  crown: {
-      shininess: 2.0,
-      lightingModel: "Blinn",
-      diffuseTexture: require('../res/animated_objects/crown/crown.mtl')
-  },
-});
-
-const mapStateToProps = state => ({
-});
+const mapStateToProps = state => ({});
 
 const mapDispatchToProps = dispatch => ({
-    addCoinToBoard: (id) => dispatch(addCoinToBoard(id))
+  addCoinToBoard: id => dispatch(addCoinToBoard(id))
 });
 
 export default connect(

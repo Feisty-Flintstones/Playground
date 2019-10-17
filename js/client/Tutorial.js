@@ -16,7 +16,10 @@ import {
   ViroARCamera,
   ViroImage,
   ViroNode,
-  ViroSound
+  ViroSound,
+  ViroPortal,
+  ViroPortalScene,
+  Viro360Video
 } from 'react-viro';
 import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
 import {
@@ -97,7 +100,7 @@ class Tutorial extends React.Component {
           outerAngle={25}
           direction={[0, -1, 0]}
           position={[0, 5, 0]}
-          color="#e9e9e9"
+          color='#e9e9e9'
           castsShadow={true}
           shadowMapSize={2048}
           shadowNearZ={2}
@@ -109,7 +112,7 @@ class Tutorial extends React.Component {
           outerAngle={90}
           direction={[0, -1, -0.2]}
           position={[0, 3, 1]}
-          color="#ffffff"
+          color='#ffffff'
           castsShadow={true}
         />
 
@@ -120,8 +123,8 @@ class Tutorial extends React.Component {
           scale={[0.3, 0.3, 0.3]}
           height={2.5}
           width={6}
-          alignItems="center"
-          justifyContent="center"
+          alignItems='center'
+          justifyContent='center'
           onClick={() => this.setState({ firstBB: false })}
           visible={this.state.firstBB}
         >
@@ -129,28 +132,28 @@ class Tutorial extends React.Component {
             style={styles.prodTitleText}
             width={6}
             height={0.5}
-            flexWrap="wrap"
+            flexWrap='wrap'
             padding={0.2}
-            textAlign="center"
-            text="Find the TOTEM above and hover your"
+            textAlign='center'
+            text='Find the TOTEM above and hover your'
           />
           <ViroText
             style={styles.prodTitleText}
             width={6}
             height={0.5}
-            flexWrap="wrap"
+            flexWrap='wrap'
             padding={0.2}
-            textAlign="center"
-            text="device over it to START game!"
+            textAlign='center'
+            text='device over it to START game!'
           />
           <ViroText
             style={styles.prodTitleText}
             width={6}
             height={0.5}
-            flexWrap="wrap"
+            flexWrap='wrap'
             padding={0.2}
-            textAlign="center"
-            text="(CLICK hint to hide)"
+            textAlign='center'
+            text='(CLICK hint to hide)'
           />
         </ViroFlexView>
 
@@ -166,7 +169,7 @@ class Tutorial extends React.Component {
         {/* Step# 2 */}
 
         <ViroARImageMarker
-          target="calibrate"
+          target='calibrate'
           pauseUpdates={this.props.calibration}
         >
           {/* <MapMarker position={[0, 0.2, 0]} /> */}
@@ -195,15 +198,15 @@ class Tutorial extends React.Component {
             loop={false}
             volume={1.0}
           />
-          <ViroAmbientLight color="#aaaaaa" />
+          <ViroAmbientLight color='#aaaaaa' />
           <ViroFlexView
             transformBehaviors={['billboard']}
             style={styles.titleContainerGood}
             position={[0, -1, -0.9]}
             scale={[0.5, 0.5, 0.5]}
             height={3}
-            alignItems="center"
-            justifyContent="center"
+            alignItems='center'
+            justifyContent='center'
             onClick={() => this.setState({ secondBB: false })}
             visible={this.state.secondBB}
           >
@@ -211,10 +214,10 @@ class Tutorial extends React.Component {
               style={styles.prodTitleText}
               width={2}
               height={0}
-              flexWrap="wrap"
+              flexWrap='wrap'
               padding={0.2}
-              textAlign="center"
-              text="Click START!"
+              textAlign='center'
+              text='Click START!'
             />
           </ViroFlexView>
 
@@ -224,8 +227,8 @@ class Tutorial extends React.Component {
             position={[0, 0, -0.9]}
             scale={[0.5, 0.5, 0.5]}
             height={3}
-            alignItems="center"
-            justifyContent="center"
+            alignItems='center'
+            justifyContent='center'
             onClick={() => this.setState({ secondBB: false })}
             visible={true}
           >
@@ -233,19 +236,19 @@ class Tutorial extends React.Component {
               style={styles.prodTitleText}
               width={2}
               height={0}
-              flexWrap="wrap"
+              flexWrap='wrap'
               padding={0.2}
-              textAlign="center"
-              text="Find all"
+              textAlign='center'
+              text='Find all'
             />
             <ViroText
               style={styles.prodTitleText}
               width={2}
               height={0}
-              flexWrap="wrap"
+              flexWrap='wrap'
               padding={0.2}
-              textAlign="center"
-              text="the coins!"
+              textAlign='center'
+              text='the coins!'
             />
           </ViroFlexView>
           {/* Step # 3 */}
@@ -276,26 +279,52 @@ class Tutorial extends React.Component {
             </ViroFlexView>
           </View> */}
           <ViroNode rotation={[-90, 0, 0]}>
-            <Smiley xpos={-6} ypos={0} zpos={-6} visible={true} />
-
             <Coin xpos={1} ypos={0} zpos={0} visible={true} />
             <Coin xpos={2} ypos={0.4} zpos={0} visible={true} />
             <Coin xpos={3} ypos={-1} zpos={-1} visible={true} />
-            <Coin xpos={3} ypos={0.5} zpos={-1} visible={true} />
             <Coin xpos={3} ypos={0} zpos={-0} visible={true} />
+            <Coin xpos={2} ypos={0.5} zpos={-1} visible={true} />
           </ViroNode>
 
           {this.props.coins === 5 ? (
-            <ViroARCamera>
+            <ViroNode rotation={[-90, 0, 0]}>
+              <ViroAmbientLight color="#ffffff" intensity={200} />
+              <ViroPortalScene
+                passable={true}
+                dragType="FixedDistance"
+                onDrag={() => {}}
+              >
+                <ViroPortal
+                  position={[3.8, 0, 0]}
+                  scale={[0.15, 0.15, 0.2]}
+                  rotation={[0, -90, 0]}
+                >
+                  <Viro3DObject
+                    source={require('./res/animated_objects/portals/portal_ship/portal_ship.vrx')}
+                    resources={[
+                      require('./res/animated_objects/portals/portal_ship/portal_ship_diffuse.png'),
+                      require('./res/animated_objects/portals/portal_ship/portal_ship_normal.png'),
+                      require('./res/animated_objects/portals/portal_ship/portal_ship_specular.png')
+                    ]}
+                    type="VRX"
+                  />
+                </ViroPortal>
+                <Viro360Video
+                  source={require('./res/animated_objects/portals/360_surf.mp4')}
+                  loop={true}
+                />
+              </ViroPortalScene>
+
               <ViroFlexView
                 transformBehaviors={['billboard']}
                 style={styles.titleContainerGood}
-                position={[0, 0, -7]}
-                scale={[0.6, 0.6, 0.6]}
+                position={[2.7, 0, -0.8]}
+                scale={[0.13, 0.13, 0.13]}
+                rotation={[0, 90, 0]}
                 height={2.5}
                 width={6}
-                alignItems="center"
-                justifyContent="center"
+                alignItems='center'
+                justifyContent='center'
                 onClick={() => this.setState({ thirdBB: false })}
                 visible={this.state.thirdBB}
               >
@@ -303,30 +332,38 @@ class Tutorial extends React.Component {
                   style={styles.prodTitleText}
                   width={6}
                   height={0.5}
-                  flexWrap="wrap"
+                  flexWrap='wrap'
                   padding={0.2}
-                  textAlign="center"
-                  text="You got all the coins!"
+                  textAlign='center'
+                  text='You got all the coins!'
                 />
                 <ViroText
                   style={styles.prodTitleText}
                   width={6}
                   height={0.5}
-                  flexWrap="wrap"
+                  flexWrap='wrap'
                   padding={0.2}
-                  textAlign="center"
+                  textAlign='center'
                   text="You're ready to play!"
                 />
                 <ViroText
                   style={styles.prodTitleText}
                   width={6}
                   height={0.5}
+                  flexWrap='wrap'
+                  padding={0.2}
+                  textAlign='center'
+                  text='(Click MENU then EXIT)'
+                />
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
                   flexWrap="wrap"
                   padding={0.2}
                   textAlign="center"
-                  text="(Click MENU then EXIT)"
+                  text="Or step into the portal!"
                 />
-
                 {/* <ViroText
                   style={styles.prodTitleText}
                   width={6}
@@ -337,7 +374,7 @@ class Tutorial extends React.Component {
                   text="Click to dismiss hint"
                 /> */}
               </ViroFlexView>
-            </ViroARCamera>
+            </ViroNode>
           ) : null}
 
           {/* <ViroText

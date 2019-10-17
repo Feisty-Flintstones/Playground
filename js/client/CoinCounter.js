@@ -51,7 +51,7 @@ class CoinCounter extends React.Component {
             {this.state.timer + 's'}
           </Text>
           <Text style={{ color: 'white', fontSize: 20 }}>
-            {this.props.coins + '/7'}
+            {this.props.coins + '/6'}
           </Text>
           <Image
             source={require('./res/inventory_icons/pixel_coin.png')}

@@ -61,7 +61,7 @@ export default function(state = initialState, action) {
         inv: [...state.inv.filter(element => element.id !== action.id)]
       };
     case ADD_COIN:
-      if (state.coins < 5) {
+      if (state.coins < 7) {
         return { ...state, coins: state.coins + 1 };
       } else {
         return state;

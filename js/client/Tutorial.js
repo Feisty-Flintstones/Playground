@@ -16,7 +16,10 @@ import {
   ViroARCamera,
   ViroImage,
   ViroNode,
-  ViroSound
+  ViroSound,
+  ViroPortal,
+  ViroPortalScene,
+  Viro360Video
 } from 'react-viro';
 import { loadBoard, removeFromBoard, addToBoard } from './store/boardReducer';
 import {
@@ -276,22 +279,48 @@ class Tutorial extends React.Component {
             </ViroFlexView>
           </View> */}
           <ViroNode rotation={[-90, 0, 0]}>
-            <Smiley xpos={-6} ypos={0} zpos={-6} visible={true} />
-
             <Coin xpos={1} ypos={0} zpos={0} visible={true} />
             <Coin xpos={2} ypos={0.4} zpos={0} visible={true} />
             <Coin xpos={3} ypos={-1} zpos={-1} visible={true} />
-            <Coin xpos={3} ypos={0.5} zpos={-1} visible={true} />
             <Coin xpos={3} ypos={0} zpos={-0} visible={true} />
+            <Coin xpos={2} ypos={0.5} zpos={-1} visible={true} />
           </ViroNode>
 
           {this.props.coins === 5 ? (
-            <ViroARCamera>
+            <ViroNode rotation={[-90, 0, 0]}>
+              <ViroAmbientLight color="#ffffff" intensity={200} />
+              <ViroPortalScene
+                passable={true}
+                dragType="FixedDistance"
+                onDrag={() => {}}
+              >
+                <ViroPortal
+                  position={[3.8, 0, 0]}
+                  scale={[0.15, 0.15, 0.2]}
+                  rotation={[0, -90, 0]}
+                >
+                  <Viro3DObject
+                    source={require('./res/animated_objects/portals/portal_ship/portal_ship.vrx')}
+                    resources={[
+                      require('./res/animated_objects/portals/portal_ship/portal_ship_diffuse.png'),
+                      require('./res/animated_objects/portals/portal_ship/portal_ship_normal.png'),
+                      require('./res/animated_objects/portals/portal_ship/portal_ship_specular.png')
+                    ]}
+                    type="VRX"
+                  />
+                </ViroPortal>
+                <Viro360Video
+                  source={require('./res/animated_objects/portals/360_surf.mp4')}
+                  loop={true}
+                />
+              </ViroPortalScene>
+
               <ViroFlexView
                 transformBehaviors={['billboard']}
                 style={styles.titleContainerGood}
-                position={[0, 0, -7]}
-                scale={[0.6, 0.6, 0.6]}
+                position={[2.7, 0, -0.8]}
+                scale={[0.13, 0.13, 0.13]}
+                rotation={[0, 90, 0]}
                 height={2.5}
                 width={6}
                 alignItems="center"
@@ -326,7 +355,15 @@ class Tutorial extends React.Component {
                   textAlign="center"
                   text="(Click MENU then EXIT)"
                 />
-
+                <ViroText
+                  style={styles.prodTitleText}
+                  width={6}
+                  height={0.5}
+                  flexWrap="wrap"
+                  padding={0.2}
+                  textAlign="center"
+                  text="Or step into the portal!"
+                />
                 {/* <ViroText
                   style={styles.prodTitleText}
                   width={6}
@@ -337,7 +374,7 @@ class Tutorial extends React.Component {
                   text="Click to dismiss hint"
                 /> */}
               </ViroFlexView>
-            </ViroARCamera>
+            </ViroNode>
           ) : null}
 
           {/* <ViroText

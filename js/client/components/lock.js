@@ -13,20 +13,21 @@ class Lock extends React.Component {
           innerAngle={5}
           outerAngle={25}
           direction={[0, -1, 0]}
-          position={[0, 5, 0]}
+          position={[3.5, 5, 0]}
           color='#e9e9e9'
           castsShadow={true}
           shadowMapSize={2048}
           shadowNearZ={2}
           shadowFarZ={7}
           shadowOpacity={0.7}
+          // intensity={50}
         />
         <ViroSpotLight
           innerAngle={5}
           outerAngle={90}
           direction={[0, -1, -0.2]}
-          position={[0, 3, 1]}
-          color='#ffffff'
+          position={[3.5, 3, 1]}
+          color='#e9e9e9'
           castsShadow={true}
         />
         {/* <ViroAmbientLight color='#e9e9e9' /> */}
@@ -42,7 +43,8 @@ class Lock extends React.Component {
             mass: 1,
             useGravity: false,
             shape: {
-              type: 'Compound'
+              type: 'Sphere',
+              params: [0.2]
             }
           }}
           onCollision={tag => {

@@ -2,23 +2,27 @@ import React from 'react';
 import { Viro3DObject, ViroMaterials, ViroAmbientLight } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
-import { removeFromBoard, moveBoardPiece } from '../store/boardReducer';
+import {
+  removeFromBoard,
+  moveBoardPiece,
+  addCoinToBoard
+} from '../store/boardReducer';
 import { addToInventory } from '../store/inventoryReducer.js';
 
 class Key extends React.Component {
   constructor() {
     super();
     this.state = {
-      isDragging: false
+      isDragging: false,
+      isCollided: false
     };
-    isFound = false
+    this.isFound = false;
   }
-
 
   render() {
     return (
       <View>
-        <ViroAmbientLight color="#aaaaaa" />
+        {/* <ViroAmbientLight color='#aaaaaa' /> */}
         <Viro3DObject
           viroTag='key'
           source={require('../res/Key_B.obj/Key_B_02.obj')}
@@ -27,15 +31,22 @@ class Key extends React.Component {
           highAccuracyEvents={true}
           position={[this.props.xpos, this.props.ypos, this.props.zpos]}
           scale={[0.024, 0.024, 0.024]}
+          onCollision={tag => {
+            if (tag === 'lock') {
+              setTimeout(() => {
+                this.props.removeFromBoard(this.props.id);
+              }, 200);
+            }
+          }}
           onDrag={position => {
             this.setState({
               isDragging: true
             });
-            this.isFound=true
-//             this.props.moveBoardPiece(this.props.id, position);
+            this.isFound = true;
           }}
           onClickState={state => {
             if (state === 2) {
+              this.isFound = true;
               this.setState({
                 isDragging: false
               });
@@ -48,15 +59,9 @@ class Key extends React.Component {
           visible={this.props.visible || this.isFound}
           physicsBody={{
             type: 'kinematic',
-            // mass: 0,
-            // useGravity: false,
             shape: {
-              type: 'Compound'
-            }
-          }}
-          onCollision={tag => {
-            if (tag === 'lock') {
-              this.props.removeFromBoard(this.props.id);
+              type: 'Sphere',
+              params: [0.2]
             }
           }}
         />
@@ -73,9 +78,10 @@ ViroMaterials.createMaterials({
   }
 });
 const mapDispatchToProps = dispatch => ({
-  removeFromBoard: (id, position) => dispatch(removeFromBoard(id, position)),
+  removeFromBoard: id => dispatch(removeFromBoard(id)),
   addToInventory: (name, id) => dispatch(addToInventory(name, id)),
-  moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position))
+  moveBoardPiece: (id, position) => dispatch(moveBoardPiece(id, position)),
+  addCoinToBoard: id => dispatch(addCoinToBoard(id))
 });
 
 export default connect(

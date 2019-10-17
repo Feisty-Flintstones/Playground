@@ -9,7 +9,9 @@ import {
   ViroARTrackingTargets,
   ViroImage,
   ViroNode,
-  ViroSound
+  ViroSound,
+  ViroText,
+  ViroFlexView
 } from 'react-viro';
 import {
   loadBoard,
@@ -130,38 +132,48 @@ class DisconnectedMainScreenAR extends Component {
           <View>
             {/* START */}
             {!this.props.calibration ? (
-              <ViroImage
-                position={[0, 0, 0]}
-                rotation={[-90, 0, 0]}
-                onClick={() => {
-                  this.handleOrigin();
-                  this.props.setCalibration(true);
-                  this.setState({
-                    calibrated: true
-                  });
-                }}
-                scale={[0.07, 0.07, 0.07]}
-                height={1}
-                width={2}
-                source={require('./res/start.png')}
-              />
+              <View>
+                <ViroImage
+                  position={[0, 0, 0]}
+                  rotation={[-90, 0, 0]}
+                  onClick={() => {
+                    this.handleOrigin();
+                    this.props.setCalibration(true);
+                    this.setState({
+                      calibrated: true
+                    });
+                  }}
+                  scale={[0.07, 0.07, 0.07]}
+                  height={1}
+                  width={2}
+                  source={require('./res/start.png')}
+                />
+                <ViroSound
+                  paused={this.state.calibrated}
+                  source={require('../../assets/ready.mp3')}
+                  loop={false}
+                  volume={1.0}
+                />
+              </View>
             ) : (
-              <ViroImage
-                position={[0, 0, 0]}
-                rotation={[-90, 0, 0]}
-                scale={[0.07, 0.07, 0.07]}
-                height={1}
-                width={2}
-                source={require('./res/go.png')}
-              />
+              <View>
+                <ViroImage
+                  position={[0, 0, 0]}
+                  rotation={[-90, 0, 0]}
+                  scale={[0.07, 0.07, 0.07]}
+                  height={1}
+                  width={2}
+                  source={require('./res/go.png')}
+                />
+                <ViroSound
+                  paused={!this.state.calibrated}
+                  source={require('../../assets/go.mp3')}
+                  loop={false}
+                  volume={1.0}
+                />
+              </View>
             )}
 
-            <ViroSound
-              paused={!this.state.calibrated}
-              source={require('../../assets/ready.mp3')}
-              loop={false}
-              volume={1.0}
-            />
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
             {this.props.coins === 5 ? this.youWon() : null}

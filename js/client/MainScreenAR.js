@@ -126,7 +126,7 @@ class DisconnectedMainScreenAR extends Component {
         }}
       >
         <ViroARImageMarker
-          target='calibrate'
+          target="calibrate"
           pauseUpdates={this.props.calibration}
         >
           <View>

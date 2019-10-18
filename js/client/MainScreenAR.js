@@ -10,8 +10,7 @@ import {
   ViroImage,
   ViroNode,
   ViroSound,
-  ViroText,
-  ViroFlexView
+  ViroSpotLight
 } from 'react-viro';
 import {
   loadBoard,
@@ -173,7 +172,50 @@ class DisconnectedMainScreenAR extends Component {
                 />
               </View>
             )}
+            
+            {/* LIGHT 1: 1 unit right, 3 units up  */}
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={25}
+              direction={[0, -1, 0]}
+              position={[1, 4, 0]}
+              color="#ffffff"
+              castsShadow={true}
+              shadowMapSize={2048}
+              shadowNearZ={2}
+              shadowFarZ={7}
+              shadowOpacity={0.7}
+            />
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[1, 4, 0]}
+              color="#ffffff"
+              castsShadow={true}
+            />
 
+            {/* LIGHT 2: 2 units back */}
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={25}
+              direction={[0, -1, 0]}
+              position={[0, -1, 2]}
+              color="#ffffff"
+              castsShadow={true}
+              shadowMapSize={2048}
+              shadowNearZ={2}
+              shadowFarZ={7}
+              shadowOpacity={0.7}
+            />
+            <ViroSpotLight
+              innerAngle={5}
+              outerAngle={90}
+              direction={[0, -1, -0.2]}
+              position={[0, -1, 2]}
+              color="#ffffff"
+              castsShadow={true}
+            />
             {/* BOARD OBJECTIVES */}
             {this.props.timeUp ? this.youLose() : null}
             {this.props.coins === 5 ? this.youWon() : null}

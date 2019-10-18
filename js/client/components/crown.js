@@ -8,7 +8,7 @@ class Crown extends React.Component {
   render() {
     return (
       <View>
-        {/* <ViroAmbientLight color="#aaaaaa" /> */}
+        <ViroAmbientLight color="#aaaaaa" intensity={100} />
         <Viro3DObject
           source={require('../res/animated_objects/crown/crown.obj')}
           resources={[require('../res/animated_objects/crown/crown.mtl')]}

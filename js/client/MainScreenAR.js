@@ -20,7 +20,6 @@ import {
 import { addToInventory } from './store/inventoryReducer.js';
 import Smiley from './components/smiley';
 import Coin from './components/coin';
-import Crown from './components/crown.js';
 import Key from './components/key';
 import Lock from './components/lock';
 import Heart from './components/heart';
@@ -245,18 +244,6 @@ class DisconnectedMainScreenAR extends Component {
                           case 'Star':
                             return (
                               <Star
-                                key={piece.itemId}
-                                item={piece}
-                                visible={this.separation[piece.itemId] <= 2.5}
-                                xpos={piece.xpos / 10}
-                                ypos={piece.ypos / 10}
-                                zpos={piece.zpos / 10}
-                                id={piece.itemId}
-                              />
-                            );
-                          case 'Crown':
-                            return (
-                              <Crown
                                 key={piece.itemId}
                                 item={piece}
                                 visible={this.separation[piece.itemId] <= 2.5}

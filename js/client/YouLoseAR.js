@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import {
   ViroARScene,
-  ViroARTrackingTargets,
   ViroText,
   ViroMaterials,
   ViroARCamera
 } from 'react-viro';
-import Crown from './components/crown.js';
-import Fireworks from './components/Fireworks';
 
 class YouLose extends Component {
   render() {

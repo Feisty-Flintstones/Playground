@@ -56,23 +56,17 @@ async function seed() {
       id: 4
     }),
     Item.create({
-      name: 'Crown',
-      source: `require('../res/animated_objects/crown/crown.obj')`,
-      is3D: true,
-      id: 5
-    }),
-    Item.create({
       name: 'Key',
       source: `require('../res/key/key.obj')`,
       resources: `[require('../res/key/key.bmp')]`,
       is3D: true,
-      id: 6
+      id: 5
     }),
     Item.create({
       name: 'Lock',
       source: `require('../res/padlock/scene.gltf')`,
       is3D: true,
-      id: 7
+      id: 6
     })
   ]);
 
@@ -83,7 +77,7 @@ async function seed() {
       zpos: 0,
       type: 'onCollision',
       collected: false,
-      itemId: 7,
+      itemId: 6,
       boardId: 1
     }),
     BoardObjective.create({
@@ -91,15 +85,6 @@ async function seed() {
       ypos: -3,
       zpos: 0,
       type: 'onCollision',
-      collected: false,
-      itemId: 6,
-      boardId: 1
-    }),
-    BoardObjective.create({
-      xpos: 20,
-      ypos: -5,
-      zpos: 0,
-      type: 'onClick',
       collected: false,
       itemId: 5,
       boardId: 1

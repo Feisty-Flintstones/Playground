@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject, ViroMaterials, ViroAmbientLight } from 'react-viro';
+import { Viro3DObject, ViroMaterials } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { addCoinToBoard } from '../store/boardReducer';
@@ -8,13 +8,11 @@ class Star extends React.Component {
   render() {
     return (
       <View>
-        <ViroAmbientLight color='#aaaaaa' intensity={100} />
         <Viro3DObject
           source={require('../res/animated_objects/object_star_anim/object_star_anim.vrx')}
           type='VRX'
           materials='star'
           position={[this.props.xpos, this.props.ypos, this.props.zpos]}
-          anchorId={1}
           highAccuracyEvents={true}
           scale={[0.05, 0.05, 0.05]}
           onClick={() => {
@@ -36,13 +34,11 @@ ViroMaterials.createMaterials({
   }
 });
 
-const mapStateToProps = state => ({});
-
 const mapDispatchToProps = dispatch => ({
   addCoinToBoard: id => dispatch(addCoinToBoard(id))
 });
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(Star);

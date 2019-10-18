@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject, ViroMaterials, ViroAmbientLight } from 'react-viro';
+import { Viro3DObject, ViroMaterials } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import {
@@ -12,17 +12,14 @@ import { addToInventory } from '../store/inventoryReducer.js';
 class Key extends React.Component {
   constructor() {
     super();
-    this.state = {
-      isDragging: false,
-      isCollided: false
-    };
     this.isFound = false;
+    this.isDragging = false,
+    this.hasCollided = false
   }
 
   render() {
     return (
       <View>
-        {/* <ViroAmbientLight color='#aaaaaa' /> */}
         <Viro3DObject
           viroTag='key'
           source={require('../res/Key_B.obj/Key_B_02.obj')}
@@ -33,27 +30,22 @@ class Key extends React.Component {
           scale={[0.024, 0.024, 0.024]}
           onCollision={tag => {
             if (tag === 'lock') {
-              setTimeout(() => {
-                this.props.removeFromBoard(this.props.id);
-              }, 200);
+              this.hasCollided = true
             }
           }}
-          onDrag={position => {
-            this.setState({
-              isDragging: true
-            });
+          onDrag={() => {
+            this.isDragging = true
             this.isFound = true;
           }}
           onClickState={state => {
             if (state === 2) {
               this.isFound = true;
-              this.setState({
-                isDragging: false
-              });
-              if (!this.state.isDragging) {
+              if (this.hasCollided) this.props.removeFromBoard(this.props.id);
+              if (!this.isDragging) {
                 this.props.removeFromBoard(this.props.id);
                 this.props.addToInventory(this.props.item.name, this.props.id);
               }
+              this.isDragging = false
             }
           }}
           visible={this.props.visible || this.isFound}
@@ -61,7 +53,7 @@ class Key extends React.Component {
             type: 'kinematic',
             shape: {
               type: 'Sphere',
-              params: [0.2]
+              params: [0.15]
             }
           }}
         />

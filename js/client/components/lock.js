@@ -1,5 +1,5 @@
 import React from 'react';
-import { Viro3DObject, ViroSpotLight, ViroAmbientLight } from 'react-viro';
+import { Viro3DObject, ViroSpotLight } from 'react-viro';
 import { View } from 'react-native';
 import { connect } from 'react-redux';
 import { removeFromBoard, addCoinToBoard } from '../store/boardReducer';
@@ -20,7 +20,6 @@ class Lock extends React.Component {
           shadowNearZ={2}
           shadowFarZ={7}
           shadowOpacity={0.7}
-          // intensity={50}
         />
         <ViroSpotLight
           innerAngle={5}
@@ -30,7 +29,7 @@ class Lock extends React.Component {
           color='#e9e9e9'
           castsShadow={true}
         />
-        {/* <ViroAmbientLight color='#e9e9e9' /> */}
+
         <Viro3DObject
           viroTag='lock'
           source={require('../res/padlock/scene.gltf')}
@@ -44,7 +43,7 @@ class Lock extends React.Component {
             useGravity: false,
             shape: {
               type: 'Sphere',
-              params: [0.2]
+              params: [0.15]
             }
           }}
           onCollision={tag => {

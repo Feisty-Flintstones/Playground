@@ -61,9 +61,11 @@ Explore the room and collect the coins!
 
 Some objects can be collected and deployed!
 
+<img src="./assets/inventory_collect.gif" height='300'> . <img src="./assets/inventory_drop.gif" height='300'>
 
+Some objects can interact with other objects!
 
-
+You can also re-calibrate if needed.
 
 ## Built With
 

@@ -2,23 +2,6 @@
 
 In this cross-platform Augmented Reality (AR) application, players look for and interact with hidden objects in order to discover coins. Collecting all the coins will allow the player to enter a portal where they are greeted with a nice winning screen, unless they run out of time. 
 
-### Tutorial
-Players can click on TUTORIAL from the main screen to enter Tutorial Mode:
-
-<img src="./assets/calibrate1.gif" height='300'>
-
-Players can calibrate their device to the Playground by hovering over the totem and clicking START:
-
-<img src="./assets/calibrate2.gif" height='300'>
-
-Explore the room and collect the coins!
-
-<img src="./assets/calibrate3.gif" height='300'>
-
-
-
-# Features
-
 ### Prerequisities & Installation
 
 Fork the project to your github then clone via the following line inside your terminal:
@@ -60,6 +43,27 @@ npm run server
 ```
 
 Have fun playing Playground AR, where the world becomes your Playground!
+
+### Tutorial
+Players can click on TUTORIAL from the main screen to enter Tutorial Mode:
+
+<img src="./assets/calibrate1.gif" height='300'>
+
+Players can calibrate their device to the Playground by hovering over the totem and clicking START:
+
+<img src="./assets/calibrate2.gif" height='300'>
+
+Explore the room and collect the coins!
+
+<img src="./assets/calibrate3.gif" height='300'>
+
+### GamePlay
+
+Some objects can be collected and deployed!
+
+
+
+
 
 ## Built With
 

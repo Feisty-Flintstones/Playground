@@ -67,6 +67,8 @@ Some objects can interact with other objects!
 
 You can also re-calibrate if needed.
 
+<img src="./assets/recalibrate.gif" height='300'>
+
 ## Built With
 
 - [React Native](https://facebook.github.io/react-native/) - Framework for Android and ios

@@ -1,10 +1,10 @@
 # Playground AR
 
 In this cross-platform Augmented Reality (AR) application, players look for and interact with hidden objects in order to discover coins. Collecting all the coins will allow the player to enter a portal where they are greeted with a nice winning screen, unless they run out of time.
+<img src="./assets/calibrate1.gif" height='400'>
+<img src="./assets/calibrate2.gif" height='400'>
 
 # Features
-
-
 
 ### Prerequisities & Installation
 
@@ -50,12 +50,13 @@ Have fun playing Playground AR, where the world becomes your Playground!
 
 ## Built With
 
--  [React Native](https://facebook.github.io/react-native/) - Framework for Android and ios
--  [Node.js](https://nodejs.org/en/) - JavaScript Runtime
--  [Viro](https://viromedia.com/) - AR/VR Library
--  [Axios](https://www.npmjs.com/package/axios) - HTTP client
+- [React Native](https://facebook.github.io/react-native/) - Framework for Android and ios
+- [Node.js](https://nodejs.org/en/) - JavaScript Runtime
+- [Viro](https://viromedia.com/) - AR/VR Library
+- [Axios](https://www.npmjs.com/package/axios) - HTTP client
 
 ## Created By
+
 - **John Vitales**
 - **Robert Schnek**
 - **Harsh Patel**

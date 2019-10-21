@@ -1,8 +1,8 @@
 # Playground AR
 
-In this cross-platform Augmented Reality (AR) application, players look for and interact with hidden objects in order to discover coins. Collecting all the coins will allow the player to enter a portal where they are greeted with a nice winning screen, unless they run out of time.
-<img src="./assets/calibrate1.gif" height='400'>
-<img src="./assets/calibrate2.gif" height='400'>
+In this cross-platform Augmented Reality (AR) application, players look for and interact with hidden objects in order to discover coins. Collecting all the coins will allow the player to enter a portal where they are greeted with a nice winning screen, unless they run out of time. <br>
+<img src="./assets/calibrate1.gif" height='300'>
+<img src="./assets/calibrate2.gif" height='300'>
 
 # Features
 

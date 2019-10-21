@@ -65,6 +65,8 @@ Some objects can be collected and deployed!
 
 Some objects can interact with other objects!
 
+<img src="./assets/collision.gif" height='300'>
+
 You can also re-calibrate if needed.
 
 <img src="./assets/recalibrate.gif" height='300'>

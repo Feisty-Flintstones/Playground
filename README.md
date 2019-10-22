@@ -1,10 +1,6 @@
 # Playground AR
 
-In this cross-platform Augmented Reality (AR) application, players look for and interact with hidden objects in order to discover coins. Collecting all the coins will allow the player to enter a portal where they are greeted with a nice winning screen, unless they run out of time.
-
-# Features
-
-
+In this cross-platform Augmented Reality (AR) application, players look for and interact with hidden objects in order to discover coins. Collecting all the coins will allow the player to enter a portal where they are greeted with a nice winning screen, unless they run out of time. 
 
 ### Prerequisities & Installation
 
@@ -48,14 +44,42 @@ npm run server
 
 Have fun playing Playground AR, where the world becomes your Playground!
 
+### Tutorial
+Players can click on TUTORIAL from the main screen to enter Tutorial Mode:
+
+<img src="./assets/calibrate1.gif" height='300'>
+
+Players can calibrate their device to the Playground by hovering over the totem and clicking START:
+
+<img src="./assets/calibrate2.gif" height='300'>
+
+Explore the room and collect the coins!
+
+<img src="./assets/calibrate3.gif" height='300'>
+
+### GamePlay
+
+Some objects can be collected and deployed!
+
+<img src="./assets/inventory_collect.gif" height='300'> . <img src="./assets/inventory_drop.gif" height='300'>
+
+Some objects can interact with other objects!
+
+<img src="./assets/collision.gif" height='300'>
+
+You can also re-calibrate if needed.
+
+<img src="./assets/recalibrate.gif" height='300'>
+
 ## Built With
 
--  [React Native](https://facebook.github.io/react-native/) - Framework for Android and ios
--  [Node.js](https://nodejs.org/en/) - JavaScript Runtime
--  [Viro](https://viromedia.com/) - AR/VR Library
--  [Axios](https://www.npmjs.com/package/axios) - HTTP client
+- [React Native](https://facebook.github.io/react-native/) - Framework for Android and ios
+- [Node.js](https://nodejs.org/en/) - JavaScript Runtime
+- [Viro](https://viromedia.com/) - AR/VR Library
+- [Axios](https://www.npmjs.com/package/axios) - HTTP client
 
 ## Created By
+
 - **John Vitales**
 - **Robert Schnek**
 - **Harsh Patel**
